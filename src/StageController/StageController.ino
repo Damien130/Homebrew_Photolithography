@@ -22,6 +22,7 @@
 
 /* ATMega2560 Pin Mapping */
 /* Digital Pins:
+  RESET: RESET pin for emergency stop
   2: TMC2209_X error flag (PE4, 6) Interrupt
   3: TMC2209_Y error flag (PE5, 7) Interrupt
   32: TMC429 Chip Select (PC5, 58)
@@ -208,7 +209,7 @@ void homing()
     if (X_triggered) 
     {
       stepper_controller.stop(X_MOTOR); // stop X motor, which sets it into speed mode
-      X_max = stepper_controller.getActualPosition(X_MOTOR) - 10; // acquire max coordinate
+      X_max = stepper_controller.getActualPosition(X_MOTOR) - 256; // acquire max coordinate
       stepper_controller.setSoftMode(X_MOTOR); // set soft decelerate
       X_triggered = false;
     }
@@ -216,7 +217,7 @@ void homing()
     if (Y_triggered) 
     {
       stepper_controller.stop(Y_MOTOR); // stop Y motor 
-      Y_max = stepper_controller.getActualPosition(Y_MOTOR) - 10; // acquire max coordinate
+      Y_max = stepper_controller.getActualPosition(Y_MOTOR) - 256; // acquire max coordinate
       stepper_controller.setSoftMode(Y_MOTOR); // set soft decelerate
       accumulator++;
       Y_triggered = false;
