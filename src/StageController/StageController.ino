@@ -23,9 +23,33 @@
 /* ATMega2560 Pin Mapping */
 /* Digital Pins:
   RESET: RESET pin for emergency stop
-  2: TMC2209_X error flag (PE4, 6) Interrupt
-  3: TMC2209_Y error flag (PE5, 7) Interrupt
-  32: TMC429 Chip Select (PC5, 58)
+  2: TMC2209_X error flag (PE4, 6) Interrupt 5 
+  3: TMC2209_Y error flag (PE5, 7) Interrupt 6
+  49: TMC429 Chip Select (PL0, 35)
+
+  ****** Introducing the NeuBus ******
+  an unbuffered system bus for the - Insert name here - 
+  Bus host/controller: Raspberry Pi 4
+  Bus attached device: ATMega2560 based stage controller
+  Maximum data width: 16 bits
+  Maximum address width: 8 bits (Max 255 Commands)
+
+  PORT D: Control Bus
+  PD0: R/W' Read/Write, IRQ 0 INPUT
+  PD1: IOSTRB' I/O Strobe, IRQ 1 INPUT
+  PD2: INH' System inhibit, NMI-IRQ 2 INPUT
+  PD3: ALE' Address Latch Enable, enable 16bit data bus, IRQ 3 INPUT
+  PD4: IOCHRDY data bus ready, OUTPUT
+  PD5: RDY device ready, OUTPUT
+  PD6: INPOS stage in position, OUTPUT
+  PD7: EXPRDY ready to expose, OUTPUT
+
+  PORT A: Address Bus
+  8 bits (PA0-PA7) used for addressing, INPUT
+  used for upper 8 bits in 16-bit data bus mode
+
+  PORT C: Data Bus
+  8 bits (PC0-PC7) used for data, I/O depending on R/W' status
 */
 enum pinAssignment
 {
@@ -52,8 +76,8 @@ int32_t X_max, Y_max; // maximum coordinate for each axis
    NOT gate required for output of TMC2209 error detection */
 HardwareSerial * serial_stream_ptrs[MOTOR_COUNT] =
 {
-  &Serial1,
   &Serial2,
+  &Serial3,
 };
 const int RUN_CURRENT = 100; // decrease if overheating
 const int HOLD_CURRENT = 0;
@@ -93,12 +117,37 @@ void setup()
   pinMode(X_ERROR, INPUT);
   pinMode(Y_ERROR, INPUT);
 
-  /* TMC2209 Setup */
+  /* Self Check */
   for (size_t motor_index = 0; motor_index < MOTOR_COUNT; ++motor_index)
   {
     HardwareSerial & serial_stream = *(serial_stream_ptrs[motor_index]); // set serial stream
     TMC2209 & stepper_driver = stepper_drivers[motor_index]; // setup alias for  object in object array
-    stepper_driver.setup(serial_stream);
+    stepper_driver.setup(serial_stream); // get communications going
+    if (stepper_driver.isSetupAndCommunicating())
+    {
+      Serial.print("TMC2209 # ");
+      Serial.print(motor_index, DEC);
+      Serial.print(" is up and running \n");
+    } else {
+      Serial.print("TMC2209 # ");
+      Serial.print(motor_index, DEC);
+      Serial.print(" is not communicating \n");
+    }
+  }
+  stepper_controller.setup(CHIP_SELECT_PIN,CLOCK_FREQUENCY_MHZ);
+  stepper_controller.initialize();
+  if (stepper_controller.communicating())
+  {
+    Serial.println("TMC429 is up and communicating");
+    Serial.println("Homing procedure starting...");
+  } else {
+    Serial.println("TMC429 is not communicating");
+  }
+
+  /* TMC2209 Setup */
+  for (size_t motor_index = 0; motor_index < MOTOR_COUNT; ++motor_index)
+  {
+    TMC2209 & stepper_driver = stepper_drivers[motor_index]; // setup alias for  object in object array
     stepper_driver.disableInverseMotorDirection(); // disable inverse motor direction GCONF flag
     stepper_driver.setRunCurrent(RUN_CURRENT);  
     stepper_driver.setHoldCurrent(HOLD_CURRENT); 
@@ -117,8 +166,6 @@ void setup()
   /* TMC429 Setup */
   /* Left reference stop for motor 1 (X)
      Right reference stop for motor 2 (Y) */
-  stepper_controller.setup(CHIP_SELECT_PIN,CLOCK_FREQUENCY_MHZ);
-  stepper_controller.initialize();
   stepper_controller.disableInverseStepPolarity();
   stepper_controller.disableInverseDirPolarity();
   stepper_controller.setSwitchesActiveLow();
@@ -133,6 +180,7 @@ void setup()
     stepper_controller.setLimitsInHz(motor_index,VELOCITY_MIN,VELOCITY_MAX,ACCELERATION_MAX);
   }
   
+  
   /* Enable Drivers */
   for (size_t motor_index=0; motor_index<MOTOR_COUNT; ++motor_index)
   {
@@ -140,11 +188,12 @@ void setup()
     stepper_driver.enable();
   }
 
+  homing(); // run the homing procedure, construct plane within TMC429
 }
 
 void loop()
 {
-  homing(); // run the homing procedure, construct plane within TMC429
+  
 }
 
 /* Homing procedure, assume TMC2209 StallGuard output as limit switch */
@@ -197,8 +246,8 @@ void homing()
 
   // ************ Continue homing procedure, acquire MAXIMUM POSITION *************
   // Attach intterupt to stall detection for maximum detection
-  attachInterrupt(digitalPinToInterrupt(X_ERROR), stall_X, LOW);
-  attachInterrupt(digitalPinToInterrupt(Y_ERROR), stall_Y, LOW);
+  attachInterrupt(digitalPinToInterrupt(X_ERROR), stall_X, FALLING);
+  attachInterrupt(digitalPinToInterrupt(Y_ERROR), stall_Y, FALLING);
 
   // begin moving stage to absolute maximum
   stepper_controller.setTargetPosition(X_MOTOR, 0x7FFFFFFF);
