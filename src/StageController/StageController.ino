@@ -1,6 +1,6 @@
 /*************************************************************
  * Photolithography Stepper Stage Controller
- * Author: Damien Hu
+ * Author: Damien Hu, damien@damienhu.com
  * 
  * This program is free software: you can redistribute it 
  * and/or modify it under the terms of the GNU General Public License 
@@ -17,8 +17,11 @@
 **************************************************************/
 
 #include <Arduino.h>
+#include <digitalWriteFast.h>
 #include <TMC429.h>
 #include <TMC2209.h>
+#include "NeuBus.h"
+
 
 /* ATMega2560 Pin Mapping */
 /* Digital Pins:
@@ -28,9 +31,10 @@
   49: TMC429 Chip Select (PL0, 35)
 
   ****** Introducing the NeuBus ******
-  an unbuffered system bus for the - Insert name here - 
+  a simple backplane bus for the - Insert name here - 
   Bus host/controller: Raspberry Pi 4
   Bus attached device: ATMega2560 based stage controller
+  Future expandability avaialble with buffers
   Maximum data width: 16 bits
   Maximum address width: 8 bits (Max 255 Commands)
 
@@ -53,22 +57,24 @@
 */
 enum pinAssignment
 {
-  CHIP_SELECT_PIN = 33,
+  CHIP_SELECT_PIN = 49,
   X_ERROR = 2,
   Y_ERROR = 3
 };
 
 /* Global variables */
+uint8_t test = 0;
 enum Flags
 { MOTOR_COUNT = 2,
   X_MOTOR = 1,
   Y_MOTOR = 2
 };
 const long SERIAL_BAUD_RATE = 115200;
-volatile bool X_triggered, Y_triggered = false; // flag for interrupt routine
-volatile uint8_t accumulator = 0; // how many int generated
+volatile bool X_triggered = false, Y_triggered = false; // flag for interrupt routine
+volatile bool RW = false, IOSTRB = false, INH = false, ALE = false; // Neubus ISR flags
+volatile uint8_t accumulator = 0; // how many IRQs (TMC2209 stall) generated
 int32_t X_target = 0, X_actual = 0, Y_target = 0, Y_actual = 0; // plane location, initialize to 0
-int32_t X_max, Y_max; // maximum coordinate for each axis
+int32_t X_max, Y_max; // maximum coordinates for each axis
 
 /* TMC2209 driver settings */
 /* Note: Current TMC2209 setup doesn't utilize UART address for simplicity of troubleshooting
@@ -109,6 +115,9 @@ const long VELOCITY_MIN = 100;
 TMC2209 stepper_drivers[MOTOR_COUNT]; // TMC2209, setup as object array
 TMC429 stepper_controller;    // TMC429 Stepper Controller
  
+/* Instantiate NeuBus interface*/
+NeuBus Bus;
+
 void setup()
 { 
   Serial.begin(SERIAL_BAUD_RATE); // Serial console on serial0 @ 15200 baud
@@ -123,7 +132,7 @@ void setup()
     HardwareSerial & serial_stream = *(serial_stream_ptrs[motor_index]); // set serial stream
     TMC2209 & stepper_driver = stepper_drivers[motor_index]; // setup alias for  object in object array
     stepper_driver.setup(serial_stream); // get communications going
-    if (stepper_driver.isSetupAndCommunicating())
+    if (stepper_driver.isSetupAndCommunicating()) // if communicating
     {
       Serial.print("TMC2209 # ");
       Serial.print(motor_index, DEC);
@@ -134,9 +143,10 @@ void setup()
       Serial.print(" is not communicating \n");
     }
   }
-  stepper_controller.setup(CHIP_SELECT_PIN,CLOCK_FREQUENCY_MHZ);
-  stepper_controller.initialize();
-  if (stepper_controller.communicating())
+
+  stepper_controller.setup(CHIP_SELECT_PIN,CLOCK_FREQUENCY_MHZ); // setup TMC429
+  stepper_controller.initialize();  // initialize TMC429
+  if (stepper_controller.communicating()) // if communicating
   {
     Serial.println("TMC429 is up and communicating");
     Serial.println("Homing procedure starting...");
@@ -149,12 +159,12 @@ void setup()
   {
     TMC2209 & stepper_driver = stepper_drivers[motor_index]; // setup alias for  object in object array
     stepper_driver.disableInverseMotorDirection(); // disable inverse motor direction GCONF flag
-    stepper_driver.setRunCurrent(RUN_CURRENT);  
-    stepper_driver.setHoldCurrent(HOLD_CURRENT); 
-    stepper_driver.setHoldDelay(HOLD_DELAY);
-    stepper_driver.setMicrostepsPerStep(MICROSTEPS_PER_STEP);
-    stepper_driver.setStandstillMode(STANDSTILL_MODE);
-    stepper_driver.setPwmOffset(PWM_OFFSET);
+    stepper_driver.setRunCurrent(RUN_CURRENT);   // run current setup
+    stepper_driver.setHoldCurrent(HOLD_CURRENT); // hold current setup
+    stepper_driver.setHoldDelay(HOLD_DELAY); // hold delay setup
+    stepper_driver.setMicrostepsPerStep(MICROSTEPS_PER_STEP); // microstepping
+    stepper_driver.setStandstillMode(STANDSTILL_MODE); // standstill setup
+    stepper_driver.setPwmOffset(PWM_OFFSET); 
     stepper_driver.setPwmGradient(PWM_GRADIENT);
     stepper_driver.disableAutomaticCurrentScaling();
     stepper_driver.disableAutomaticGradientAdaptation();
@@ -166,12 +176,12 @@ void setup()
   /* TMC429 Setup */
   /* Left reference stop for motor 1 (X)
      Right reference stop for motor 2 (Y) */
-  stepper_controller.disableInverseStepPolarity();
+  stepper_controller.disableInverseStepPolarity(); // disables active low for STEP/DIR
   stepper_controller.disableInverseDirPolarity();
-  stepper_controller.setSwitchesActiveLow();
+  stepper_controller.setSwitchesActiveLow(); // the stop switches are active low - pass thru NOT gate
   stepper_controller.setReferenceSwitchToLeft(X_MOTOR);
   stepper_controller.setReferenceSwitchToRight(Y_MOTOR);
-  stepper_controller.disableRightSwitchStop(X_MOTOR);
+  stepper_controller.disableRightSwitchStop(X_MOTOR); // Right/left switch doesn't exist
   stepper_controller.disableLeftSwitchStop(Y_MOTOR);
   for (size_t motor_index=0; motor_index < MOTOR_COUNT; ++motor_index)
   {
@@ -193,15 +203,16 @@ void setup()
 
 void loop()
 {
-  
+  Bus.send(test);
+  test++;
 }
 
 /* Homing procedure, assume TMC2209 StallGuard output as limit switch */
 void homing()
 {
   // first move the motors out of the axis minimums (if they are in)
-  stepper_controller.setTargetPosition(X_MOTOR, MICROSTEPS_PER_REV); // move to the right by 1 rev
-  stepper_controller.setTargetPosition(Y_MOTOR, -MICROSTEPS_PER_REV); // move to the top ^
+  stepper_controller.setTargetPosition(X_MOTOR, MICROSTEPS_PER_QUARTER_REV); // move to the right by 1 rev
+  stepper_controller.setTargetPosition(Y_MOTOR, -MICROSTEPS_PER_QUARTER_REV); // move to the top ^
   
   // ************ Start homing procedure, acquire ORIGIN POSITION *************
   for (size_t motor_index = 0; motor_index < MOTOR_COUNT; ++motor_index)
@@ -229,10 +240,12 @@ void homing()
     {
       case X_MOTOR:
         // rotate 256 micro steps (1 full step)
+        stepper_controller.setActualPosition(motor_index, 0);
         stepper_controller.setTargetPosition(X_MOTOR, 256);
         break;
       case Y_MOTOR:
         // rotate -256 micro steps
+        stepper_controller.setActualPosition(motor_index, 0);
         stepper_controller.setTargetPosition(Y_MOTOR, -256);
         break;
       default:
@@ -272,7 +285,7 @@ void homing()
       Y_triggered = false;
     }
 
-    if (accumulator == 2)
+    if (accumulator == 2) // both triggered, leave
     break;
   }
 
@@ -283,8 +296,6 @@ void homing()
   // ************ Complete homing procedure, go to origin point. *************
   stepper_controller.setTargetPosition(X_MOTOR, 0);
   stepper_controller.setTargetPosition(Y_MOTOR, 0);
-
-
 }
 
 /* Interrupt handler for X and Y stall, used in homing only */
