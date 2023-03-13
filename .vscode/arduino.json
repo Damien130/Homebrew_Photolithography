@@ -2,6 +2,7 @@
     "sketch": "src\\StageController\\StageController.ino",
     "configuration": "cpu=atmega2560",
     "board": "arduino:avr:mega",
+    "output": "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\Build",
     "port": "COM3",
     "programmer": "arduinoasisp",
     "buildPreferences": [

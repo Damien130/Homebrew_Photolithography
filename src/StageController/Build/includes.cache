@@ -1,0 +1,62 @@
+[
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "C:\\Users\\hudai\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\cores\\arduino"
+  },
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "C:\\Users\\hudai\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\variants\\mega"
+  },
+  {
+    "Sourcefile": "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\Build\\sketch\\StageController.ino.cpp",
+    "Include": "digitalWriteFast.h",
+    "Includepath": "C:\\Users\\hudai\\OneDrive\\Documents\\Arduino\\libraries\\FastDigitalWrite"
+  },
+  {
+    "Sourcefile": "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\Build\\sketch\\StageController.ino.cpp",
+    "Include": "TMC429.h",
+    "Includepath": "C:\\Users\\hudai\\OneDrive\\Documents\\Arduino\\libraries\\TMC429\\src"
+  },
+  {
+    "Sourcefile": "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\Build\\sketch\\StageController.ino.cpp",
+    "Include": "SPI.h",
+    "Includepath": "C:\\Users\\hudai\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\libraries\\SPI\\src"
+  },
+  {
+    "Sourcefile": "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\Build\\sketch\\StageController.ino.cpp",
+    "Include": "TMC2209.h",
+    "Includepath": "C:\\Users\\hudai\\OneDrive\\Documents\\Arduino\\libraries\\TMC2209\\src"
+  },
+  {
+    "Sourcefile": "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\Build\\sketch\\StageController.ino.cpp",
+    "Include": "RingBuf.h",
+    "Includepath": "C:\\Users\\hudai\\OneDrive\\Documents\\Arduino\\libraries\\RingBuffer-1.0.3\\src"
+  },
+  {
+    "Sourcefile": "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\Build\\sketch\\StageController.ino.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\Build\\sketch\\NeuBus.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\hudai\\OneDrive\\Documents\\Arduino\\libraries\\TMC429\\src\\TMC429.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\hudai\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\libraries\\SPI\\src\\SPI.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\hudai\\OneDrive\\Documents\\Arduino\\libraries\\TMC2209\\src\\TMC2209.cpp",
+    "Include": "",
+    "Includepath": null
+  }
+]
