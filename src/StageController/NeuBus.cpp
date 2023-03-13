@@ -63,7 +63,7 @@ void NeuBus::notReadyToExpose()
     digitalWriteFast(EXPRDY, LOW);
 }
 
-void NeuBus::sendData(uint8_t packet, volatile bool DataStrobe)
+void NeuBus::sendData(uint8_t packet, volatile bool &DataStrobe)
 {
     PORT_DATA = packet & 0xFF; // put packet in register
     DDR_DATA = 0xFF; // put packet on bus
@@ -74,7 +74,7 @@ void NeuBus::sendData(uint8_t packet, volatile bool DataStrobe)
     DDR_DATA = 0x00; // detach from bus
 }
 
-void NeuBus::sendAddress(uint8_t packet, volatile bool AddressStrobe)
+void NeuBus::sendAddress(uint8_t packet, volatile bool &AddressStrobe)
 {
     PORT_DATA = packet & 0xFF; // put packet in register
     DDR_DATA = 0xFF; // put packet on bus
@@ -85,7 +85,7 @@ void NeuBus::sendAddress(uint8_t packet, volatile bool AddressStrobe)
     DDR_DATA = 0x00; // detach from bus
 }
 
-uint8_t NeuBus::readData(volatile bool DataStrobe)
+uint8_t NeuBus::readData(volatile bool &DataStrobe)
 {
     uint8_t packet = PIN_DATA;
     digitalWriteFast(nWAIT, HIGH); // OK to end cycle
@@ -95,7 +95,7 @@ uint8_t NeuBus::readData(volatile bool DataStrobe)
     return packet;
 }
 
-uint8_t NeuBus::readAddress(volatile bool AddressStrobe)
+uint8_t NeuBus::readAddress(volatile bool &AddressStrobe)
 {
     uint8_t packet = PIN_DATA;
     digitalWriteFast(nWAIT, HIGH); // OK to end cycle

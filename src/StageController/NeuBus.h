@@ -29,10 +29,10 @@ class NeuBus
         void deviceNotReady();
         void readyToExpose();
         void notReadyToExpose();
-        void sendData(uint8_t packet, volatile bool DataStrobe);
-        void sendAddress(uint8_t packet, volatile bool AddressStrobe);
-        uint8_t readData(volatile bool DataStrobe);
-        uint8_t readAddress(volatile bool AddressStrobe);
+        void sendData(uint8_t packet, volatile bool &DataStrobe);
+        void sendAddress(uint8_t packet, volatile bool &AddressStrobe);
+        uint8_t readData(volatile bool &DataStrobe);
+        uint8_t readAddress(volatile bool &AddressStrobe);
 
     private:
         void dataReady();

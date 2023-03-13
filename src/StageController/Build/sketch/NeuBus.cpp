@@ -3,20 +3,21 @@
 #include <Arduino.h>
 #include <digitalWriteFast.h>
 
-const static int8_t IOCRDY = 47;
-const static int8_t RDY = 48;
-const static int8_t INPOS = 49;
-const static int8_t EXPRDY = 50;
+const static int8_t nWAIT = 26;
+const static int8_t INIR = 27;
+const static int8_t nRESET = 28;
+const static int8_t nWRITE = 29;
+const static int8_t RDY = 24;
+const static int8_t EXPRDY = 25;
+const static int8_t nDATASTRB = 2;
+const static int8_t nADDRSTRB = 3;
 
-#define DDR_CONTROL DDRD
-#define DDR_ADDRESS DDRA
+#define DDR_CONTROL DDRA
 #define DDR_DATA DDRC
 
-#define PORT_CONTROL PORTD
-#define PORT_ADDRESS PORTA
+#define PORT_CONTROL PORTA
 #define PORT_DATA PORTC
 
-#define PIN_ADDRESS PINA
 #define PIN_DATA PINC
 
 /* AVR Direct Port Manipulation:
@@ -26,17 +27,25 @@ const static int8_t EXPRDY = 50;
 
     Pin#   76543210
     Str:  B01010101
+
+    Control Bus: nWRITE nRESET nINTR nWAIT nEXPRDY nRDY PSELECT1 PSELECT2
+    Pin#            7      6     5     4      3      2      1       0
  */
+
+
+
 NeuBus::NeuBus()
 {
-    // default constructor, D control, A Address, C data
     PORT_DATA = 0x00; // data bus default state, nothing is ready yet
-    PORT_CONTROL = 0x00; // control bus, nothing is ready yet
-    DDR_CONTROL = DDR_CONTROL | B11110000; // PORTD 4 - PORTD 7 configure to output
-    DDR_ADDRESS = 0x00; // PORT A as input
-    DDR_DATA = 0xFF; // PORT C, default output mode
-    
-    addressLatched = 0;
+    PORT_CONTROL = 0x3C; // control bus, nothing is ready yet
+    DDR_CONTROL = DDR_CONTROL | B00111100; // configure output
+    DDR_DATA = 0xFF; // PORT Data, default output mode
+}
+
+
+void NeuBus::deviceReady()
+{
+    digitalWriteFast(RDY, HIGH);
 }
 
 void NeuBus::deviceNotReady()
@@ -44,105 +53,55 @@ void NeuBus::deviceNotReady()
     digitalWriteFast(RDY, LOW);
 }
 
-void NeuBus::deviceReady()
+void NeuBus::readyToExpose()
 {
-    digitalWriteFast(RDY, HIGH);
+    digitalWriteFast(EXPRDY, HIGH);
+
 }
 
-void NeuBus::inPosition(bool inPos)
+void NeuBus::notReadyToExpose()
 {
-    if (inPos)
-    {
-        digitalWriteFast(INPOS, HIGH);
-    } else {
-        digitalWriteFast(INPOS, LOW);
-    }
+    digitalWriteFast(EXPRDY, LOW);
 }
 
-void NeuBus::readyToExpose(bool rdyExp)
+void NeuBus::sendData(uint8_t packet, volatile bool &DataStrobe)
 {
-    if (rdyExp)
-    {
-        digitalWriteFast(EXPRDY, HIGH);
-    } else {
-        digitalWriteFast(EXPRDY, LOW);
-    }
+    PORT_DATA = packet & 0xFF; // put packet in register
+    DDR_DATA = 0xFF; // put packet on bus
+    digitalWriteFast(nWAIT, HIGH); // OK to end cycle
+    while(digitalReadFast(nDATASTRB == LOW)); // wait until host acknoledges
+    DataStrobe = false;
+    digitalWriteFast(nWAIT, LOW); // end cycle
+    DDR_DATA = 0x00; // detach from bus
 }
 
-void NeuBus::send(uint8_t packet)
+void NeuBus::sendAddress(uint8_t packet, volatile bool &AddressStrobe)
 {
-    digitalWriteFast(IOCRDY, LOW); // Pull down IOCHRDY
-    DDR_DATA = 0xFF; // output mode
-    PORT_DATA = packet; // put packet on the bus
-    digitalWriteFast(IOCRDY, HIGH); // signal IO Channel RDY, rPi processes IRQ and reads
+    PORT_DATA = packet & 0xFF; // put packet in register
+    DDR_DATA = 0xFF; // put packet on bus
+    digitalWriteFast(nWAIT, HIGH); // OK to end cycle
+    while(digitalReadFast(nADDRSTRB == LOW)); // wait until host acknoledges
+    AddressStrobe = false;
+    digitalWriteFast(nWAIT, LOW); // end cycle
+    DDR_DATA = 0x00; // detach from bus
 }
 
-
-void NeuBus::send(uint16_t packet, volatile bool &ALE)
-{
-    uint8_t lower = packet & 0xFF;   // split the 16 bit # in two
-    uint8_t higher = (packet >> 8) & 0xFF; // & 0xFF to "fast cast"
-
-    switch (ALE)
-    {
-        case 0:
-            // if ALE not enabled, send them consecutively
-            send(higher);
-            send(lower);
-            break;
-        
-        case 1:
-            // if ALE enabled, send as one 16 bit #
-            digitalWriteFast(IOCRDY, LOW); // Pull down IOCHRDY
-            DDR_ADDRESS = 0xFF; // set port A to output
-            DDR_DATA = 0xFF; // output mode
-            PORT_ADDRESS = higher; // put packet on the bus
-            PORT_DATA = lower; // put packet on the bus
-            digitalWriteFast(IOCRDY, HIGH); // signal IO Channel RDY, rPi processes IRQ and reads
-            DDR_ADDRESS = 0x00; // PORT A as input
-            break;
-        default:
-            break;
-    }
-}
-
-void NeuBus::send(uint32_t packet, volatile bool &ALE)
-{
-    uint8_t packet1 = packet & 0xFF;
-    uint8_t packet2 = (packet >> 8) & 0xFF;
-    uint8_t packet3 = (packet >> 16) & 0xFF;
-    uint8_t packet4 = (packet >> 24) & 0xFF; // large packet
-
-    switch (ALE)
-    {
-        case 0:
-            // if ALE not enabled, send consecutively
-            send(packet4);
-            send(packet3);
-            send(packet2);
-            send(packet1);
-            break;
-        case 1:
-            // if ALE enabled, send as two 16 bit #
-            digitalWriteFast(IOCRDY, LOW); // Pull down IOCHRDY
-            DDR_ADDRESS = B11111111; // set port A to output
-            DDR_DATA = B11111111; // output mode
-            PORT_ADDRESS = packet4; // put packet on the bus
-            PORT_ADDRESS = packet3; // put packet on the bus
-            digitalWriteFast(IOCRDY, HIGH); // signal IO Channel RDY, rPi processes IRQ and reads
-            digitalWriteFast(IOCRDY, LOW); // Pull down IOCHRDY
-            PORT_ADDRESS = packet2; // put packet on the bus
-            PORT_ADDRESS = packet1; // put packet on the bus
-            digitalWriteFast(IOCRDY, HIGH); // signal IO Channel RDY, rPi processes IRQ and reads
-            DDR_ADDRESS = B00000000; // PORT A as input
-            break;
-        default:
-            break;
-    }
-}
-
-uint8_t NeuBus::read()
+uint8_t NeuBus::readData(volatile bool &DataStrobe)
 {
     uint8_t packet = PIN_DATA;
+    digitalWriteFast(nWAIT, HIGH); // OK to end cycle
+    while(digitalReadFast(nDATASTRB == LOW)); // wait until host acknoledges
+    DataStrobe = false;
+    digitalWriteFast(nWAIT, LOW); // end cycle
+    return packet;
+}
+
+uint8_t NeuBus::readAddress(volatile bool &AddressStrobe)
+{
+    uint8_t packet = PIN_DATA;
+    digitalWriteFast(nWAIT, HIGH); // OK to end cycle
+    while(digitalReadFast(nADDRSTRB == LOW)); // wait until host acknoledges
+    AddressStrobe = false;
+    digitalWriteFast(nWAIT, LOW); // end cycle
     return packet;
 }

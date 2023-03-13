@@ -21,6 +21,7 @@
 #include <digitalWriteFast.h>
 #include <TMC429.h>
 #include <TMC2209.h>
+#include <RingBufCPP.h>
 #include "NeuBus.h"
 
 
@@ -30,42 +31,18 @@
   2: TMC2209_X error flag (PE4, 6) Interrupt 5 
   3: TMC2209_Y error flag (PE5, 7) Interrupt 6
   49: TMC429 Chip Select (PL0, 35)
-
-  ****** Introducing the NeuBus ******
-  a simple backplane bus for the - Insert name here - 
-  Bus host/controller: Raspberry Pi 4
-  Bus attached device: ATMega2560 based stage controller
-  Future expandability avaialble with buffers
-  Maximum data width: 16 bits
-  Maximum address width: 8 bits (Max 255 Commands)
-
-  PORT D: Control Bus
-  PD0: R/W' Read/Write, IRQ 0 INPUT
-  PD1: IOSTRB' I/O Strobe, IRQ 1 INPUT
-  PD2: INH' System inhibit, NMI-IRQ 2 INPUT
-  PD3: ALE' Address Latch Enable, enable 16bit data bus, IRQ 3 INPUT
-  PD4: IOCHRDY data bus ready, OUTPUT
-  PD5: RDY device ready, OUTPUT
-  PD6: INPOS stage in position, OUTPUT
-  PD7: EXPRDY ready to expose, OUTPUT
-
-  PORT A: Address Bus
-  8 bits (PA0-PA7) used for addressing, INPUT
-  used for upper 8 bits in 16-bit data bus mode
-
-  PORT C: Data Bus
-  8 bits (PC0-PC7) used for data, I/O depending on R/W' status
 */
-enum pinAssignment
-{
-  CHIP_SELECT_PIN = 49,
-  X_ERROR = 2,
-  Y_ERROR = 3,
-  READWRITE = 21,
-  IOSTROBE = 20,
-  INHIBIT = 19,
-  ADDLATCHENB = 18
-};
+const static int8_t nWAIT = 26;
+const static int8_t INIR = 27;
+const static int8_t nRESET = 28;
+const static int8_t nWRITE = 29;
+const static int8_t RDY = 24;
+const static int8_t EXPRDY = 25;
+const static int8_t nDATASTRB = 2;
+const static int8_t nADDRSTRB = 3;
+const static int8_t X_ERROR = 6;
+const static int8_t Y_ERROR = 7;
+const static int8_t CHIP_SELECT_PIN = 8;
 
 /* Global variables */
 uint8_t test = 85;
@@ -76,9 +53,7 @@ enum Flags
   Y_MOTOR = 2
 };
 const long SERIAL_BAUD_RATE = 115200;
-volatile bool X_triggered = false, Y_triggered = false; // flag for interrupt routine
-volatile bool RW = false, IOSTRB = false, INH = false, ALE = false; // Neubus ISR flags
-volatile uint8_t accumulator = 0; // how many IRQs (TMC2209 stall) generated
+volatile bool dataStrobe = false, addressStrobe = false; // Neubus ISR flags
 int32_t X_target = 0, X_actual = 0, Y_target = 0, Y_actual = 0; // plane location, initialize to 0
 int32_t X_max, Y_max; // maximum coordinates for each axis
 
@@ -124,23 +99,17 @@ TMC429 stepper_controller;    // TMC429 Stepper Controller
 /* Instantiate NeuBus interface*/
 NeuBus Bus;
 
-#line 126 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+#line 101 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void setup();
-#line 213 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+#line 188 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void loop();
-#line 221 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+#line 194 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void homing();
-#line 312 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
-void stall_X();
-#line 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
-void stall_Y();
-#line 325 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
-void onIO();
-#line 330 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
-void sysInhibit();
-#line 335 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
-void onALE();
-#line 126 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+#line 276 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+void onDATASTROBE();
+#line 281 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+void onADDRSTROBE();
+#line 101 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void setup()
 { 
   Serial.begin(SERIAL_BAUD_RATE); // Serial console on serial0 @ 15200 baud
@@ -149,9 +118,9 @@ void setup()
   pinModeFast(X_ERROR, INPUT);
   pinModeFast(Y_ERROR, INPUT);
   DDRD = DDRD | B00001111; // PORTD 0 - 3 configure to input
-  attachInterrupt(digitalPinToInterrupt(IOSTROBE), onIO, FALLING);
-  attachInterrupt(digitalPinToInterrupt(INHIBIT), sysInhibit, FALLING);
-  attachInterrupt(digitalPinToInterrupt(ADDLATCHENB), onALE, FALLING);
+  attachInterrupt(digitalPinToInterrupt(nDATASTRB), onDATASTROBE, FALLING);
+  attachInterrupt(digitalPinToInterrupt(nADDRSTRB), onADDRSTROBE, FALLING);
+
 
   /* Self Check */
   for (size_t motor_index = 0; motor_index < MOTOR_COUNT; ++motor_index)
@@ -230,8 +199,6 @@ void setup()
 
 void loop()
 {
-  Bus.send(test);
-  Bus.send(test1);
   delay(1);
 }
 
@@ -286,71 +253,45 @@ void homing()
   }
 
   // ************ Continue homing procedure, acquire MAXIMUM POSITION *************
-  // Attach intterupt to stall detection for maximum detection
-  attachInterrupt(digitalPinToInterrupt(X_ERROR), stall_X, FALLING);
-  attachInterrupt(digitalPinToInterrupt(Y_ERROR), stall_Y, FALLING);
 
   // begin moving stage to absolute maximum
   stepper_controller.setTargetPosition(X_MOTOR, 0x7FFFFFFF);
   stepper_controller.setTargetPosition(Y_MOTOR, 0x80000000);
 
-  while(1)
+  uint8_t counter = 0;
+  while(counter < 2)
   {
-    if (X_triggered) 
+    if (digitalReadFast(X_ERROR) == 0) 
     {
       stepper_controller.stop(X_MOTOR); // stop X motor, which sets it into speed mode
       X_max = stepper_controller.getActualPosition(X_MOTOR) - 256; // acquire max coordinate
       stepper_controller.setSoftMode(X_MOTOR); // set soft deccelerate
-      X_triggered = false;
+      counter++;
     }
 
-    if (Y_triggered) 
+    if (digitalReadFast(Y_ERROR) == 0) 
     {
       stepper_controller.stop(Y_MOTOR); // stop Y motor 
       Y_max = stepper_controller.getActualPosition(Y_MOTOR) - 256; // acquire max coordinate
       stepper_controller.setSoftMode(Y_MOTOR); // set soft deccelerate
-      accumulator++;
-      Y_triggered = false;
+      counter++;
     }
-
-    if (accumulator == 2) // both triggered, leave
-    break;
   }
-
-  // detach interrupt
-  detachInterrupt(digitalPinToInterrupt(X_ERROR));
-  detachInterrupt(digitalPinToInterrupt(Y_ERROR));
 
   // ************ Complete homing procedure, go to origin point. *************
   stepper_controller.setTargetPosition(X_MOTOR, 0);
   stepper_controller.setTargetPosition(Y_MOTOR, 0);
 }
 
-/* Interrupt handler for X and Y stall, used in homing only */
-void stall_X()
-{
-  X_triggered = true;
-  accumulator++;
-}
-
-void stall_Y()
-{
-  Y_triggered = true;
-  accumulator++;
-}
 
 /* Interrupt handler for NeuBus architecture */
-void onIO()
+void onDATASTROBE()
 {
-  IOSTRB = true;
+  dataStrobe = true;
 }
 
-void sysInhibit()
+void onADDRSTROBE()
 {
-  INH = true;
+  addressStrobe = true;
 }
 
-void onALE()
-{
-  ALE = true;
-}
