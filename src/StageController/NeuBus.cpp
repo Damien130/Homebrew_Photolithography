@@ -39,6 +39,23 @@ NeuBus::NeuBus()
     PORT_CONTROL = 0x3C; // control bus, nothing is ready yet
     DDR_CONTROL = DDR_CONTROL | B00111100; // configure output
     DDR_DATA = 0xFF; // PORT Data, default output mode
+    
+}
+
+NeuBus::NeuBus(int8_t nwrite, int8_t nreset, int8_t nintr, int8_t nwait, 
+               int8_t nexprdy, int8_t nrdy, int8_t pselect1, int8_t pselect2,
+               volatile uint8_t &DDR, volatile uint8_t &PORT)
+{
+    pinModeFast(nwrite, INPUT);
+    pinModeFast(nreset, INPUT);
+    pinModeFast(nintr, OUTPUT);
+    pinModeFast(nwait, OUTPUT);
+    pinModeFast(nexprdy, OUTPUT);
+    pinModeFast(nrdy, OUTPUT);
+    pinModeFast(pselect1, INPUT);
+    pinModeFast(pselect2, INPUT);
+    PORT = 0x00;
+    DDR = 0xFF;
 }
 
 

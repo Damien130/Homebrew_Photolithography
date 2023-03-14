@@ -25,6 +25,7 @@ class NeuBus
 {
     public:
         NeuBus(); // default constructor
+         NeuBus(int8_t, int8_t, int8_t, int8_t, int8_t, int8_t, int8_t, int8_t, volatile uint8_t &, volatile uint8_t &);
         void deviceReady();
         void deviceNotReady();
         void readyToExpose();
@@ -36,6 +37,7 @@ class NeuBus
 
     private:
         void dataReady();
+
 };
 
 #endif

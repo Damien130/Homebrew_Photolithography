@@ -1,0 +1,15 @@
+#line 1 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\.vscode\\arduino.json"
+{
+    "sketch": "StageController.ino",
+    "board": "arduino:avr:mega",
+    "output": "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\Build",
+    "port": "COM3",
+    "programmer": "arduinoasisp",
+    "buildPreferences": [
+        [
+            "build.extra_flags",
+            "-D__AVR_ATmega2560__"
+        ]
+    ],
+    "configuration": "cpu=atmega2560"
+}

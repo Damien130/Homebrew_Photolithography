@@ -66,9 +66,18 @@ const static int8_t X_ERROR = 6;
 const static int8_t Y_ERROR = 7;
 const static int8_t CHIP_SELECT_PIN = 8;
 
+
+uint8_t registerStack[10] = {};
+int32_t coordinateStack[4] = {};
+RingBuf<uint8_t, 4> dataSBuff;
+RingBuf<uint8_t, 4> dataRBuff;
+RingBuf<uint8_t, 4> addrSBuff;
+RingBuf<uint8_t, 4> addrRBuff;
+uint8_t address = 0xFF;
+uint8_t packet = 0xFF;
+
 /* Global variables */
-uint8_t test = 85;
-uint8_t test1 = 170;
+
 enum Flags
 { MOTOR_COUNT = 2,
   X_MOTOR = 1,
@@ -85,7 +94,7 @@ int32_t X_max, Y_max; // maximum coordinates for each axis
    Instead, UART channel 1 and 2 is used for separate controllers 
 
    NOT gate required for output of TMC2209 error detection */
-# 63 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 72 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 HardwareSerial * serial_stream_ptrs[MOTOR_COUNT] =
 {
   &Serial2,
@@ -110,7 +119,7 @@ const int COOL_STEP_UPPER_THRESHOLD = 0;
    Maximum Microstep Rate: 500 kHz (16 MHz clock / 32)
 
 */
-# 84 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 93 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 const int CLOCK_FREQUENCY_MHZ = 16; // clock for step frequency
 const int STEPS_PER_QUARTER_REV = 50; // 1.8 degrees per step
 const int QUARTER_REVS_PER_SEC_MAX = 1; // max revolution per seconds
@@ -134,544 +143,535 @@ void setup()
 
   /* ATMega2560 Setup */
   if (__builtin_constant_p(X_ERROR) && __builtin_constant_p(0x0)) { if (0x0 == 0x2) { ((0x0) ? ((*(((X_ERROR) >= 22 && (X_ERROR) <= 29) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0X01) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 10 && (X_ERROR) <= 13) || ((X_ERROR) >= 50 && (X_ERROR) <= 53)) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x04) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) >= 30 && (X_ERROR) <= 37) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x07) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 18 && (X_ERROR) <= 21) || (X_ERROR) == 38) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0A) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 0 && (X_ERROR) <= 3) || (X_ERROR) == 5) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0D) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) >= 54 && (X_ERROR) <= 61) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x10) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 39 && (X_ERROR) <= 41) || (X_ERROR) == 4) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x13) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 6 && (X_ERROR) <= 9) || (X_ERROR) == 16 || (X_ERROR) == 17) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x101)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) == 14 || (X_ERROR) == 15) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x104)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) >= 62 && (X_ERROR) <= 69) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x107)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x10A))
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  ))))))))))) |= (1UL << ((((X_ERROR) >= 7 && (X_ERROR) <= 9) ? (X_ERROR) - 3 : (((X_ERROR) >= 10 && (X_ERROR) <= 13) ? (X_ERROR) - 6 : (((X_ERROR) >= 22 && (X_ERROR) <= 29) ? (X_ERROR) - 22 : (((X_ERROR) >= 30 && (X_ERROR) <= 37) ? 37 - (X_ERROR) : (((X_ERROR) >= 39 && (X_ERROR) <= 41) ? 41 - (X_ERROR) : (((X_ERROR) >= 42 && (X_ERROR) <= 49) ? 49 - (X_ERROR) : (((X_ERROR) >= 50 && (X_ERROR) <= 53) ? 53 - (X_ERROR) : (((X_ERROR) >= 54 && (X_ERROR) <= 61) ? (X_ERROR) - 54 : (((X_ERROR) >= 62 && (X_ERROR) <= 69) ? (X_ERROR) - 62 : (((X_ERROR) == 0 || (X_ERROR) == 15 || (X_ERROR) == 17 || (X_ERROR) == 21) ? 0 : (((X_ERROR) == 1 || (X_ERROR) == 14 || (X_ERROR) == 16 || (X_ERROR) == 20) ? 1 : (((X_ERROR) == 19) ? 2 : (((X_ERROR) == 5 || (X_ERROR) == 6 || (X_ERROR) == 18) ? 3 : (((X_ERROR) == 2) ? 4 : (((X_ERROR) == 3 || (X_ERROR) == 4) ? 5 : 7)))))))))))))))))) : ((*(((X_ERROR) >= 22 && (X_ERROR) <= 29) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0X01) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 10 && (X_ERROR) <= 13) || ((X_ERROR) >= 50 && (X_ERROR) <= 53)) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x04) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) >= 30 && (X_ERROR) <= 37) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x07) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 18 && (X_ERROR) <= 21) || (X_ERROR) == 38) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0A) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 0 && (X_ERROR) <= 3) || (X_ERROR) == 5) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0D) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) >= 54 && (X_ERROR) <= 61) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x10) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 39 && (X_ERROR) <= 41) || (X_ERROR) == 4) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x13) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 6 && (X_ERROR) <= 9) || (X_ERROR) == 16 || (X_ERROR) == 17) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x101)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) == 14 || (X_ERROR) == 15) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x104)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) >= 62 && (X_ERROR) <= 69) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x107)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x10A))
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  ))))))))))) &= ~(1UL << ((((X_ERROR) >= 7 && (X_ERROR) <= 9) ? (X_ERROR) - 3 : (((X_ERROR) >= 10 && (X_ERROR) <= 13) ? (X_ERROR) - 6 : (((X_ERROR) >= 22 && (X_ERROR) <= 29) ? (X_ERROR) - 22 : (((X_ERROR) >= 30 && (X_ERROR) <= 37) ? 37 - (X_ERROR) : (((X_ERROR) >= 39 && (X_ERROR) <= 41) ? 41 - (X_ERROR) : (((X_ERROR) >= 42 && (X_ERROR) <= 49) ? 49 - (X_ERROR) : (((X_ERROR) >= 50 && (X_ERROR) <= 53) ? 53 - (X_ERROR) : (((X_ERROR) >= 54 && (X_ERROR) <= 61) ? (X_ERROR) - 54 : (((X_ERROR) >= 62 && (X_ERROR) <= 69) ? (X_ERROR) - 62 : (((X_ERROR) == 0 || (X_ERROR) == 15 || (X_ERROR) == 17 || (X_ERROR) == 21) ? 0 : (((X_ERROR) == 1 || (X_ERROR) == 14 || (X_ERROR) == 16 || (X_ERROR) == 20) ? 1 : (((X_ERROR) == 19) ? 2 : (((X_ERROR) == 5 || (X_ERROR) == 6 || (X_ERROR) == 18) ? 3 : (((X_ERROR) == 2) ? 4 : (((X_ERROR) == 3 || (X_ERROR) == 4) ? 5 : 7))))))))))))))))))); ((0x1) ? ((*(((X_ERROR) >= 22 && (X_ERROR) <= 29) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0X02) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 10 && (X_ERROR) <= 13) || ((X_ERROR) >= 50 && (X_ERROR) <= 53)) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x05) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) >= 30 && (X_ERROR) <= 37) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x08) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 18 && (X_ERROR) <= 21) || (X_ERROR) == 38) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0B) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 0 && (X_ERROR) <= 3) || (X_ERROR) == 5) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0E) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) >= 54 && (X_ERROR) <= 61) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x11) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 39 && (X_ERROR) <= 41) || (X_ERROR) == 4) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x14) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 6 && (X_ERROR) <= 9) || (X_ERROR) == 16 || (X_ERROR) == 17) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x102)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) == 14 || (X_ERROR) == 15) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x105)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) >= 62 && (X_ERROR) <= 69) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x108)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x10B))
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  ))))))))))) |= (1UL << ((((X_ERROR) >= 7 && (X_ERROR) <= 9) ? (X_ERROR) - 3 : (((X_ERROR) >= 10 && (X_ERROR) <= 13) ? (X_ERROR) - 6 : (((X_ERROR) >= 22 && (X_ERROR) <= 29) ? (X_ERROR) - 22 : (((X_ERROR) >= 30 && (X_ERROR) <= 37) ? 37 - (X_ERROR) : (((X_ERROR) >= 39 && (X_ERROR) <= 41) ? 41 - (X_ERROR) : (((X_ERROR) >= 42 && (X_ERROR) <= 49) ? 49 - (X_ERROR) : (((X_ERROR) >= 50 && (X_ERROR) <= 53) ? 53 - (X_ERROR) : (((X_ERROR) >= 54 && (X_ERROR) <= 61) ? (X_ERROR) - 54 : (((X_ERROR) >= 62 && (X_ERROR) <= 69) ? (X_ERROR) - 62 : (((X_ERROR) == 0 || (X_ERROR) == 15 || (X_ERROR) == 17 || (X_ERROR) == 21) ? 0 : (((X_ERROR) == 1 || (X_ERROR) == 14 || (X_ERROR) == 16 || (X_ERROR) == 20) ? 1 : (((X_ERROR) == 19) ? 2 : (((X_ERROR) == 5 || (X_ERROR) == 6 || (X_ERROR) == 18) ? 3 : (((X_ERROR) == 2) ? 4 : (((X_ERROR) == 3 || (X_ERROR) == 4) ? 5 : 7)))))))))))))))))) : ((*(((X_ERROR) >= 22 && (X_ERROR) <= 29) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0X02) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 10 && (X_ERROR) <= 13) || ((X_ERROR) >= 50 && (X_ERROR) <= 53)) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x05) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) >= 30 && (X_ERROR) <= 37) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x08) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 18 && (X_ERROR) <= 21) || (X_ERROR) == 38) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0B) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 0 && (X_ERROR) <= 3) || (X_ERROR) == 5) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0E) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) >= 54 && (X_ERROR) <= 61) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x11) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 39 && (X_ERROR) <= 41) || (X_ERROR) == 4) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x14) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 6 && (X_ERROR) <= 9) || (X_ERROR) == 16 || (X_ERROR) == 17) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x102)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) == 14 || (X_ERROR) == 15) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x105)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) >= 62 && (X_ERROR) <= 69) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x108)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x10B))
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  ))))))))))) &= ~(1UL << ((((X_ERROR) >= 7 && (X_ERROR) <= 9) ? (X_ERROR) - 3 : (((X_ERROR) >= 10 && (X_ERROR) <= 13) ? (X_ERROR) - 6 : (((X_ERROR) >= 22 && (X_ERROR) <= 29) ? (X_ERROR) - 22 : (((X_ERROR) >= 30 && (X_ERROR) <= 37) ? 37 - (X_ERROR) : (((X_ERROR) >= 39 && (X_ERROR) <= 41) ? 41 - (X_ERROR) : (((X_ERROR) >= 42 && (X_ERROR) <= 49) ? 49 - (X_ERROR) : (((X_ERROR) >= 50 && (X_ERROR) <= 53) ? 53 - (X_ERROR) : (((X_ERROR) >= 54 && (X_ERROR) <= 61) ? (X_ERROR) - 54 : (((X_ERROR) >= 62 && (X_ERROR) <= 69) ? (X_ERROR) - 62 : (((X_ERROR) == 0 || (X_ERROR) == 15 || (X_ERROR) == 17 || (X_ERROR) == 21) ? 0 : (((X_ERROR) == 1 || (X_ERROR) == 14 || (X_ERROR) == 16 || (X_ERROR) == 20) ? 1 : (((X_ERROR) == 19) ? 2 : (((X_ERROR) == 5 || (X_ERROR) == 6 || (X_ERROR) == 18) ? 3 : (((X_ERROR) == 2) ? 4 : (((X_ERROR) == 3 || (X_ERROR) == 4) ? 5 : 7))))))))))))))))))); } else { ((0x0) ? ((*(((X_ERROR) >= 22 && (X_ERROR) <= 29) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0X01) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 10 && (X_ERROR) <= 13) || ((X_ERROR) >= 50 && (X_ERROR) <= 53)) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x04) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) >= 30 && (X_ERROR) <= 37) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x07) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 18 && (X_ERROR) <= 21) || (X_ERROR) == 38) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0A) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 0 && (X_ERROR) <= 3) || (X_ERROR) == 5) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0D) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) >= 54 && (X_ERROR) <= 61) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x10) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 39 && (X_ERROR) <= 41) || (X_ERROR) == 4) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x13) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 6 && (X_ERROR) <= 9) || (X_ERROR) == 16 || (X_ERROR) == 17) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x101)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) == 14 || (X_ERROR) == 15) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x104)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) >= 62 && (X_ERROR) <= 69) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x107)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x10A))
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  ))))))))))) |= (1UL << ((((X_ERROR) >= 7 && (X_ERROR) <= 9) ? (X_ERROR) - 3 : (((X_ERROR) >= 10 && (X_ERROR) <= 13) ? (X_ERROR) - 6 : (((X_ERROR) >= 22 && (X_ERROR) <= 29) ? (X_ERROR) - 22 : (((X_ERROR) >= 30 && (X_ERROR) <= 37) ? 37 - (X_ERROR) : (((X_ERROR) >= 39 && (X_ERROR) <= 41) ? 41 - (X_ERROR) : (((X_ERROR) >= 42 && (X_ERROR) <= 49) ? 49 - (X_ERROR) : (((X_ERROR) >= 50 && (X_ERROR) <= 53) ? 53 - (X_ERROR) : (((X_ERROR) >= 54 && (X_ERROR) <= 61) ? (X_ERROR) - 54 : (((X_ERROR) >= 62 && (X_ERROR) <= 69) ? (X_ERROR) - 62 : (((X_ERROR) == 0 || (X_ERROR) == 15 || (X_ERROR) == 17 || (X_ERROR) == 21) ? 0 : (((X_ERROR) == 1 || (X_ERROR) == 14 || (X_ERROR) == 16 || (X_ERROR) == 20) ? 1 : (((X_ERROR) == 19) ? 2 : (((X_ERROR) == 5 || (X_ERROR) == 6 || (X_ERROR) == 18) ? 3 : (((X_ERROR) == 2) ? 4 : (((X_ERROR) == 3 || (X_ERROR) == 4) ? 5 : 7)))))))))))))))))) : ((*(((X_ERROR) >= 22 && (X_ERROR) <= 29) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0X01) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 10 && (X_ERROR) <= 13) || ((X_ERROR) >= 50 && (X_ERROR) <= 53)) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x04) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) >= 30 && (X_ERROR) <= 37) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x07) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 18 && (X_ERROR) <= 21) || (X_ERROR) == 38) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0A) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 0 && (X_ERROR) <= 3) || (X_ERROR) == 5) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0D) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) >= 54 && (X_ERROR) <= 61) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x10) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 39 && (X_ERROR) <= 41) || (X_ERROR) == 4) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x13) + 0x20)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((X_ERROR) >= 6 && (X_ERROR) <= 9) || (X_ERROR) == 16 || (X_ERROR) == 17) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x101)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) == 14 || (X_ERROR) == 15) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x104)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((X_ERROR) >= 62 && (X_ERROR) <= 69) ? &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x107)) 
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : &
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x10A))
-# 106 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 115 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  ))))))))))) &= ~(1UL << ((((X_ERROR) >= 7 && (X_ERROR) <= 9) ? (X_ERROR) - 3 : (((X_ERROR) >= 10 && (X_ERROR) <= 13) ? (X_ERROR) - 6 : (((X_ERROR) >= 22 && (X_ERROR) <= 29) ? (X_ERROR) - 22 : (((X_ERROR) >= 30 && (X_ERROR) <= 37) ? 37 - (X_ERROR) : (((X_ERROR) >= 39 && (X_ERROR) <= 41) ? 41 - (X_ERROR) : (((X_ERROR) >= 42 && (X_ERROR) <= 49) ? 49 - (X_ERROR) : (((X_ERROR) >= 50 && (X_ERROR) <= 53) ? 53 - (X_ERROR) : (((X_ERROR) >= 54 && (X_ERROR) <= 61) ? (X_ERROR) - 54 : (((X_ERROR) >= 62 && (X_ERROR) <= 69) ? (X_ERROR) - 62 : (((X_ERROR) == 0 || (X_ERROR) == 15 || (X_ERROR) == 17 || (X_ERROR) == 21) ? 0 : (((X_ERROR) == 1 || (X_ERROR) == 14 || (X_ERROR) == 16 || (X_ERROR) == 20) ? 1 : (((X_ERROR) == 19) ? 2 : (((X_ERROR) == 5 || (X_ERROR) == 6 || (X_ERROR) == 18) ? 3 : (((X_ERROR) == 2) ? 4 : (((X_ERROR) == 3 || (X_ERROR) == 4) ? 5 : 7))))))))))))))))))); } } else { pinMode((X_ERROR), (0x0)); };
   if (__builtin_constant_p(Y_ERROR) && __builtin_constant_p(0x0)) { if (0x0 == 0x2) { ((0x0) ? ((*(((Y_ERROR) >= 22 && (Y_ERROR) <= 29) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0X01) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 10 && (Y_ERROR) <= 13) || ((Y_ERROR) >= 50 && (Y_ERROR) <= 53)) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x04) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) >= 30 && (Y_ERROR) <= 37) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x07) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 18 && (Y_ERROR) <= 21) || (Y_ERROR) == 38) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0A) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 0 && (Y_ERROR) <= 3) || (Y_ERROR) == 5) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0D) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) >= 54 && (Y_ERROR) <= 61) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x10) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 39 && (Y_ERROR) <= 41) || (Y_ERROR) == 4) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x13) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 6 && (Y_ERROR) <= 9) || (Y_ERROR) == 16 || (Y_ERROR) == 17) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x101)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) == 14 || (Y_ERROR) == 15) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x104)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) >= 62 && (Y_ERROR) <= 69) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x107)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x10A))
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  ))))))))))) |= (1UL << ((((Y_ERROR) >= 7 && (Y_ERROR) <= 9) ? (Y_ERROR) - 3 : (((Y_ERROR) >= 10 && (Y_ERROR) <= 13) ? (Y_ERROR) - 6 : (((Y_ERROR) >= 22 && (Y_ERROR) <= 29) ? (Y_ERROR) - 22 : (((Y_ERROR) >= 30 && (Y_ERROR) <= 37) ? 37 - (Y_ERROR) : (((Y_ERROR) >= 39 && (Y_ERROR) <= 41) ? 41 - (Y_ERROR) : (((Y_ERROR) >= 42 && (Y_ERROR) <= 49) ? 49 - (Y_ERROR) : (((Y_ERROR) >= 50 && (Y_ERROR) <= 53) ? 53 - (Y_ERROR) : (((Y_ERROR) >= 54 && (Y_ERROR) <= 61) ? (Y_ERROR) - 54 : (((Y_ERROR) >= 62 && (Y_ERROR) <= 69) ? (Y_ERROR) - 62 : (((Y_ERROR) == 0 || (Y_ERROR) == 15 || (Y_ERROR) == 17 || (Y_ERROR) == 21) ? 0 : (((Y_ERROR) == 1 || (Y_ERROR) == 14 || (Y_ERROR) == 16 || (Y_ERROR) == 20) ? 1 : (((Y_ERROR) == 19) ? 2 : (((Y_ERROR) == 5 || (Y_ERROR) == 6 || (Y_ERROR) == 18) ? 3 : (((Y_ERROR) == 2) ? 4 : (((Y_ERROR) == 3 || (Y_ERROR) == 4) ? 5 : 7)))))))))))))))))) : ((*(((Y_ERROR) >= 22 && (Y_ERROR) <= 29) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0X01) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 10 && (Y_ERROR) <= 13) || ((Y_ERROR) >= 50 && (Y_ERROR) <= 53)) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x04) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) >= 30 && (Y_ERROR) <= 37) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x07) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 18 && (Y_ERROR) <= 21) || (Y_ERROR) == 38) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0A) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 0 && (Y_ERROR) <= 3) || (Y_ERROR) == 5) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0D) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) >= 54 && (Y_ERROR) <= 61) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x10) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 39 && (Y_ERROR) <= 41) || (Y_ERROR) == 4) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x13) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 6 && (Y_ERROR) <= 9) || (Y_ERROR) == 16 || (Y_ERROR) == 17) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x101)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) == 14 || (Y_ERROR) == 15) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x104)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) >= 62 && (Y_ERROR) <= 69) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x107)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x10A))
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  ))))))))))) &= ~(1UL << ((((Y_ERROR) >= 7 && (Y_ERROR) <= 9) ? (Y_ERROR) - 3 : (((Y_ERROR) >= 10 && (Y_ERROR) <= 13) ? (Y_ERROR) - 6 : (((Y_ERROR) >= 22 && (Y_ERROR) <= 29) ? (Y_ERROR) - 22 : (((Y_ERROR) >= 30 && (Y_ERROR) <= 37) ? 37 - (Y_ERROR) : (((Y_ERROR) >= 39 && (Y_ERROR) <= 41) ? 41 - (Y_ERROR) : (((Y_ERROR) >= 42 && (Y_ERROR) <= 49) ? 49 - (Y_ERROR) : (((Y_ERROR) >= 50 && (Y_ERROR) <= 53) ? 53 - (Y_ERROR) : (((Y_ERROR) >= 54 && (Y_ERROR) <= 61) ? (Y_ERROR) - 54 : (((Y_ERROR) >= 62 && (Y_ERROR) <= 69) ? (Y_ERROR) - 62 : (((Y_ERROR) == 0 || (Y_ERROR) == 15 || (Y_ERROR) == 17 || (Y_ERROR) == 21) ? 0 : (((Y_ERROR) == 1 || (Y_ERROR) == 14 || (Y_ERROR) == 16 || (Y_ERROR) == 20) ? 1 : (((Y_ERROR) == 19) ? 2 : (((Y_ERROR) == 5 || (Y_ERROR) == 6 || (Y_ERROR) == 18) ? 3 : (((Y_ERROR) == 2) ? 4 : (((Y_ERROR) == 3 || (Y_ERROR) == 4) ? 5 : 7))))))))))))))))))); ((0x1) ? ((*(((Y_ERROR) >= 22 && (Y_ERROR) <= 29) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0X02) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 10 && (Y_ERROR) <= 13) || ((Y_ERROR) >= 50 && (Y_ERROR) <= 53)) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x05) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) >= 30 && (Y_ERROR) <= 37) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x08) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 18 && (Y_ERROR) <= 21) || (Y_ERROR) == 38) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0B) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 0 && (Y_ERROR) <= 3) || (Y_ERROR) == 5) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0E) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) >= 54 && (Y_ERROR) <= 61) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x11) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 39 && (Y_ERROR) <= 41) || (Y_ERROR) == 4) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x14) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 6 && (Y_ERROR) <= 9) || (Y_ERROR) == 16 || (Y_ERROR) == 17) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x102)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) == 14 || (Y_ERROR) == 15) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x105)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) >= 62 && (Y_ERROR) <= 69) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x108)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x10B))
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  ))))))))))) |= (1UL << ((((Y_ERROR) >= 7 && (Y_ERROR) <= 9) ? (Y_ERROR) - 3 : (((Y_ERROR) >= 10 && (Y_ERROR) <= 13) ? (Y_ERROR) - 6 : (((Y_ERROR) >= 22 && (Y_ERROR) <= 29) ? (Y_ERROR) - 22 : (((Y_ERROR) >= 30 && (Y_ERROR) <= 37) ? 37 - (Y_ERROR) : (((Y_ERROR) >= 39 && (Y_ERROR) <= 41) ? 41 - (Y_ERROR) : (((Y_ERROR) >= 42 && (Y_ERROR) <= 49) ? 49 - (Y_ERROR) : (((Y_ERROR) >= 50 && (Y_ERROR) <= 53) ? 53 - (Y_ERROR) : (((Y_ERROR) >= 54 && (Y_ERROR) <= 61) ? (Y_ERROR) - 54 : (((Y_ERROR) >= 62 && (Y_ERROR) <= 69) ? (Y_ERROR) - 62 : (((Y_ERROR) == 0 || (Y_ERROR) == 15 || (Y_ERROR) == 17 || (Y_ERROR) == 21) ? 0 : (((Y_ERROR) == 1 || (Y_ERROR) == 14 || (Y_ERROR) == 16 || (Y_ERROR) == 20) ? 1 : (((Y_ERROR) == 19) ? 2 : (((Y_ERROR) == 5 || (Y_ERROR) == 6 || (Y_ERROR) == 18) ? 3 : (((Y_ERROR) == 2) ? 4 : (((Y_ERROR) == 3 || (Y_ERROR) == 4) ? 5 : 7)))))))))))))))))) : ((*(((Y_ERROR) >= 22 && (Y_ERROR) <= 29) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0X02) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 10 && (Y_ERROR) <= 13) || ((Y_ERROR) >= 50 && (Y_ERROR) <= 53)) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x05) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) >= 30 && (Y_ERROR) <= 37) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x08) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 18 && (Y_ERROR) <= 21) || (Y_ERROR) == 38) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0B) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 0 && (Y_ERROR) <= 3) || (Y_ERROR) == 5) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0E) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) >= 54 && (Y_ERROR) <= 61) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x11) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 39 && (Y_ERROR) <= 41) || (Y_ERROR) == 4) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x14) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 6 && (Y_ERROR) <= 9) || (Y_ERROR) == 16 || (Y_ERROR) == 17) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x102)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) == 14 || (Y_ERROR) == 15) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x105)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) >= 62 && (Y_ERROR) <= 69) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x108)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x10B))
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  ))))))))))) &= ~(1UL << ((((Y_ERROR) >= 7 && (Y_ERROR) <= 9) ? (Y_ERROR) - 3 : (((Y_ERROR) >= 10 && (Y_ERROR) <= 13) ? (Y_ERROR) - 6 : (((Y_ERROR) >= 22 && (Y_ERROR) <= 29) ? (Y_ERROR) - 22 : (((Y_ERROR) >= 30 && (Y_ERROR) <= 37) ? 37 - (Y_ERROR) : (((Y_ERROR) >= 39 && (Y_ERROR) <= 41) ? 41 - (Y_ERROR) : (((Y_ERROR) >= 42 && (Y_ERROR) <= 49) ? 49 - (Y_ERROR) : (((Y_ERROR) >= 50 && (Y_ERROR) <= 53) ? 53 - (Y_ERROR) : (((Y_ERROR) >= 54 && (Y_ERROR) <= 61) ? (Y_ERROR) - 54 : (((Y_ERROR) >= 62 && (Y_ERROR) <= 69) ? (Y_ERROR) - 62 : (((Y_ERROR) == 0 || (Y_ERROR) == 15 || (Y_ERROR) == 17 || (Y_ERROR) == 21) ? 0 : (((Y_ERROR) == 1 || (Y_ERROR) == 14 || (Y_ERROR) == 16 || (Y_ERROR) == 20) ? 1 : (((Y_ERROR) == 19) ? 2 : (((Y_ERROR) == 5 || (Y_ERROR) == 6 || (Y_ERROR) == 18) ? 3 : (((Y_ERROR) == 2) ? 4 : (((Y_ERROR) == 3 || (Y_ERROR) == 4) ? 5 : 7))))))))))))))))))); } else { ((0x0) ? ((*(((Y_ERROR) >= 22 && (Y_ERROR) <= 29) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0X01) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 10 && (Y_ERROR) <= 13) || ((Y_ERROR) >= 50 && (Y_ERROR) <= 53)) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x04) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) >= 30 && (Y_ERROR) <= 37) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x07) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 18 && (Y_ERROR) <= 21) || (Y_ERROR) == 38) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0A) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 0 && (Y_ERROR) <= 3) || (Y_ERROR) == 5) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0D) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) >= 54 && (Y_ERROR) <= 61) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x10) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 39 && (Y_ERROR) <= 41) || (Y_ERROR) == 4) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x13) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 6 && (Y_ERROR) <= 9) || (Y_ERROR) == 16 || (Y_ERROR) == 17) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x101)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) == 14 || (Y_ERROR) == 15) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x104)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) >= 62 && (Y_ERROR) <= 69) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x107)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x10A))
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  ))))))))))) |= (1UL << ((((Y_ERROR) >= 7 && (Y_ERROR) <= 9) ? (Y_ERROR) - 3 : (((Y_ERROR) >= 10 && (Y_ERROR) <= 13) ? (Y_ERROR) - 6 : (((Y_ERROR) >= 22 && (Y_ERROR) <= 29) ? (Y_ERROR) - 22 : (((Y_ERROR) >= 30 && (Y_ERROR) <= 37) ? 37 - (Y_ERROR) : (((Y_ERROR) >= 39 && (Y_ERROR) <= 41) ? 41 - (Y_ERROR) : (((Y_ERROR) >= 42 && (Y_ERROR) <= 49) ? 49 - (Y_ERROR) : (((Y_ERROR) >= 50 && (Y_ERROR) <= 53) ? 53 - (Y_ERROR) : (((Y_ERROR) >= 54 && (Y_ERROR) <= 61) ? (Y_ERROR) - 54 : (((Y_ERROR) >= 62 && (Y_ERROR) <= 69) ? (Y_ERROR) - 62 : (((Y_ERROR) == 0 || (Y_ERROR) == 15 || (Y_ERROR) == 17 || (Y_ERROR) == 21) ? 0 : (((Y_ERROR) == 1 || (Y_ERROR) == 14 || (Y_ERROR) == 16 || (Y_ERROR) == 20) ? 1 : (((Y_ERROR) == 19) ? 2 : (((Y_ERROR) == 5 || (Y_ERROR) == 6 || (Y_ERROR) == 18) ? 3 : (((Y_ERROR) == 2) ? 4 : (((Y_ERROR) == 3 || (Y_ERROR) == 4) ? 5 : 7)))))))))))))))))) : ((*(((Y_ERROR) >= 22 && (Y_ERROR) <= 29) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0X01) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 10 && (Y_ERROR) <= 13) || ((Y_ERROR) >= 50 && (Y_ERROR) <= 53)) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x04) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) >= 30 && (Y_ERROR) <= 37) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x07) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 18 && (Y_ERROR) <= 21) || (Y_ERROR) == 38) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0A) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 0 && (Y_ERROR) <= 3) || (Y_ERROR) == 5) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x0D) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) >= 54 && (Y_ERROR) <= 61) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x10) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 39 && (Y_ERROR) <= 41) || (Y_ERROR) == 4) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)((0x13) + 0x20)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : ((((Y_ERROR) >= 6 && (Y_ERROR) <= 9) || (Y_ERROR) == 16 || (Y_ERROR) == 17) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x101)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) == 14 || (Y_ERROR) == 15) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x104)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : (((Y_ERROR) >= 62 && (Y_ERROR) <= 69) ? &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x107)) 
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  : &
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
  (*(volatile uint8_t *)(0x10A))
-# 107 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 116 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
  ))))))))))) &= ~(1UL << ((((Y_ERROR) >= 7 && (Y_ERROR) <= 9) ? (Y_ERROR) - 3 : (((Y_ERROR) >= 10 && (Y_ERROR) <= 13) ? (Y_ERROR) - 6 : (((Y_ERROR) >= 22 && (Y_ERROR) <= 29) ? (Y_ERROR) - 22 : (((Y_ERROR) >= 30 && (Y_ERROR) <= 37) ? 37 - (Y_ERROR) : (((Y_ERROR) >= 39 && (Y_ERROR) <= 41) ? 41 - (Y_ERROR) : (((Y_ERROR) >= 42 && (Y_ERROR) <= 49) ? 49 - (Y_ERROR) : (((Y_ERROR) >= 50 && (Y_ERROR) <= 53) ? 53 - (Y_ERROR) : (((Y_ERROR) >= 54 && (Y_ERROR) <= 61) ? (Y_ERROR) - 54 : (((Y_ERROR) >= 62 && (Y_ERROR) <= 69) ? (Y_ERROR) - 62 : (((Y_ERROR) == 0 || (Y_ERROR) == 15 || (Y_ERROR) == 17 || (Y_ERROR) == 21) ? 0 : (((Y_ERROR) == 1 || (Y_ERROR) == 14 || (Y_ERROR) == 16 || (Y_ERROR) == 20) ? 1 : (((Y_ERROR) == 19) ? 2 : (((Y_ERROR) == 5 || (Y_ERROR) == 6 || (Y_ERROR) == 18) ? 3 : (((Y_ERROR) == 2) ? 4 : (((Y_ERROR) == 3 || (Y_ERROR) == 4) ? 5 : 7))))))))))))))))))); } } else { pinMode((Y_ERROR), (0x0)); };
-  
-# 108 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
- (*(volatile uint8_t *)((0x0A) + 0x20)) 
-# 108 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
-      = 
-# 108 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
-        (*(volatile uint8_t *)((0x0A) + 0x20)) 
-# 108 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
-             | 15; // PORTD 0 - 3 configure to input
   attachInterrupt(((nDATASTRB) == 2 ? 0 : ((nDATASTRB) == 3 ? 1 : ((nDATASTRB) >= 18 && (nDATASTRB) <= 21 ? 23 - (nDATASTRB) : -1))), onDATASTROBE, 2);
   attachInterrupt(((nADDRSTRB) == 2 ? 0 : ((nADDRSTRB) == 3 ? 1 : ((nADDRSTRB) >= 18 && (nADDRSTRB) <= 21 ? 23 - (nADDRSTRB) : -1))), onADDRSTROBE, 2);
 
@@ -727,7 +727,7 @@ void setup()
   /* Left reference stop for motor 1 (X)
 
      Right reference stop for motor 2 (Y) */
-# 163 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 171 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
   stepper_controller.disableInverseStepPolarity(); // disables active low for STEP/DIR
   stepper_controller.disableInverseDirPolarity();
   stepper_controller.setSwitchesActiveLow(); // the stop switches are active low - pass thru NOT gate
@@ -755,7 +755,153 @@ void setup()
 
 void loop()
 {
-  delay(1);
+  // update register stack
+  coordinateStack[0] = stepper_controller.getActualPosition(X_MOTOR);
+  coordinateStack[1] = stepper_controller.getActualPosition(Y_MOTOR);
+  coordinateStack[2] = stepper_controller.getTargetPosition(X_MOTOR);
+  coordinateStack[3] = stepper_controller.getTargetPosition(Y_MOTOR);
+
+  // Bus routine
+  if (dataStrobe) // Data routine
+  {
+    if (( (int) (__builtin_constant_p((nWRITE)) ) ? ( ( ((*((((nWRITE)) >= 22 && ((nWRITE)) <= 29) ? &
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)((0X00) + 0x20)) 
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       : (((((nWRITE)) >= 10 && ((nWRITE)) <= 13) || (((nWRITE)) >= 50 && ((nWRITE)) <= 53)) ? &
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)((0X03) + 0x20)) 
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       : ((((nWRITE)) >= 30 && ((nWRITE)) <= 37) ? &
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)((0x06) + 0x20)) 
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       : (((((nWRITE)) >= 18 && ((nWRITE)) <= 21) || ((nWRITE)) == 38) ? &
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)((0x09) + 0x20)) 
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       : (((((nWRITE)) >= 0 && ((nWRITE)) <= 3) || ((nWRITE)) == 5) ? &
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)((0x0C) + 0x20)) 
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       : ((((nWRITE)) >= 54 && ((nWRITE)) <= 61) ? &
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)((0x0F) + 0x20)) 
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       : (((((nWRITE)) >= 39 && ((nWRITE)) <= 41) || ((nWRITE)) == 4) ? &
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)((0x12) + 0x20)) 
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       : (((((nWRITE)) >= 6 && ((nWRITE)) <= 9) || ((nWRITE)) == 16 || ((nWRITE)) == 17) ? &
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)(0x100)) 
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       : ((((nWRITE)) == 14 || ((nWRITE)) == 15) ? &
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)(0x103)) 
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       : ((((nWRITE)) >= 62 && ((nWRITE)) <= 69) ? &
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)(0x106)) 
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       : &
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)(0x109))
+# 207 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       ))))))))))) & (1UL << (((((nWRITE)) >= 7 && ((nWRITE)) <= 9) ? ((nWRITE)) - 3 : ((((nWRITE)) >= 10 && ((nWRITE)) <= 13) ? ((nWRITE)) - 6 : ((((nWRITE)) >= 22 && ((nWRITE)) <= 29) ? ((nWRITE)) - 22 : ((((nWRITE)) >= 30 && ((nWRITE)) <= 37) ? 37 - ((nWRITE)) : ((((nWRITE)) >= 39 && ((nWRITE)) <= 41) ? 41 - ((nWRITE)) : ((((nWRITE)) >= 42 && ((nWRITE)) <= 49) ? 49 - ((nWRITE)) : ((((nWRITE)) >= 50 && ((nWRITE)) <= 53) ? 53 - ((nWRITE)) : ((((nWRITE)) >= 54 && ((nWRITE)) <= 61) ? ((nWRITE)) - 54 : ((((nWRITE)) >= 62 && ((nWRITE)) <= 69) ? ((nWRITE)) - 62 : ((((nWRITE)) == 0 || ((nWRITE)) == 15 || ((nWRITE)) == 17 || ((nWRITE)) == 21) ? 0 : ((((nWRITE)) == 1 || ((nWRITE)) == 14 || ((nWRITE)) == 16 || ((nWRITE)) == 20) ? 1 : ((((nWRITE)) == 19) ? 2 : ((((nWRITE)) == 5 || ((nWRITE)) == 6 || ((nWRITE)) == 18) ? 3 : ((((nWRITE)) == 2) ? 4 : ((((nWRITE)) == 3 || ((nWRITE)) == 4) ? 5 : 7))))))))))))))))))) ? 0x1:0x0 ) : digitalRead(((nWRITE))) ) == 0x0)
+    {
+      if(!dataRBuff.push(Bus.readData(dataStrobe)))
+      {
+        Serial.println("DataBuffer FULL!"); // push into data receive buffer
+        return;
+      }
+      /* write the stuff in the receive buffer into the designated register*/
+      addrRBuff.pop(address);
+      dataRBuff.pop(registerStack[address - 1]); // write the stuff into the designated register
+    } else {
+      /* get the data from the register, put into send buffer and send on its way */
+      if(!dataSBuff.push(registerStack[address -1]))
+      {
+        Serial.println("nothing to send!");
+        return;
+      }
+      dataSBuff.pop(packet);
+      Bus.sendData(packet, dataStrobe); // send the stuff onto the bus
+    }
+  }
+
+  if (addressStrobe) // Address routine
+ {
+    if (( (int) (__builtin_constant_p((nWRITE)) ) ? ( ( ((*((((nWRITE)) >= 22 && ((nWRITE)) <= 29) ? &
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)((0X00) + 0x20)) 
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       : (((((nWRITE)) >= 10 && ((nWRITE)) <= 13) || (((nWRITE)) >= 50 && ((nWRITE)) <= 53)) ? &
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)((0X03) + 0x20)) 
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       : ((((nWRITE)) >= 30 && ((nWRITE)) <= 37) ? &
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)((0x06) + 0x20)) 
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       : (((((nWRITE)) >= 18 && ((nWRITE)) <= 21) || ((nWRITE)) == 38) ? &
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)((0x09) + 0x20)) 
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       : (((((nWRITE)) >= 0 && ((nWRITE)) <= 3) || ((nWRITE)) == 5) ? &
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)((0x0C) + 0x20)) 
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       : ((((nWRITE)) >= 54 && ((nWRITE)) <= 61) ? &
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)((0x0F) + 0x20)) 
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       : (((((nWRITE)) >= 39 && ((nWRITE)) <= 41) || ((nWRITE)) == 4) ? &
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)((0x12) + 0x20)) 
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       : (((((nWRITE)) >= 6 && ((nWRITE)) <= 9) || ((nWRITE)) == 16 || ((nWRITE)) == 17) ? &
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)(0x100)) 
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       : ((((nWRITE)) == 14 || ((nWRITE)) == 15) ? &
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)(0x103)) 
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       : ((((nWRITE)) >= 62 && ((nWRITE)) <= 69) ? &
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)(0x106)) 
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       : &
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+       (*(volatile uint8_t *)(0x109))
+# 231 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+       ))))))))))) & (1UL << (((((nWRITE)) >= 7 && ((nWRITE)) <= 9) ? ((nWRITE)) - 3 : ((((nWRITE)) >= 10 && ((nWRITE)) <= 13) ? ((nWRITE)) - 6 : ((((nWRITE)) >= 22 && ((nWRITE)) <= 29) ? ((nWRITE)) - 22 : ((((nWRITE)) >= 30 && ((nWRITE)) <= 37) ? 37 - ((nWRITE)) : ((((nWRITE)) >= 39 && ((nWRITE)) <= 41) ? 41 - ((nWRITE)) : ((((nWRITE)) >= 42 && ((nWRITE)) <= 49) ? 49 - ((nWRITE)) : ((((nWRITE)) >= 50 && ((nWRITE)) <= 53) ? 53 - ((nWRITE)) : ((((nWRITE)) >= 54 && ((nWRITE)) <= 61) ? ((nWRITE)) - 54 : ((((nWRITE)) >= 62 && ((nWRITE)) <= 69) ? ((nWRITE)) - 62 : ((((nWRITE)) == 0 || ((nWRITE)) == 15 || ((nWRITE)) == 17 || ((nWRITE)) == 21) ? 0 : ((((nWRITE)) == 1 || ((nWRITE)) == 14 || ((nWRITE)) == 16 || ((nWRITE)) == 20) ? 1 : ((((nWRITE)) == 19) ? 2 : ((((nWRITE)) == 5 || ((nWRITE)) == 6 || ((nWRITE)) == 18) ? 3 : ((((nWRITE)) == 2) ? 4 : ((((nWRITE)) == 3 || ((nWRITE)) == 4) ? 5 : 7))))))))))))))))))) ? 0x1:0x0 ) : digitalRead(((nWRITE))) ) == 0x0)
+    {
+      if(!addrRBuff.push(Bus.readAddress(addressStrobe))) // pull stuff from address bus into the address buffer
+      {
+        Serial.println("AddrBuffer FULL!");
+        return;
+      }
+    } else {
+      // requesting address access. not required at the moment
+    }
+  }
+
+}
+
+void test()
+{
+  if (dataStrobe)
+  {
+    Serial.println(Bus.readData(dataStrobe));
+  }
+}
+
+void moveStageTo(int32_t x, int32_t y)
+{
+  stepper_controller.setTargetPosition(X_MOTOR, x); // set X target coordinate
+  stepper_controller.setTargetPosition(Y_MOTOR, y); // set Y target coordinate
 }
 
 /* Homing procedure, assume TMC2209 StallGuard output as limit switch */
@@ -818,49 +964,49 @@ void homing()
   while(counter < 2)
   {
     if (( (int) (__builtin_constant_p((X_ERROR)) ) ? ( ( ((*((((X_ERROR)) >= 22 && ((X_ERROR)) <= 29) ? &
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)((0X00) + 0x20)) 
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        : (((((X_ERROR)) >= 10 && ((X_ERROR)) <= 13) || (((X_ERROR)) >= 50 && ((X_ERROR)) <= 53)) ? &
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)((0X03) + 0x20)) 
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        : ((((X_ERROR)) >= 30 && ((X_ERROR)) <= 37) ? &
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)((0x06) + 0x20)) 
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        : (((((X_ERROR)) >= 18 && ((X_ERROR)) <= 21) || ((X_ERROR)) == 38) ? &
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)((0x09) + 0x20)) 
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        : (((((X_ERROR)) >= 0 && ((X_ERROR)) <= 3) || ((X_ERROR)) == 5) ? &
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)((0x0C) + 0x20)) 
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        : ((((X_ERROR)) >= 54 && ((X_ERROR)) <= 61) ? &
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)((0x0F) + 0x20)) 
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        : (((((X_ERROR)) >= 39 && ((X_ERROR)) <= 41) || ((X_ERROR)) == 4) ? &
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)((0x12) + 0x20)) 
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        : (((((X_ERROR)) >= 6 && ((X_ERROR)) <= 9) || ((X_ERROR)) == 16 || ((X_ERROR)) == 17) ? &
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)(0x100)) 
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        : ((((X_ERROR)) == 14 || ((X_ERROR)) == 15) ? &
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)(0x103)) 
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        : ((((X_ERROR)) >= 62 && ((X_ERROR)) <= 69) ? &
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)(0x106)) 
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        : &
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)(0x109))
-# 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 318 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        ))))))))))) & (1UL << (((((X_ERROR)) >= 7 && ((X_ERROR)) <= 9) ? ((X_ERROR)) - 3 : ((((X_ERROR)) >= 10 && ((X_ERROR)) <= 13) ? ((X_ERROR)) - 6 : ((((X_ERROR)) >= 22 && ((X_ERROR)) <= 29) ? ((X_ERROR)) - 22 : ((((X_ERROR)) >= 30 && ((X_ERROR)) <= 37) ? 37 - ((X_ERROR)) : ((((X_ERROR)) >= 39 && ((X_ERROR)) <= 41) ? 41 - ((X_ERROR)) : ((((X_ERROR)) >= 42 && ((X_ERROR)) <= 49) ? 49 - ((X_ERROR)) : ((((X_ERROR)) >= 50 && ((X_ERROR)) <= 53) ? 53 - ((X_ERROR)) : ((((X_ERROR)) >= 54 && ((X_ERROR)) <= 61) ? ((X_ERROR)) - 54 : ((((X_ERROR)) >= 62 && ((X_ERROR)) <= 69) ? ((X_ERROR)) - 62 : ((((X_ERROR)) == 0 || ((X_ERROR)) == 15 || ((X_ERROR)) == 17 || ((X_ERROR)) == 21) ? 0 : ((((X_ERROR)) == 1 || ((X_ERROR)) == 14 || ((X_ERROR)) == 16 || ((X_ERROR)) == 20) ? 1 : ((((X_ERROR)) == 19) ? 2 : ((((X_ERROR)) == 5 || ((X_ERROR)) == 6 || ((X_ERROR)) == 18) ? 3 : ((((X_ERROR)) == 2) ? 4 : ((((X_ERROR)) == 3 || ((X_ERROR)) == 4) ? 5 : 7))))))))))))))))))) ? 0x1:0x0 ) : digitalRead(((X_ERROR))) ) == 0)
     {
       stepper_controller.stop(X_MOTOR); // stop X motor, which sets it into speed mode
@@ -870,49 +1016,49 @@ void homing()
     }
 
     if (( (int) (__builtin_constant_p((Y_ERROR)) ) ? ( ( ((*((((Y_ERROR)) >= 22 && ((Y_ERROR)) <= 29) ? &
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)((0X00) + 0x20)) 
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        : (((((Y_ERROR)) >= 10 && ((Y_ERROR)) <= 13) || (((Y_ERROR)) >= 50 && ((Y_ERROR)) <= 53)) ? &
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)((0X03) + 0x20)) 
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        : ((((Y_ERROR)) >= 30 && ((Y_ERROR)) <= 37) ? &
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)((0x06) + 0x20)) 
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        : (((((Y_ERROR)) >= 18 && ((Y_ERROR)) <= 21) || ((Y_ERROR)) == 38) ? &
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)((0x09) + 0x20)) 
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        : (((((Y_ERROR)) >= 0 && ((Y_ERROR)) <= 3) || ((Y_ERROR)) == 5) ? &
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)((0x0C) + 0x20)) 
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        : ((((Y_ERROR)) >= 54 && ((Y_ERROR)) <= 61) ? &
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)((0x0F) + 0x20)) 
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        : (((((Y_ERROR)) >= 39 && ((Y_ERROR)) <= 41) || ((Y_ERROR)) == 4) ? &
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)((0x12) + 0x20)) 
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        : (((((Y_ERROR)) >= 6 && ((Y_ERROR)) <= 9) || ((Y_ERROR)) == 16 || ((Y_ERROR)) == 17) ? &
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)(0x100)) 
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        : ((((Y_ERROR)) == 14 || ((Y_ERROR)) == 15) ? &
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)(0x103)) 
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        : ((((Y_ERROR)) >= 62 && ((Y_ERROR)) <= 69) ? &
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)(0x106)) 
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        : &
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino" 3
        (*(volatile uint8_t *)(0x109))
-# 260 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+# 326 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
        ))))))))))) & (1UL << (((((Y_ERROR)) >= 7 && ((Y_ERROR)) <= 9) ? ((Y_ERROR)) - 3 : ((((Y_ERROR)) >= 10 && ((Y_ERROR)) <= 13) ? ((Y_ERROR)) - 6 : ((((Y_ERROR)) >= 22 && ((Y_ERROR)) <= 29) ? ((Y_ERROR)) - 22 : ((((Y_ERROR)) >= 30 && ((Y_ERROR)) <= 37) ? 37 - ((Y_ERROR)) : ((((Y_ERROR)) >= 39 && ((Y_ERROR)) <= 41) ? 41 - ((Y_ERROR)) : ((((Y_ERROR)) >= 42 && ((Y_ERROR)) <= 49) ? 49 - ((Y_ERROR)) : ((((Y_ERROR)) >= 50 && ((Y_ERROR)) <= 53) ? 53 - ((Y_ERROR)) : ((((Y_ERROR)) >= 54 && ((Y_ERROR)) <= 61) ? ((Y_ERROR)) - 54 : ((((Y_ERROR)) >= 62 && ((Y_ERROR)) <= 69) ? ((Y_ERROR)) - 62 : ((((Y_ERROR)) == 0 || ((Y_ERROR)) == 15 || ((Y_ERROR)) == 17 || ((Y_ERROR)) == 21) ? 0 : ((((Y_ERROR)) == 1 || ((Y_ERROR)) == 14 || ((Y_ERROR)) == 16 || ((Y_ERROR)) == 20) ? 1 : ((((Y_ERROR)) == 19) ? 2 : ((((Y_ERROR)) == 5 || ((Y_ERROR)) == 6 || ((Y_ERROR)) == 18) ? 3 : ((((Y_ERROR)) == 2) ? 4 : ((((Y_ERROR)) == 3 || ((Y_ERROR)) == 4) ? 5 : 7))))))))))))))))))) ? 0x1:0x0 ) : digitalRead(((Y_ERROR))) ) == 0)
     {
       stepper_controller.stop(Y_MOTOR); // stop Y motor 
@@ -927,6 +1073,56 @@ void homing()
   stepper_controller.setTargetPosition(Y_MOTOR, 0);
 }
 
+bool addressDecode(uint8_t instruction)
+{
+  /* Register stack information:
+
+  0: X current coordinate
+
+  1: Y current coordinate
+
+  2: X target coordinate
+
+  3: Y target coordinate
+
+  4: Upper 4 bits: X direct control
+
+     8     7       6     5
+
+     GO    DIR      SPEED 
+
+    Lower 4 bits: Y direct control
+
+      4     3       2     1
+
+      GO    DIR      SPEED
+
+  5: Exposure Count
+
+  6: Current Exposure Count
+
+  7-9: TBD
+
+  */
+# 357 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+  /* Register Address:
+
+  0B00000001: X current coordinate
+
+  0B00000010: Y current coordinate
+
+  0B00000011: X target coordinate
+
+  0B00000100: Y target coordinate
+
+  */
+# 363 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+  switch (instruction)
+  {
+    case 0x01:
+      break;
+  }
+}
 
 /* Interrupt handler for NeuBus architecture */
 void onDATASTROBE()

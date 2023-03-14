@@ -1,6 +1,5 @@
 {
-    "sketch": "src\\StageController\\StageController.ino",
-    "configuration": "cpu=atmega2560",
+    "sketch": "StageController.ino",
     "board": "arduino:avr:mega",
     "output": "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\Build",
     "port": "COM3",
@@ -10,5 +9,6 @@
             "build.extra_flags",
             "-D__AVR_ATmega2560__"
         ]
-    ]
+    ],
+    "configuration": "cpu=atmega2560"
 }

@@ -1,0 +1,24 @@
+NeuBus 
+
+Signal Definitions:
+
+nDATASTB: [2560 INT] Active low. Data Read/Write operation in process
+nADDRSTRB: [2560 INT] Active low. Address Read/Write operation in process 
+
+CT[8:1]: Control Bus
+8: nWRITE: Active low. Low: Write Cycle, High: Read Cycle  INPUT   
+7: nRESET: Active low. Controller / Expansion Reset        INPUT 
+6: nINTR: [rPi INT] Active low. Busmaster Interrupt.       OUTPUT
+5: nWAIT: Low: READY to start cycle by n$STRB              OUTPUT
+          High: OK to end the cycle
+4: nEXPRDY: [rPi INT] Active low, ready to expose          OUTPUT
+3: nRDY: [rPi INT] Active low, stage ready                 OUTPUT
+PSELECT[2:1]: 2-bit peripheral select, not implemented     INPUT
+
+AD[8:1]: Address/Data bus                                  I/O
+
+PORT usage:
+AD[8:1]: PORTC
+CT[8:1]: PORTA
+nDATASTRB: Pin 2: Interrupt 4
+nADDRSTRB: Pin 3: Interrupt 5

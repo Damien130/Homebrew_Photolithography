@@ -20,7 +20,7 @@
 #include <digitalWriteFast.h>
 #include <TMC429.h>
 #include <TMC2209.h>
-#include <RingBufCPP.h>
+#include <RingBuf.h>
 #include "NeuBus.h"
 
 
@@ -43,9 +43,18 @@ const static int8_t X_ERROR = 6;
 const static int8_t Y_ERROR = 7;
 const static int8_t CHIP_SELECT_PIN = 8;
 
+
+uint8_t registerStack[10] = {};
+int32_t coordinateStack[4] = {};
+RingBuf<uint8_t, 4> dataSBuff;
+RingBuf<uint8_t, 4> dataRBuff;
+RingBuf<uint8_t, 4> addrSBuff;
+RingBuf<uint8_t, 4> addrRBuff;
+uint8_t address = 0xFF;
+uint8_t packet = 0xFF;
+
 /* Global variables */
-uint8_t test = 85;
-uint8_t test1 = 170;
+
 enum Flags
 { MOTOR_COUNT = 2,
   X_MOTOR = 1,
@@ -105,7 +114,6 @@ void setup()
   /* ATMega2560 Setup */
   pinModeFast(X_ERROR, INPUT);
   pinModeFast(Y_ERROR, INPUT);
-  DDRD = DDRD | B00001111; // PORTD 0 - 3 configure to input
   attachInterrupt(digitalPinToInterrupt(nDATASTRB), onDATASTROBE, FALLING);
   attachInterrupt(digitalPinToInterrupt(nADDRSTRB), onADDRSTROBE, FALLING);
 
@@ -187,7 +195,65 @@ void setup()
 
 void loop()
 {
-  delay(1);
+  // update register stack
+  coordinateStack[0] = stepper_controller.getActualPosition(X_MOTOR);
+  coordinateStack[1] = stepper_controller.getActualPosition(Y_MOTOR);
+  coordinateStack[2] = stepper_controller.getTargetPosition(X_MOTOR);
+  coordinateStack[3] = stepper_controller.getTargetPosition(Y_MOTOR);
+
+  // Bus routine
+  if (dataStrobe) // Data routine
+  {
+    if (digitalReadFast(nWRITE) == LOW) 
+    {
+      if(!dataRBuff.push(Bus.readData(dataStrobe))) 
+      {
+        Serial.println("DataBuffer FULL!");  // push into data receive buffer
+        return;
+      }
+      /* write the stuff in the receive buffer into the designated register*/
+      addrRBuff.pop(address); 
+      dataRBuff.pop(registerStack[address - 1]); // write the stuff into the designated register
+    } else {
+      /* get the data from the register, put into send buffer and send on its way */
+      if(!dataSBuff.push(registerStack[address -1]))
+      {
+        Serial.println("nothing to send!");
+        return;
+      }
+      dataSBuff.pop(packet);
+      Bus.sendData(packet, dataStrobe); // send the stuff onto the bus
+    }
+  }
+      
+  if (addressStrobe) // Address routine
+ {
+    if (digitalReadFast(nWRITE) == LOW)
+    {
+      if(!addrRBuff.push(Bus.readAddress(addressStrobe)))  // pull stuff from address bus into the address buffer
+      {
+        Serial.println("AddrBuffer FULL!"); 
+        return;
+      }
+    } else {
+      // requesting address access. not required at the moment
+    }
+  }
+    
+}
+
+void test()
+{
+  if (dataStrobe)
+  {
+    Serial.println(Bus.readData(dataStrobe));
+  }
+}
+
+void moveStageTo(int32_t x, int32_t y)
+{
+  stepper_controller.setTargetPosition(X_MOTOR, x); // set X target coordinate
+  stepper_controller.setTargetPosition(Y_MOTOR, y); // set Y target coordinate
 }
 
 /* Homing procedure, assume TMC2209 StallGuard output as limit switch */
@@ -271,6 +337,35 @@ void homing()
   stepper_controller.setTargetPosition(Y_MOTOR, 0);
 }
 
+bool addressDecode(uint8_t instruction)
+{
+  /* Register stack information:
+  0: X current coordinate
+  1: Y current coordinate
+  2: X target coordinate
+  3: Y target coordinate
+  4: Upper 4 bits: X direct control
+     8     7       6     5
+     GO    DIR      SPEED 
+    Lower 4 bits: Y direct control
+      4     3       2     1
+      GO    DIR      SPEED
+  5: Exposure Count
+  6: Current Exposure Count
+  7-9: TBD
+  */
+  /* Register Address:
+  0B00000001: X current coordinate
+  0B00000010: Y current coordinate
+  0B00000011: X target coordinate
+  0B00000100: Y target coordinate
+  */
+  switch (instruction)
+  {
+    case 0x01:
+      break;
+  }
+}
 
 /* Interrupt handler for NeuBus architecture */
 void onDATASTROBE()

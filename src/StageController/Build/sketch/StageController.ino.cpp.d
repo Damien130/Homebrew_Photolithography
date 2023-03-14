@@ -15,7 +15,5 @@ D:\Git\Homebrew_Photolithography\src\StageController\Build\sketch\StageControlle
  C:\Users\hudai\OneDrive\Documents\Arduino\libraries\TMC429\src/TMC429.h \
  C:\Users\hudai\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.8.6\libraries\SPI\src/SPI.h \
  C:\Users\hudai\OneDrive\Documents\Arduino\libraries\TMC2209\src/TMC2209.h \
- C:\Users\hudai\OneDrive\Documents\Arduino\libraries\Embedded_RingBuf_CPP-1.3/RingBufCPP.h \
- C:\Users\hudai\OneDrive\Documents\Arduino\libraries\Embedded_RingBuf_CPP-1.3/RingBufHelpers.h \
- D:\Git\Homebrew_Photolithography\src\StageController\Build\sketch\NeuBus.h \
- C:\Users\hudai\OneDrive\Documents\Arduino\libraries\RingBuffer-1.0.3\src/RingBuf.h
+ C:\Users\hudai\OneDrive\Documents\Arduino\libraries\RingBuffer-1.0.3\src/RingBuf.h \
+ D:\Git\Homebrew_Photolithography\src\StageController\Build\sketch\NeuBus.h
