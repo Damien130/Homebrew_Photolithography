@@ -21,6 +21,8 @@
 #include <TMC429.h>
 #include <TMC2209.h>
 #include <RingBuf.h>
+#include <Wire.h>
+
 /* #include "NeuBus.h"
  */
 
@@ -42,6 +44,7 @@ const static int8_t nADDRSTRB = 3;
 const static int8_t X_ERROR = 6;
 const static int8_t Y_ERROR = 7;
 const static int8_t CHIP_SELECT_PIN = 8;
+const static int8_t I2CADDR = 0B00000010; 
 
 
 uint8_t registerStack[10] = {};
@@ -52,9 +55,6 @@ RingBuf<uint8_t, 4> dataRBuff;
 RingBuf<uint8_t, 4> addrSBuff;
 RingBuf<uint8_t, 4> addrRBuff;
 RingBuf<uint8_t, 4> largeBuff;
-uint8_t address = 0xFF;
-uint8_t packet = 0xFF;
-bool FLine = false;
 
 
 /* Global variables */
@@ -64,9 +64,9 @@ enum Flags
   Y_MOTOR = 2
 };
 const long SERIAL_BAUD_RATE = 115200;
-volatile bool dataStrobe = false, addressStrobe = false; // Neubus ISR flags
 int32_t X_target = 0, X_actual = 0, Y_target = 0, Y_actual = 0; // plane location, initialize to 0
 int32_t X_max, Y_max; // maximum coordinates for each axis
+TwoWire bus; // instantiate the i2C object
 
 /* TMC2209 driver settings */
 /* Note: Current TMC2209 setup doesn't utilize UART address for simplicity of troubleshooting
@@ -107,18 +107,15 @@ const long VELOCITY_MIN = 100;
 TMC2209 stepper_drivers[MOTOR_COUNT]; // TMC2209, setup as object array
 TMC429 stepper_controller;    // TMC429 Stepper Controller
  
-/* Instantiate NeuBus interface*/
-NeuBus Bus;
 
 void setup()
 { 
   Serial.begin(SERIAL_BAUD_RATE); // Serial console on serial0 @ 15200 baud
+  bus.begin(I2CADDR >> 1);
 
   /* ATMega2560 Setup */
   pinModeFast(X_ERROR, INPUT);
   pinModeFast(Y_ERROR, INPUT);
-  attachInterrupt(digitalPinToInterrupt(nDATASTRB), onDATASTROBE, FALLING);
-  attachInterrupt(digitalPinToInterrupt(nADDRSTRB), onADDRSTROBE, FALLING);
 
 
   /* Self Check */
@@ -202,52 +199,10 @@ void loop()
   coordinateStack[0] = stepper_controller.getActualPosition(X_MOTOR);
   coordinateStack[1] = stepper_controller.getActualPosition(Y_MOTOR);
   coordinateStack[2] = stepper_controller.getTargetPosition(X_MOTOR);
-  coordinateStack[3] = stepper_controller.getTargetPosition(Y_MOTOR);
-
-  // Bus routine
-  if (dataStrobe && !digitalReadFast(nWRITE) && !FLine) // data routine for write
-  {
-    if(!dataRBuff.push(Bus.readData(dataStrobe))) Serial.println("DataBuffer FULL!"); // get data from bus
-    else {
-      addrRBuff.pop(address); // get commanded register address
-      dataRBuff.pop(registerStack[address - 1]); // put data into the register address
-    }
-  } else if (dataStrobe && digitalReadFast(nWRITE) &&!FLine) { // data routine for read
-    if(!dataSBuff.push(registerStack[address - 1])) Serial.println("nothing to send!");
-    else {
-      addrRBuff.pop(address); // get commanded register address
-      packet = registerStack[address - 1]; // get requested register data into packet
-      Bus.sendData(packet, dataStrobe); // put data on bus
-    }
-  } else if (dataStrobe && digitalReadFast(nWRITE) && FLine) { // data routine for 32 bit write
-      /*  */
-  }
-
-  if (addressStrobe && !digitalReadFast(nWRITE)) // Address write routine
-  {
-    address = Bus.readAddress(addressStrobe);
-    if ((address >> 7) & 0x1 == 1) 
-    {
-      FLine = true; // flags 32-bit transactions
-      if(!addrRBuff.push(address)) Serial.println("AddrBuffer FULL!"); 
-    } 
-    if(!addrRBuff.push(address)) Serial.println("AddrBuffer FULL!"); 
-  } else if (addressStrobe && digitalReadFast(nWRITE)) { // Address read routine
-    if(!addrSBuff.isEmpty())
-    {
-      addrSBuff.pop(packet);
-      Bus.sendAddress(packet, addressStrobe);
-    }
-  }
+  coordinateStack[3] = stepper_controller.getTargetPosition(Y_MOTOR); 
 }
 
-void test()
-{
-  if (dataStrobe)
-  {
-    Serial.println(Bus.readData(dataStrobe));
-  }
-}
+
 
 void moveStageTo(int32_t x, int32_t y)
 {
@@ -336,20 +291,6 @@ void homing()
   stepper_controller.setTargetPosition(Y_MOTOR, 0);
 }
 
-void encode(uint32_t* bigPacket)
-{
-  // data_type *var_name = reinterpret_cast <data_type *>(pointer_variable);
-  largeBuff.clear(); // clear buffer
-  largeBuff.push(*(reinterpret_cast<uint8_t*>(bigPacket)+3));
-  largeBuff.push(*(reinterpret_cast<uint8_t*>(bigPacket)+2));
-  largeBuff.push(*(reinterpret_cast<uint8_t*>(bigPacket)+1));
-  largeBuff.push(*(reinterpret_cast<uint8_t*>(bigPacket)));
-}
-
-void encode(uint8_t standardPacket)
-{
-  largeBuff.clear(); // clear buffer
-}
 
 bool addressDecode(uint8_t instruction)
 {
@@ -381,13 +322,4 @@ bool addressDecode(uint8_t instruction)
   }
 }
 
-/* Interrupt handler for NeuBus architecture */
-void onDATASTROBE()
-{
-  dataStrobe = true;
-}
 
-void onADDRSTROBE()
-{
-  addressStrobe = true;
-}
