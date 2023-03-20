@@ -22,8 +22,11 @@
 #include <TMC429.h>
 #include <TMC2209.h>
 #include <RingBuf.h>
-#include "NeuBus.h"
+#include <Wire.h>
+#include "instructionhandler.h"
 
+/* #include "NeuBus.h"
+ */
 
 /* ATMega2560 Pin Mapping */
 /* Digital Pins:
@@ -43,31 +46,27 @@ const static int8_t nADDRSTRB = 3;
 const static int8_t X_ERROR = 6;
 const static int8_t Y_ERROR = 7;
 const static int8_t CHIP_SELECT_PIN = 8;
+const static int8_t I2CADDR = 7; 
+const long SERIAL_BAUD_RATE = 115200;
 
-
-uint8_t registerStack[10] = {};
-int32_t coordinateStack[4] = {};
-int32_t last_coordinateStack[4] = {};
-RingBuf<uint8_t, 4> dataSBuff;
-RingBuf<uint8_t, 4> dataRBuff;
-RingBuf<uint8_t, 4> addrSBuff;
-RingBuf<uint8_t, 4> addrRBuff;
-RingBuf<uint8_t, 4> largeBuff;
-uint8_t address = 0xFF;
-uint8_t packet = 0xFF;
-bool FLine = false;
-
-
-/* Global variables */
+/* Data structure
+Byte1: scribble: magic number
+Byte2: Command
+Byte3-6: data (4 bytes)
+Byte7: 0x00
+Byte8: Chksum 
+ */
 enum Flags
 { MOTOR_COUNT = 2,
   X_MOTOR = 1,
   Y_MOTOR = 2
 };
-const long SERIAL_BAUD_RATE = 115200;
-volatile bool dataStrobe = false, addressStrobe = false; // Neubus ISR flags
-int32_t X_target = 0, X_actual = 0, Y_target = 0, Y_actual = 0; // plane location, initialize to 0
-int32_t X_max, Y_max; // maximum coordinates for each axis
+int32_t X_target = 0, X_actual = 0, Y_target = 0, Y_actual = 0, X_command = 0, Y_command = 0; // plane location, initialize to 0
+int32_t X_latched = 0, Y_latched = 0;
+bool mutexLock = false;
+bool calibration = false;
+bool calibrationComplete = false;
+uint8_t query = 0;
 
 /* TMC2209 driver settings */
 /* Note: Current TMC2209 setup doesn't utilize UART address for simplicity of troubleshooting
@@ -95,52 +94,41 @@ const int COOL_STEP_UPPER_THRESHOLD = 0;
    Maximum Microstep Rate: 500 kHz (16 MHz clock / 32)
 */
 const int CLOCK_FREQUENCY_MHZ = 16; // clock for step frequency
-const int STEPS_PER_QUARTER_REV = 50; // 1.8 degrees per step
-const int QUARTER_REVS_PER_SEC_MAX = 1; // max revolution per seconds
-const int INC_PER_REV = 5;
+const int STEPS_PER_REV = 200; // 1.8 degrees per step
+const int REVS_PER_SEC_MAX = 1; // max revolution per seconds
 const int ACCELERATION_MAX = 50000/2; // 50 kHz, accelerate from 0 to max
-const int MICROSTEPS_PER_QUARTER_REV = STEPS_PER_QUARTER_REV*MICROSTEPS_PER_STEP;
-const int MICROSTEPS_PER_REV = MICROSTEPS_PER_QUARTER_REV * 4;
-const long VELOCITY_MAX = MICROSTEPS_PER_QUARTER_REV*QUARTER_REVS_PER_SEC_MAX;
+const int MICROSTEPS_PER_REV = STEPS_PER_REV * MICROSTEPS_PER_STEP;
+const long VELOCITY_MAX = MICROSTEPS_PER_REV * REVS_PER_SEC_MAX;
 const long VELOCITY_MIN = 100;
+const long AXIS_LENGTH = 200000000; // 2e8 nm (200mm) per axis
+const long LENGTH_PER_REV = 5000000; // 5e6 nm (5mm) per revolution
+const long MICROSTEPS_PER_AXIS = AXIS_LENGTH / LENGTH_PER_REV; // get maximum microsteps per axis
+// const long DISTANCE_PER_MICROSTEP = LENGTH_PER_REV / MICROSTEPS_PER_REV; 
+// 0.097 micron per step, float (4 bytes)
 
 /* Instantiate stepper drive train*/
 TMC2209 stepper_drivers[MOTOR_COUNT]; // TMC2209, setup as object array
 TMC429 stepper_controller;    // TMC429 Stepper Controller
+TMC429::Status status;  // TMC429 status struct
  
-/* Instantiate NeuBus interface*/
-NeuBus Bus;
 
-#line 113 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+#line 114 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void setup();
-#line 199 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+#line 200 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void loop();
-#line 244 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
-void test();
-#line 252 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+#line 240 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void moveStageTo(int32_t x, int32_t y);
-#line 259 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+#line 247 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void homing();
-#line 339 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
-void encode(uint32_t* bigPacket);
-#line 349 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
-void encode(uint8_t standardPacket);
-#line 354 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
-bool addressDecode(uint8_t instruction);
-#line 385 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
-void onDATASTROBE();
-#line 390 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
-void onADDRSTROBE();
-#line 113 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+#line 114 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void setup()
 { 
   Serial.begin(SERIAL_BAUD_RATE); // Serial console on serial0 @ 15200 baud
+  Wire.begin(I2CADDR); // setup as slave with address I2CADDR
 
   /* ATMega2560 Setup */
   pinModeFast(X_ERROR, INPUT);
   pinModeFast(Y_ERROR, INPUT);
-  attachInterrupt(digitalPinToInterrupt(nDATASTRB), onDATASTROBE, FALLING);
-  attachInterrupt(digitalPinToInterrupt(nADDRSTRB), onADDRSTROBE, FALLING);
 
 
   /* Self Check */
@@ -216,59 +204,47 @@ void setup()
   }
 
   homing(); // run the homing procedure, construct plane within TMC429
+  query = 2; // stage finished moving, ready for coordinate input
 }
 
 void loop()
 {
-  // update register stack
-  coordinateStack[0] = stepper_controller.getActualPosition(X_MOTOR);
-  coordinateStack[1] = stepper_controller.getActualPosition(Y_MOTOR);
-  coordinateStack[2] = stepper_controller.getTargetPosition(X_MOTOR);
-  coordinateStack[3] = stepper_controller.getTargetPosition(Y_MOTOR);
+  X_actual = stepper_controller.getActualPosition(X_MOTOR);
+  Y_actual = stepper_controller.getActualPosition(Y_MOTOR);
+  X_target = stepper_controller.getTargetPosition(X_MOTOR);
+  Y_target = stepper_controller.getTargetPosition(Y_MOTOR);
 
-  // Bus routine
-  if (dataStrobe && !digitalReadFast(nWRITE) && !FLine) // data routine for write
-  {
-    if(!dataRBuff.push(Bus.readData(dataStrobe))) Serial.println("DataBuffer FULL!"); // get data from bus
-    else {
-      addrRBuff.pop(address); // get commanded register address
-      dataRBuff.pop(registerStack[address - 1]); // put data into the register address
-    }
-  } else if (dataStrobe && digitalReadFast(nWRITE) &&!FLine) { // data routine for read
-    if(!dataSBuff.push(registerStack[address - 1])) Serial.println("nothing to send!");
-    else {
-      addrRBuff.pop(address); // get commanded register address
-      packet = registerStack[address - 1]; // get requested register data into packet
-      Bus.sendData(packet, dataStrobe); // put data on bus
-    }
-  } else if (dataStrobe && digitalReadFast(nWRITE) && FLine) { // data routine for 32 bit write
-      /*  */
+  // update controller status
+  status = stepper_controller.getStatus();
+  if (status.at_target_position_0 && status.at_target_position_1) {
+    query = 2; // 0b10, stage finished moving
+  } else {
+    query = 1; // 0b01, stage moving
   }
 
-  if (addressStrobe && !digitalReadFast(nWRITE)) // Address write routine
-  {
-    address = Bus.readAddress(addressStrobe);
-    if ((address >> 7) & 0x1 == 1) 
-    {
-      FLine = true; // flags 32-bit transactions
-      if(!addrRBuff.push(address)) Serial.println("AddrBuffer FULL!"); 
-    } 
-    if(!addrRBuff.push(address)) Serial.println("AddrBuffer FULL!"); 
-  } else if (addressStrobe && digitalReadFast(nWRITE)) { // Address read routine
-    if(!addrSBuff.isEmpty())
-    {
-      addrSBuff.pop(packet);
-      Bus.sendAddress(packet, addressStrobe);
+  // move the motors
+  if (!calibration) { 
+    // check for command difference, if different, move to location defined
+    if (X_target != X_command) {
+      stepper_controller.setTargetPosition(X_MOTOR, X_command);
+    } else if (Y_target != Y_command) {
+      stepper_controller.setTargetPosition(Y_MOTOR, Y_command);
+    }
+  } else {
+    X_latched = stepper_controller.getActualPosition(X_MOTOR);
+    Y_latched = stepper_controller.getActualPosition(Y_MOTOR);
+    // move motors as requested
+    if (X_target != X_command) {
+      stepper_controller.setTargetPosition(X_MOTOR, X_command);
+    } else if (Y_target != Y_command) {
+      stepper_controller.setTargetPosition(Y_MOTOR, Y_command);
+    }
+    if (calibrationComplete) {
+      stepper_controller.setActualPosition(X_MOTOR, X_latched);
+      stepper_controller.setActualPosition(Y_MOTOR, Y_latched);
     }
   }
-}
 
-void test()
-{
-  if (dataStrobe)
-  {
-    Serial.println(Bus.readData(dataStrobe));
-  }
 }
 
 void moveStageTo(int32_t x, int32_t y)
@@ -281,8 +257,8 @@ void moveStageTo(int32_t x, int32_t y)
 void homing()
 {
   // first move the motors out of the axis minimums (if they are in)
-  stepper_controller.setTargetPosition(X_MOTOR, MICROSTEPS_PER_QUARTER_REV); // move to the right by 1 rev
-  stepper_controller.setTargetPosition(Y_MOTOR, -MICROSTEPS_PER_QUARTER_REV); // move to the top ^
+  stepper_controller.setTargetPosition(X_MOTOR, MICROSTEPS_PER_REV); // move to the right by 1 rev
+  stepper_controller.setTargetPosition(Y_MOTOR, -MICROSTEPS_PER_REV); // move to the top ^
   
   // ************ Start homing procedure, acquire ORIGIN POSITION *************
   for (size_t motor_index = 0; motor_index < MOTOR_COUNT; ++motor_index)
@@ -305,7 +281,7 @@ void homing()
         break;
     }
 
-    // 3. Stepper motor automatically stops upon stall. Move away by 1 full step to avoid origin stall
+    /* // 3. Stepper motor automatically stops upon stall. Move away by 1 full step to avoid origin stall
     switch (motor_index)
     {
       case X_MOTOR:
@@ -320,14 +296,14 @@ void homing()
         break;
       default:
         break;
-    }
+    } */
 
     // 4. Reset TMC429 reference point
     stepper_controller.setActualPosition(motor_index, 0);
     stepper_controller.setTargetPosition(motor_index, 0);
   }
 
-  // ************ Continue homing procedure, acquire MAXIMUM POSITION *************
+  /* // ************ Continue homing procedure, acquire MAXIMUM POSITION *************
 
   // begin moving stage to absolute maximum
   stepper_controller.setTargetPosition(X_MOTOR, 0x7FFFFFFF);
@@ -350,67 +326,8 @@ void homing()
       Y_max = stepper_controller.getActualPosition(Y_MOTOR) - 256; // acquire max coordinate
       stepper_controller.setSoftMode(Y_MOTOR); // set soft deccelerate
       counter++;
-    }
-  }
+    } 
+  } */
 
-  // ************ Complete homing procedure, go to origin point. *************
-  stepper_controller.setTargetPosition(X_MOTOR, 0);
-  stepper_controller.setTargetPosition(Y_MOTOR, 0);
+  // ************ Complete homing procedure, navigate to origin point. *************
 }
-
-void encode(uint32_t* bigPacket)
-{
-  // data_type *var_name = reinterpret_cast <data_type *>(pointer_variable);
-  largeBuff.clear(); // clear buffer
-  largeBuff.push(*(reinterpret_cast<uint8_t*>(bigPacket)+3));
-  largeBuff.push(*(reinterpret_cast<uint8_t*>(bigPacket)+2));
-  largeBuff.push(*(reinterpret_cast<uint8_t*>(bigPacket)+1));
-  largeBuff.push(*(reinterpret_cast<uint8_t*>(bigPacket)));
-}
-
-void encode(uint8_t standardPacket)
-{
-  largeBuff.clear(); // clear buffer
-}
-
-bool addressDecode(uint8_t instruction)
-{
-  /* Register stack information:
-  0: X current coordinate
-  1: Y current coordinate
-  2: X target coordinate
-  3: Y target coordinate
-  4: Upper 4 bits: X direct control
-     8     7       6     5
-     GO    DIR      SPEED 
-    Lower 4 bits: Y direct control
-      4     3       2     1
-      GO    DIR      SPEED
-  5: Exposure Count
-  6: Current Exposure Count
-  7-9: TBD
-  */
-  /* Register Address:
-  0B00000001: X current coordinate
-  0B00000010: Y current coordinate
-  0B00000011: X target coordinate
-  0B00000100: Y target coordinate
-  */
-  switch (instruction)
-  {
-    case 0x01:
-      break;
-  }
-}
-
-/* Interrupt handler for NeuBus architecture */
-void onDATASTROBE()
-{
-  dataStrobe = true;
-}
-
-void onADDRSTROBE()
-{
-  addressStrobe = true;
-}
-
