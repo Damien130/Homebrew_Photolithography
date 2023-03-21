@@ -39,6 +39,7 @@ class InstructionHandler {
 	void calib();//7
 
 
+	// instruction handler function hash map
 	void(InstructionHandler::*const functionMap[9])(void) = {
 		&InstructionHandler::halt
 		, &InstructionHandler::getWidth
@@ -50,10 +51,10 @@ class InstructionHandler {
 		, &InstructionHandler::calib
 	};
 
-	char debugBuffer[50];
-	uint64_t commandBuffer;
-	bool* mutexLock;
-	int32_t* actualX, *actualY;
+	char debugBuffer[50]; // serial console buffer
+	uint64_t commandBuffer; // outgoing packet buffer
+	bool* mutexLock; // muti threading lock
+	int32_t* actualX, *actualY; 
 	int32_t* targetX, *targetY;//commanded
 	int32_t* width, *height;
 	int8_t* status;
@@ -217,4 +218,3 @@ inline InstructionHandler::InstructionHandler(
 
 
 #endif // INSTRUCTIONHANDLER_H
-

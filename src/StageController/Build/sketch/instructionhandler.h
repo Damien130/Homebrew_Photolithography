@@ -1,4 +1,23 @@
 #line 1 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\instructionhandler.h"
+/*******************************************************************
+ * Photolithography Stepper Stage Controller I2C Instruction Handler
+ * Author: Damien Hu, damien@damienhu.com
+ * 
+ * This program is free software: you can redistribute it 
+ * and/or modify it under the terms of the GNU General Public License 
+ * as published by the Free Software Foundation, either version 3 of 
+ * the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License 
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ * 
+**********************************************************************/
+
+
 #ifndef INSTRUCTIONHANDLER_H
 #define INSTRUCTIONHANDLER_H
 
@@ -21,6 +40,7 @@ class InstructionHandler {
 	void calib();//7
 
 
+	// instruction handler function hash map
 	void(InstructionHandler::*const functionMap[9])(void) = {
 		&InstructionHandler::halt
 		, &InstructionHandler::getWidth
@@ -32,10 +52,10 @@ class InstructionHandler {
 		, &InstructionHandler::calib
 	};
 
-	char debugBuffer[50];
-	uint64_t commandBuffer;
-	bool* mutexLock;
-	int32_t* actualX, *actualY;
+	char debugBuffer[50]; // serial console buffer
+	uint64_t commandBuffer; // outgoing packet buffer
+	bool* mutexLock; // muti threading lock
+	int32_t* actualX, *actualY; 
 	int32_t* targetX, *targetY;//commanded
 	int32_t* width, *height;
 	int8_t* status;
@@ -199,4 +219,3 @@ inline InstructionHandler::InstructionHandler(
 
 
 #endif // INSTRUCTIONHANDLER_H
-
