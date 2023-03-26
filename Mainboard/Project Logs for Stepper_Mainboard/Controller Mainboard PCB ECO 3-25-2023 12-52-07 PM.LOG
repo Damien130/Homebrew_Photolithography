@@ -1,0 +1,7 @@
+Removed Pin From Net: NetName=GND Pin=PiRS232-1
+Removed Pin From Net: NetName=GND Pin=PiRS232-4
+Removed Pin From Net: NetName=GND Pin=PiRS232-5
+Removed Pin From Net: NetName=GND Pin=PiRS232-6
+Removed Pin From Net: NetName=GND Pin=PiRS232-7
+Removed Pin From Net: NetName=GND Pin=PiRS232-8
+Removed Member From Class: ClassName=Controller Mainboard Member=PiRS232

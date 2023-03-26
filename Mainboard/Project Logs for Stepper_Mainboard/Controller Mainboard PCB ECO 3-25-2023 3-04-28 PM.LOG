@@ -1,0 +1,171 @@
+Change Component Designator: OldDesignator=D8 NewDesignator=D7
+Change Component Designator: OldDesignator=D9 NewDesignator=D8
+Added Component: Designator=C65(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C66(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C67(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C68(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C69(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C70(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=D9(DIO_ESD8104MUTAG)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'ON Semiconductor'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "ESD8104MUTAG"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=D10(DIO_ESD8104MUTAG)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'ON Semiconductor'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "ESD8104MUTAG"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=D11(DIO_ESD8104MUTAG)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'ON Semiconductor'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "ESD8104MUTAG"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=J?(MOLEX_0484060003)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Molex'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "0484060003"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U12(QFN40P450X250X80-31N120X320)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Texas Instruments'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "HD3SS3220IRNHT"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=USB_IN(AMPHENOL_12401610E4#2A-500)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Amphenol'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "12401610E4#2A-500"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=C65-2
+Added Pin To Net: NetName=GND Pin=C66-2
+Added Pin To Net: NetName=GND Pin=D9-3
+Added Pin To Net: NetName=GND Pin=D9-8
+Added Pin To Net: NetName=GND Pin=D10-3
+Added Pin To Net: NetName=GND Pin=D10-8
+Added Pin To Net: NetName=GND Pin=D11-3
+Added Pin To Net: NetName=GND Pin=D11-8
+Added Pin To Net: NetName=GND Pin=USB_IN-A1
+Added Pin To Net: NetName=GND Pin=USB_IN-A12
+Added Pin To Net: NetName=GND Pin=USB_IN-B1
+Added Pin To Net: NetName=GND Pin=USB_IN-B12
+Added Pin To Net: NetName=GND Pin=USB_IN-SH1
+Added Pin To Net: NetName=GND Pin=USB_IN-SH2
+Added Pin To Net: NetName=GND Pin=USB_IN-SH3
+Added Pin To Net: NetName=GND Pin=USB_IN-SH4
+Change Net Name : Old Net Name=NetD8_POS New Net Name=NetD7_POS
+Change Net Name : Old Net Name=NetD9_POS New Net Name=NetD8_POS
+Added Pin To Net: NetName=_D+ Pin=D11-5
+Added Pin To Net: NetName=_D+ Pin=USB_IN-A6
+Added Pin To Net: NetName=_D+ Pin=USB_IN-B6
+Added Net: Name=_D+
+Added Pin To Net: NetName=_D- Pin=D11-4
+Added Pin To Net: NetName=_D- Pin=USB_IN-A7
+Added Pin To Net: NetName=_D- Pin=USB_IN-B7
+Added Net: Name=_D-
+Added Pin To Net: NetName=_RX1+ Pin=D9-2
+Added Pin To Net: NetName=_RX1+ Pin=USB_IN-B11
+Added Net: Name=_RX1+
+Added Pin To Net: NetName=_RX1- Pin=D9-1
+Added Pin To Net: NetName=_RX1- Pin=USB_IN-B10
+Added Net: Name=_RX1-
+Added Pin To Net: NetName=_RX2+ Pin=D10-4
+Added Pin To Net: NetName=_RX2+ Pin=USB_IN-A11
+Added Net: Name=_RX2+
+Added Pin To Net: NetName=_RX2- Pin=D10-5
+Added Pin To Net: NetName=_RX2- Pin=USB_IN-A10
+Added Net: Name=_RX2-
+Added Pin To Net: NetName=_TX1+ Pin=C68-1
+Added Pin To Net: NetName=_TX1+ Pin=D9-4
+Added Pin To Net: NetName=_TX1+ Pin=USB_IN-A2
+Added Net: Name=_TX1+
+Added Pin To Net: NetName=_TX1- Pin=C67-1
+Added Pin To Net: NetName=_TX1- Pin=D9-5
+Added Pin To Net: NetName=_TX1- Pin=USB_IN-A3
+Added Net: Name=_TX1-
+Added Pin To Net: NetName=_TX2+ Pin=C70-1
+Added Pin To Net: NetName=_TX2+ Pin=D10-1
+Added Pin To Net: NetName=_TX2+ Pin=USB_IN-B2
+Added Net: Name=_TX2+
+Added Pin To Net: NetName=_TX2- Pin=C69-1
+Added Pin To Net: NetName=_TX2- Pin=D10-2
+Added Pin To Net: NetName=_TX2- Pin=USB_IN-B3
+Added Net: Name=_TX2-
+Added Pin To Net: NetName=CC1 Pin=D11-1
+Added Pin To Net: NetName=CC1 Pin=USB_IN-A5
+Added Net: Name=CC1
+Add Net: Net with name "CC1" already exists
+Added Pin To Net: NetName=CC2 Pin=D11-2
+Added Pin To Net: NetName=CC2 Pin=USB_IN-B5
+Added Net: Name=CC2
+Add Net: Net with name "CC2" already exists
+Added Pin To Net: NetName=NetC67_2 Pin=C67-2
+Added Net: Name=NetC67_2
+Added Pin To Net: NetName=NetC68_2 Pin=C68-2
+Added Net: Name=NetC68_2
+Added Pin To Net: NetName=NetC69_2 Pin=C69-2
+Added Net: Name=NetC69_2
+Added Pin To Net: NetName=NetC70_2 Pin=C70-2
+Added Net: Name=NetC70_2
+Added Pin To Net: NetName=VBUS Pin=C65-1
+Added Pin To Net: NetName=VBUS Pin=C66-1
+Added Pin To Net: NetName=VBUS Pin=USB_IN-A4
+Added Pin To Net: NetName=VBUS Pin=USB_IN-A9
+Added Pin To Net: NetName=VBUS Pin=USB_IN-B4
+Added Pin To Net: NetName=VBUS Pin=USB_IN-B9
+Added Net: Name=VBUS
+Added Class: Name=UFP_MUX
+Added Class: Name=USB_IN Filter
+Added Member To Class: ClassName=Controller Mainboard Member=Component C67 100n
+Added Member To Class: ClassName=Controller Mainboard Member=Component C68 100n
+Added Member To Class: ClassName=Controller Mainboard Member=Component C69 100n
+Added Member To Class: ClassName=Controller Mainboard Member=Component C70 100n
+Added Member To Class: ClassName=Controller Mainboard Member=Component J? 0484060003
+Added Member To Class: ClassName=Controller Mainboard Member=Component USB_IN 12401610E4#2A-500

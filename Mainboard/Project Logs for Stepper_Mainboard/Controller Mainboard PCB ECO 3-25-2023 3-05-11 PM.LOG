@@ -1,0 +1,8 @@
+Removed Member From Class: ClassName=USB_IN Filter Member=D8
+Change Net Name : Old Net Name=CC1 New Net Name=_CC1
+Change Net Name : Old Net Name=CC2 New Net Name=_CC2
+Added Pin To Net: NetName=CC1 Pin=U12-2
+Added Net: Name=CC1
+Added Pin To Net: NetName=CC2 Pin=U12-1
+Added Net: Name=CC2
+Added Member To Class: ClassName=USB_IN Filter Member=Component D9 ESD8104MUTAG

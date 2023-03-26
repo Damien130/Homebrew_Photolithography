@@ -1,0 +1,108 @@
+Removed Pin From Net: NetName=PiTX Pin=J1-7
+Removed Pin From Net: NetName=PiRX Pin=J1-9
+Removed Pin From Net: NetName=Pi5V Pin=J3-2
+Removed Pin From Net: NetName=Pi5V Pin=J3-4
+Removed Pin From Net: NetName=GND Pin=J3-6
+Removed Pin From Net: NetName=GND Pin=J3-14
+Removed Pin From Net: NetName=GND Pin=J3-20
+Removed Pin From Net: NetName=PI_GPIO1 Pin=J3-28
+Removed Pin From Net: NetName=GND Pin=J3-30
+Removed Pin From Net: NetName=GND Pin=J3-34
+Removed Member From Class: ClassName=Controller Mainboard Member=J3
+Added Component: Designator=RN6(RESCAF80P320X160X60-8N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Bourns'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "CAY16-220J4LF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=RN7(RESCAF80P320X160X60-8N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Bourns'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "CAY16-220J4LF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=RN8(RESCAF80P320X160X60-8N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Bourns'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "CAY16-220J4LF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=PI_GPIO1 Pin=J1-27
+Added Pin To Net: NetName=3V3 Pin=RN6-5
+Added Pin To Net: NetName=3V3 Pin=RN6-6
+Added Pin To Net: NetName=3V3 Pin=RN6-7
+Added Pin To Net: NetName=3V3 Pin=RN6-8
+Added Pin To Net: NetName=3V3 Pin=RN7-5
+Added Pin To Net: NetName=3V3 Pin=RN7-6
+Added Pin To Net: NetName=3V3 Pin=RN7-7
+Added Pin To Net: NetName=3V3 Pin=RN7-8
+Added Pin To Net: NetName=3V3 Pin=RN8-5
+Added Pin To Net: NetName=3V3 Pin=RN8-6
+Added Pin To Net: NetName=3V3 Pin=RN8-7
+Added Pin To Net: NetName=3V3 Pin=RN8-8
+Added Pin To Net: NetName=INDEX_1 Pin=U1-35
+Added Pin To Net: NetName=INDEX_2 Pin=U1-36
+Added Pin To Net: NetName=POSCMP Pin=U1-37
+Change Net Name : Old Net Name=PiCE0 New Net Name=Pi_DTD
+Change Net Name : Old Net Name=PiCE1 New Net Name=Pi_TAD
+Change Net Name : Old Net Name=PiMISO New Net Name=Pi_GPIO9
+Change Net Name : Old Net Name=PiMOSI New Net Name=Pi_D0
+Change Net Name : Old Net Name=PiSCL New Net Name=Pi_SCL
+Change Net Name : Old Net Name=PiSCLK New Net Name=Pi_D1
+Change Net Name : Old Net Name=PiSDA New Net Name=Pi_SDA
+Added Pin To Net: NetName=DBG_LED Pin=J1-30
+Added Net: Name=DBG_LED
+Added Pin To Net: NetName=NetLabel635 Pin=U1-38
+Added Net: Name=NetLabel635
+Added Pin To Net: NetName=NetLabel636 Pin=U1-39
+Added Net: Name=NetLabel636
+Added Pin To Net: NetName=NetLabel637 Pin=U1-40
+Added Net: Name=NetLabel637
+Added Pin To Net: NetName=NetLabel638 Pin=U1-41
+Added Net: Name=NetLabel638
+Added Pin To Net: NetName=NetLabel639 Pin=U1-42
+Added Net: Name=NetLabel639
+Added Pin To Net: NetName=Pi_ACK Pin=J1-39
+Added Net: Name=Pi_ACK
+Added Pin To Net: NetName=Pi_ACT Pin=J1-8
+Added Net: Name=Pi_ACT
+Added Pin To Net: NetName=Pi_ATN Pin=J1-36
+Added Net: Name=Pi_ATN
+Added Pin To Net: NetName=Pi_BSY Pin=J1-38
+Added Net: Name=Pi_BSY
+Added Pin To Net: NetName=Pi_CD Pin=J1-17
+Added Net: Name=Pi_CD
+Added Pin To Net: NetName=Pi_D2 Pin=J1-31
+Added Net: Name=Pi_D2
+Added Pin To Net: NetName=Pi_D3 Pin=J1-34
+Added Net: Name=Pi_D3
+Added Pin To Net: NetName=Pi_D4 Pin=J1-7
+Added Net: Name=Pi_D4
+Added Pin To Net: NetName=Pi_D5 Pin=J1-9
+Added Net: Name=Pi_D5
+Added Pin To Net: NetName=Pi_D6 Pin=J1-35
+Added Net: Name=Pi_D6
+Added Pin To Net: NetName=Pi_D7 Pin=J1-12
+Added Net: Name=Pi_D7
+Added Pin To Net: NetName=Pi_DP Pin=J1-11
+Added Net: Name=Pi_DP
+Added Pin To Net: NetName=Pi_GPIO0 Pin=J1-28
+Added Net: Name=Pi_GPIO0
+Added Pin To Net: NetName=Pi_IND Pin=J1-32
+Added Net: Name=Pi_IND
+Added Pin To Net: NetName=Pi_IO Pin=J1-21
+Added Net: Name=Pi_IO
+Added Pin To Net: NetName=PI_MSG Pin=J1-15
+Added Net: Name=PI_MSG
+Added Pin To Net: NetName=Pi_REQ Pin=J1-16
+Added Net: Name=Pi_REQ
+Added Pin To Net: NetName=Pi_RST Pin=J1-37
+Added Net: Name=Pi_RST
+Added Pin To Net: NetName=Pi_SEL Pin=J1-14
+Added Net: Name=Pi_SEL
+Added Member To Class: ClassName=Controller Mainboard Member=Component RN6 10k
+Added Member To Class: ClassName=Controller Mainboard Member=Component RN7 10k
+Added Member To Class: ClassName=Controller Mainboard Member=Component RN8 10k

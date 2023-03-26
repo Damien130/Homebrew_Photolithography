@@ -1,0 +1,358 @@
+Added Component: Designator=C45(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C46(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C47(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C48(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C49(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C50(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C51(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C52(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C53(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C54(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C55(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C56(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C57(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C58(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C59(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C60(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C61(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C62(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C63(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C64(CAPC1608X90)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'AVX'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LD034C222KAB2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=HDMI0-4
+Added Pin To Net: NetName=GND Pin=HDMI0-7
+Added Pin To Net: NetName=GND Pin=HDMI0-10
+Added Pin To Net: NetName=GND Pin=HDMI0-13
+Added Pin To Net: NetName=GND Pin=HDMI0-16
+Added Pin To Net: NetName=GND Pin=HDMI0-S1
+Added Pin To Net: NetName=GND Pin=HDMI0-S2
+Added Pin To Net: NetName=GND Pin=HDMI0-S3
+Added Pin To Net: NetName=GND Pin=HDMI0-S4
+Added Pin To Net: NetName=GND Pin=HDMI1-4
+Added Pin To Net: NetName=GND Pin=HDMI1-7
+Added Pin To Net: NetName=GND Pin=HDMI1-10
+Added Pin To Net: NetName=GND Pin=HDMI1-13
+Added Pin To Net: NetName=GND Pin=HDMI1-16
+Added Pin To Net: NetName=GND Pin=HDMI1-S1
+Added Pin To Net: NetName=GND Pin=HDMI1-S2
+Added Pin To Net: NetName=GND Pin=HDMI1-S3
+Added Pin To Net: NetName=GND Pin=HDMI1-S4
+Added Pin To Net: NetName=GND Pin=HDMIO0-2
+Added Pin To Net: NetName=GND Pin=HDMIO0-5
+Added Pin To Net: NetName=GND Pin=HDMIO0-8
+Added Pin To Net: NetName=GND Pin=HDMIO0-11
+Added Pin To Net: NetName=GND Pin=HDMIO0-17
+Added Pin To Net: NetName=GND Pin=HDMIO1-2
+Added Pin To Net: NetName=GND Pin=HDMIO1-5
+Added Pin To Net: NetName=GND Pin=HDMIO1-8
+Added Pin To Net: NetName=GND Pin=HDMIO1-11
+Added Pin To Net: NetName=GND Pin=HDMIO1-17
+Added Pin To Net: NetName=5V_HD0 Pin=HDMI0-19
+Added Pin To Net: NetName=5V_HD0 Pin=HDMIO0-18
+Added Net: Name=5V_HD0
+Added Pin To Net: NetName=5V_HD1 Pin=HDMI1-19
+Added Pin To Net: NetName=5V_HD1 Pin=HDMIO1-18
+Added Net: Name=5V_HD1
+Added Pin To Net: NetName=CEC_HD0 Pin=HDMI0-15
+Added Pin To Net: NetName=CEC_HD0 Pin=HDMIO0-13
+Added Net: Name=CEC_HD0
+Added Pin To Net: NetName=CEC_HD1 Pin=HDMI1-15
+Added Pin To Net: NetName=CEC_HD1 Pin=HDMIO1-13
+Added Net: Name=CEC_HD1
+Added Pin To Net: NetName=CLK_HD0_N Pin=C52-2
+Added Pin To Net: NetName=CLK_HD0_N Pin=HDMIO0-12
+Added Net: Name=CLK_HD0_N
+Added Pin To Net: NetName=CLK_HD0_P Pin=C51-2
+Added Pin To Net: NetName=CLK_HD0_P Pin=HDMIO0-10
+Added Net: Name=CLK_HD0_P
+Added Pin To Net: NetName=CLK_HD1_N Pin=C62-2
+Added Pin To Net: NetName=CLK_HD1_N Pin=HDMIO1-12
+Added Net: Name=CLK_HD1_N
+Added Pin To Net: NetName=CLK_HD1_P Pin=C61-2
+Added Pin To Net: NetName=CLK_HD1_P Pin=HDMIO1-10
+Added Net: Name=CLK_HD1_P
+Added Pin To Net: NetName=D0_HD0_N Pin=C50-2
+Added Pin To Net: NetName=D0_HD0_N Pin=HDMIO0-9
+Added Net: Name=D0_HD0_N
+Added Pin To Net: NetName=D0_HD0_P Pin=C49-2
+Added Pin To Net: NetName=D0_HD0_P Pin=HDMIO0-7
+Added Net: Name=D0_HD0_P
+Added Pin To Net: NetName=D0_HD1_N Pin=C60-2
+Added Pin To Net: NetName=D0_HD1_N Pin=HDMIO1-9
+Added Net: Name=D0_HD1_N
+Added Pin To Net: NetName=D0_HD1_P Pin=C59-2
+Added Pin To Net: NetName=D0_HD1_P Pin=HDMIO1-7
+Added Net: Name=D0_HD1_P
+Added Pin To Net: NetName=D1_HD0_N Pin=C48-2
+Added Pin To Net: NetName=D1_HD0_N Pin=HDMIO0-6
+Added Net: Name=D1_HD0_N
+Added Pin To Net: NetName=D1_HD0_P Pin=C47-2
+Added Pin To Net: NetName=D1_HD0_P Pin=HDMIO0-4
+Added Net: Name=D1_HD0_P
+Added Pin To Net: NetName=D1_HD1_N Pin=C58-2
+Added Pin To Net: NetName=D1_HD1_N Pin=HDMIO1-6
+Added Net: Name=D1_HD1_N
+Added Pin To Net: NetName=D1_HD1_P Pin=C57-2
+Added Pin To Net: NetName=D1_HD1_P Pin=HDMIO1-4
+Added Net: Name=D1_HD1_P
+Added Pin To Net: NetName=D2_HD0_N Pin=C46-2
+Added Pin To Net: NetName=D2_HD0_N Pin=HDMIO0-3
+Added Net: Name=D2_HD0_N
+Added Pin To Net: NetName=D2_HD0_P Pin=C45-2
+Added Pin To Net: NetName=D2_HD0_P Pin=HDMIO0-1
+Added Net: Name=D2_HD0_P
+Added Pin To Net: NetName=D2_HD1_N Pin=C56-2
+Added Pin To Net: NetName=D2_HD1_N Pin=HDMIO1-3
+Added Net: Name=D2_HD1_N
+Added Pin To Net: NetName=D2_HD1_P Pin=C55-2
+Added Pin To Net: NetName=D2_HD1_P Pin=HDMIO1-1
+Added Net: Name=D2_HD1_P
+Added Pin To Net: NetName=SCL_HD0 Pin=HDMI0-17
+Added Pin To Net: NetName=SCL_HD0 Pin=HDMIO0-15
+Added Net: Name=SCL_HD0
+Added Pin To Net: NetName=SCL_HD1 Pin=HDMI1-17
+Added Pin To Net: NetName=SCL_HD1 Pin=HDMIO1-15
+Added Net: Name=SCL_HD1
+Added Pin To Net: NetName=SDA_HD0 Pin=HDMI0-18
+Added Pin To Net: NetName=SDA_HD0 Pin=HDMIO0-16
+Added Net: Name=SDA_HD0
+Added Pin To Net: NetName=SDA_HD1 Pin=HDMI1-18
+Added Pin To Net: NetName=SDA_HD1 Pin=HDMIO1-16
+Added Net: Name=SDA_HD1
+Added Pin To Net: NetName=UTIL_HD0_N Pin=C54-2
+Added Pin To Net: NetName=UTIL_HD0_N Pin=HDMIO0-19
+Added Net: Name=UTIL_HD0_N
+Added Pin To Net: NetName=UTIL_HD0_P Pin=C53-2
+Added Pin To Net: NetName=UTIL_HD0_P Pin=HDMIO0-14
+Added Net: Name=UTIL_HD0_P
+Added Pin To Net: NetName=UTIL_HD1_N Pin=C64-2
+Added Pin To Net: NetName=UTIL_HD1_N Pin=HDMIO1-19
+Added Net: Name=UTIL_HD1_N
+Added Pin To Net: NetName=UTIL_HD1_P Pin=C63-2
+Added Pin To Net: NetName=UTIL_HD1_P Pin=HDMIO1-14
+Added Net: Name=UTIL_HD1_P
+Added Pin To Net: NetName=V_CLK_HD0_N Pin=C52-1
+Added Pin To Net: NetName=V_CLK_HD0_N Pin=HDMI0-14
+Added Net: Name=V_CLK_HD0_N
+Added Pin To Net: NetName=V_CLK_HD0_P Pin=C51-1
+Added Pin To Net: NetName=V_CLK_HD0_P Pin=HDMI0-12
+Added Net: Name=V_CLK_HD0_P
+Added Pin To Net: NetName=V_CLK_HD1_N Pin=C62-1
+Added Pin To Net: NetName=V_CLK_HD1_N Pin=HDMI1-14
+Added Net: Name=V_CLK_HD1_N
+Added Pin To Net: NetName=V_CLK_HD1_P Pin=C61-1
+Added Pin To Net: NetName=V_CLK_HD1_P Pin=HDMI1-12
+Added Net: Name=V_CLK_HD1_P
+Added Pin To Net: NetName=V_D0_HD0_N Pin=C50-1
+Added Pin To Net: NetName=V_D0_HD0_N Pin=HDMI0-11
+Added Net: Name=V_D0_HD0_N
+Added Pin To Net: NetName=V_D0_HD0_P Pin=C49-1
+Added Pin To Net: NetName=V_D0_HD0_P Pin=HDMI0-9
+Added Net: Name=V_D0_HD0_P
+Added Pin To Net: NetName=V_D0_HD1_N Pin=C60-1
+Added Pin To Net: NetName=V_D0_HD1_N Pin=HDMI1-11
+Added Net: Name=V_D0_HD1_N
+Added Pin To Net: NetName=V_D0_HD1_P Pin=C59-1
+Added Pin To Net: NetName=V_D0_HD1_P Pin=HDMI1-9
+Added Net: Name=V_D0_HD1_P
+Added Pin To Net: NetName=V_D1_HD0_N Pin=C48-1
+Added Pin To Net: NetName=V_D1_HD0_N Pin=HDMI0-8
+Added Net: Name=V_D1_HD0_N
+Added Pin To Net: NetName=V_D1_HD0_P Pin=C47-1
+Added Pin To Net: NetName=V_D1_HD0_P Pin=HDMI0-6
+Added Net: Name=V_D1_HD0_P
+Added Pin To Net: NetName=V_D1_HD1_N Pin=C58-1
+Added Pin To Net: NetName=V_D1_HD1_N Pin=HDMI1-8
+Added Net: Name=V_D1_HD1_N
+Added Pin To Net: NetName=V_D1_HD1_P Pin=C57-1
+Added Pin To Net: NetName=V_D1_HD1_P Pin=HDMI1-6
+Added Net: Name=V_D1_HD1_P
+Added Pin To Net: NetName=V_D2_HD0_N Pin=C46-1
+Added Pin To Net: NetName=V_D2_HD0_N Pin=HDMI0-5
+Added Net: Name=V_D2_HD0_N
+Added Pin To Net: NetName=V_D2_HD0_P Pin=C45-1
+Added Pin To Net: NetName=V_D2_HD0_P Pin=HDMI0-3
+Added Net: Name=V_D2_HD0_P
+Added Pin To Net: NetName=V_D2_HD1_N Pin=C56-1
+Added Pin To Net: NetName=V_D2_HD1_N Pin=HDMI1-5
+Added Net: Name=V_D2_HD1_N
+Added Pin To Net: NetName=V_D2_HD1_P Pin=C55-1
+Added Pin To Net: NetName=V_D2_HD1_P Pin=HDMI1-3
+Added Net: Name=V_D2_HD1_P
+Added Pin To Net: NetName=V_UTIL_HD0_N Pin=C54-1
+Added Pin To Net: NetName=V_UTIL_HD0_N Pin=HDMI0-1
+Added Net: Name=V_UTIL_HD0_N
+Added Pin To Net: NetName=V_UTIL_HD0_P Pin=C53-1
+Added Pin To Net: NetName=V_UTIL_HD0_P Pin=HDMI0-2
+Added Net: Name=V_UTIL_HD0_P
+Added Pin To Net: NetName=V_UTIL_HD1_N Pin=C64-1
+Added Pin To Net: NetName=V_UTIL_HD1_N Pin=HDMI1-1
+Added Net: Name=V_UTIL_HD1_N
+Added Pin To Net: NetName=V_UTIL_HD1_P Pin=C63-1
+Added Pin To Net: NetName=V_UTIL_HD1_P Pin=HDMI1-2
+Added Net: Name=V_UTIL_HD1_P
+Added Class: Name=HDMI0_IO
+Added Class: Name=HDMI1_IO
+Added Differential Pair: Name=CLK_HD0
+Added Differential Pair: Name=CLK_HD1
+Added Differential Pair: Name=D0_HD0
+Added Differential Pair: Name=D0_HD1
+Added Differential Pair: Name=D1_HD0
+Added Differential Pair: Name=D1_HD1
+Added Differential Pair: Name=D2_HD0
+Added Differential Pair: Name=D2_HD1
+Added Differential Pair: Name=UTIL_HD0
+Added Differential Pair: Name=UTIL_HD1
+Added Differential Pair: Name=V_CLK_HD0
+Added Differential Pair: Name=V_CLK_HD1
+Added Differential Pair: Name=V_D0_HD0
+Added Differential Pair: Name=V_D0_HD1
+Added Differential Pair: Name=V_D1_HD0
+Added Differential Pair: Name=V_D1_HD1
+Added Differential Pair: Name=V_D2_HD0
+Added Differential Pair: Name=V_D2_HD1
+Added Differential Pair: Name=V_UTIL_HD0
+Added Differential Pair: Name=V_UTIL_HD1
+Added Member To Class: ClassName=Controller Mainboard Member=Component C45 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component C46 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component C47 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component C48 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component C49 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component C50 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component C51 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component C52 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component C53 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component C54 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component C55 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component C56 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component C57 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component C58 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component C59 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component C60 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component C61 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component C62 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component C63 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component C64 10nF
+Added Rule: Name=Schematic Differential Pairs Routing
+Added Rule: Name=Schematic Differential Pairs Routing_1
+Added Class: Name=HDMI0_IO
+Added Class: Name=HDMI1_IO

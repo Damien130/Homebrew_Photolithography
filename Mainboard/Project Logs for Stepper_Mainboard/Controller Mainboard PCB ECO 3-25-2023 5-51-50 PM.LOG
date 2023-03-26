@@ -1,0 +1,297 @@
+Removed Pin From Net: NetName=GND Pin=C65-2
+Removed Pin From Net: NetName=GND Pin=C66-2
+Removed Pin From Net: NetName=GND Pin=D9-3
+Removed Pin From Net: NetName=GND Pin=D9-8
+Removed Pin From Net: NetName=GND Pin=D10-3
+Removed Pin From Net: NetName=GND Pin=D10-8
+Removed Pin From Net: NetName=GND Pin=D11-3
+Removed Pin From Net: NetName=GND Pin=D11-8
+Removed Pin From Net: NetName=3V3 Pin=RN6-5
+Removed Pin From Net: NetName=3V3 Pin=RN6-6
+Removed Pin From Net: NetName=3V3 Pin=RN6-7
+Removed Pin From Net: NetName=3V3 Pin=RN7-5
+Removed Pin From Net: NetName=3V3 Pin=RN7-6
+Removed Pin From Net: NetName=3V3 Pin=RN7-7
+Removed Pin From Net: NetName=3V3 Pin=RN7-8
+Removed Pin From Net: NetName=3V3 Pin=RN8-5
+Removed Pin From Net: NetName=3V3 Pin=RN8-6
+Removed Pin From Net: NetName=3V3 Pin=RN8-7
+Removed Pin From Net: NetName=3V3 Pin=RN8-8
+Removed Pin From Net: NetName=GND Pin=USB_IN-A1
+Removed Pin From Net: NetName=GND Pin=USB_IN-A12
+Removed Pin From Net: NetName=GND Pin=USB_IN-B1
+Removed Pin From Net: NetName=GND Pin=USB_IN-B12
+Removed Pin From Net: NetName=GND Pin=USB_IN-SH1
+Removed Pin From Net: NetName=GND Pin=USB_IN-SH2
+Removed Pin From Net: NetName=GND Pin=USB_IN-SH3
+Removed Pin From Net: NetName=GND Pin=USB_IN-SH4
+Removed Member From Class: ClassName=Controller Mainboard Member=J?
+Removed Member From Class: ClassName=Controller Mainboard Member=USB_IN
+Change Component Footprint: Designator=U12 Old Footprint=QFN40P450X250X80-31N120X320 New Footprint=QFN50P600X600X100-37N
+Change Component Comment : Designator=RN7 Old Comment=10k New Comment=22
+Change Component Comment : Designator=RN6 Old Comment=10k New Comment=100k
+Change Component Comment : Designator=RN8 Old Comment=10k New Comment=100k
+Change Component Comment : Designator=C65 Old Comment=100n New Comment=10nF
+Change Component Comment : Designator=C66 Old Comment=100n New Comment=10nF
+Change Component Comment : Designator=C67 Old Comment=100n New Comment=10nF
+Change Component Comment : Designator=C68 Old Comment=100n New Comment=10nF
+Change Component Comment : Designator=C69 Old Comment=100n New Comment=22p
+Change Component Comment : Designator=C70 Old Comment=100n New Comment=22p
+Change Component Comment : Designator=U12 Old Comment=HD3SS3220IRNHT New Comment=USB2514BT/M2
+Change component parameters: Designator = "U12" ("U12"); Footprint = "QFN40P450X250X80-31N120X320"; UniqueID = "\MBOMMGHS" ("\MBOMMGHS")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Microchip'}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "USB2514BT/M2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=Q2(TRANS_TSM650P02CX_RFG)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Taiwan Semiconductor Corporation'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "TSM650P02CX_RFG"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=Q3(TRANS_TSM650P02CX_RFG)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Taiwan Semiconductor Corporation'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "TSM650P02CX_RFG"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=Q4(TRANS_TSM650P02CX_RFG)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Taiwan Semiconductor Corporation'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "TSM650P02CX_RFG"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=Q5(TRANS_TSM650P02CX_RFG)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Taiwan Semiconductor Corporation'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "TSM650P02CX_RFG"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R10(RESC1608X55N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Vishay'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "CRCW06031M00JNEAC"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R11(RESC1608X55N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Vishay'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "CRCW06031M00JNEAC"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R12(RESC1608X55N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Vishay'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "CRCW06031M00JNEAC"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U13(PSON50P145X100X90-6N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Nexperia USA'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "PRTR5V0U2F"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=USBOUT1(TE_1903815-1)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'TE Connectivity'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "1903815-1"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=USBOUT2(TE_1903815-1)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'TE Connectivity'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "1903815-1"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=USBPi(TE_6364372-2)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'TE Connectivity'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "6364372-2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=Y3(XTAL_ECS-240-18-5PXEN-TR)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'ECS Inc.'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "ECS-240-18-5PXEN-TR"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=C65-1
+Added Pin To Net: NetName=GND Pin=C66-1
+Added Pin To Net: NetName=GND Pin=C67-1
+Added Pin To Net: NetName=GND Pin=C68-1
+Added Pin To Net: NetName=GND Pin=C69-2
+Added Pin To Net: NetName=GND Pin=C70-2
+Added Pin To Net: NetName=Pi5V Pin=Q2-2
+Added Pin To Net: NetName=Pi5V Pin=Q3-2
+Added Pin To Net: NetName=Pi5V Pin=Q4-2
+Added Pin To Net: NetName=Pi5V Pin=Q5-2
+Added Pin To Net: NetName=GND Pin=R10-1
+Added Pin To Net: NetName=GND Pin=R11-2
+Added Pin To Net: NetName=GND Pin=RN6-5
+Added Pin To Net: NetName=GND Pin=RN6-6
+Added Pin To Net: NetName=Pi5V Pin=RN8-1
+Added Pin To Net: NetName=Pi5V Pin=RN8-2
+Added Pin To Net: NetName=Pi5V Pin=RN8-3
+Added Pin To Net: NetName=Pi5V Pin=RN8-4
+Added Pin To Net: NetName=3V3 Pin=U12-5
+Added Pin To Net: NetName=3V3 Pin=U12-10
+Added Pin To Net: NetName=GND Pin=U12-11
+Added Pin To Net: NetName=NetC67_2 Pin=U12-14
+Added Pin To Net: NetName=3V3 Pin=U12-15
+Added Pin To Net: NetName=3V3 Pin=U12-23
+Added Pin To Net: NetName=3V3 Pin=U12-29
+Added Pin To Net: NetName=NetC68_2 Pin=U12-34
+Added Pin To Net: NetName=3V3 Pin=U12-36
+Added Pin To Net: NetName=GND Pin=U12-37
+Added Pin To Net: NetName=GND Pin=U13-2
+Added Pin To Net: NetName=GND Pin=USBOUT1-4
+Added Pin To Net: NetName=GND Pin=USBOUT1-8
+Added Pin To Net: NetName=GND Pin=USBOUT2-4
+Added Pin To Net: NetName=GND Pin=USBOUT2-8
+Added Pin To Net: NetName=GND Pin=USBPi-4
+Added Pin To Net: NetName=GND Pin=USBPi-SH1
+Added Pin To Net: NetName=GND Pin=USBPi-SH2
+Change Net Name : Old Net Name=D+ New Net Name=D_P
+Change Net Name : Old Net Name=D- New Net Name=D_N
+Change Net Name : Old Net Name=UD+ New Net Name=UD_P
+Change Net Name : Old Net Name=UD- New Net Name=UD_N
+Added Pin To Net: NetName=HUBCFG1 Pin=RN6-4
+Added Pin To Net: NetName=HUBCFG1 Pin=U12-25
+Added Net: Name=HUBCFG1
+Added Pin To Net: NetName=HUBD_N Pin=RN7-5
+Added Pin To Net: NetName=HUBD_N Pin=U13-6
+Added Net: Name=HUBD_N
+Added Pin To Net: NetName=HUBD_P Pin=RN7-8
+Added Pin To Net: NetName=HUBD_P Pin=U13-4
+Added Net: Name=HUBD_P
+Added Pin To Net: NetName=HUBDET Pin=C66-2
+Added Pin To Net: NetName=HUBDET Pin=RN6-2
+Added Pin To Net: NetName=HUBDET Pin=RN6-3
+Added Pin To Net: NetName=HUBDET Pin=U12-27
+Added Net: Name=HUBDET
+Added Pin To Net: NetName=HUBVBUS Pin=RN6-7
+Added Pin To Net: NetName=HUBVBUS Pin=U13-5
+Added Pin To Net: NetName=HUBVBUS Pin=USBPi-1
+Added Net: Name=HUBVBUS
+Added Pin To Net: NetName=NetC69_1 Pin=C69-1
+Added Pin To Net: NetName=NetC69_1 Pin=R12-2
+Added Pin To Net: NetName=NetC69_1 Pin=U12-33
+Added Pin To Net: NetName=NetC69_1 Pin=Y3-2
+Added Net: Name=NetC69_1
+Added Pin To Net: NetName=NetC70_1 Pin=C70-1
+Added Pin To Net: NetName=NetC70_1 Pin=R12-1
+Added Pin To Net: NetName=NetC70_1 Pin=U12-32
+Added Pin To Net: NetName=NetC70_1 Pin=Y3-1
+Added Net: Name=NetC70_1
+Added Pin To Net: NetName=NetQ2_3 Pin=Q2-3
+Added Pin To Net: NetName=NetQ2_3 Pin=USBOUT2-5
+Added Net: Name=NetQ2_3
+Added Pin To Net: NetName=NetQ3_3 Pin=Q3-3
+Added Pin To Net: NetName=NetQ3_3 Pin=USBOUT2-1
+Added Net: Name=NetQ3_3
+Added Pin To Net: NetName=NetQ4_3 Pin=Q4-3
+Added Pin To Net: NetName=NetQ4_3 Pin=USBOUT1-5
+Added Net: Name=NetQ4_3
+Added Pin To Net: NetName=NetQ5_3 Pin=Q5-3
+Added Pin To Net: NetName=NetQ5_3 Pin=USBOUT1-1
+Added Net: Name=NetQ5_3
+Added Pin To Net: NetName=NetR10_2 Pin=R10-2
+Added Pin To Net: NetName=NetR10_2 Pin=U12-35
+Added Net: Name=NetR10_2
+Added Pin To Net: NetName=NetR11_1 Pin=R11-1
+Added Pin To Net: NetName=NetR11_1 Pin=U12-28
+Added Net: Name=NetR11_1
+Added Pin To Net: NetName=NetRN7_1 Pin=RN7-1
+Added Pin To Net: NetName=NetRN7_1 Pin=U12-31
+Added Net: Name=NetRN7_1
+Added Pin To Net: NetName=NetRN7_4 Pin=RN7-4
+Added Pin To Net: NetName=NetRN7_4 Pin=U12-30
+Added Net: Name=NetRN7_4
+Added Pin To Net: NetName=NetU13_1 Pin=U13-1
+Added Pin To Net: NetName=NetU13_1 Pin=USBPi-2
+Added Net: Name=NetU13_1
+Added Pin To Net: NetName=NetU13_3 Pin=U13-3
+Added Pin To Net: NetName=NetU13_3 Pin=USBPi-3
+Added Net: Name=NetU13_3
+Added Pin To Net: NetName=nHUBRESET Pin=C65-2
+Added Pin To Net: NetName=nHUBRESET Pin=RN6-1
+Added Pin To Net: NetName=nHUBRESET Pin=U12-26
+Added Net: Name=nHUBRESET
+Added Pin To Net: NetName=PORT1_N Pin=U12-1
+Added Pin To Net: NetName=PORT1_N Pin=USBOUT2-6
+Added Net: Name=PORT1_N
+Added Pin To Net: NetName=PORT1_P Pin=U12-2
+Added Pin To Net: NetName=PORT1_P Pin=USBOUT2-7
+Added Net: Name=PORT1_P
+Added Pin To Net: NetName=PORT2_N Pin=U12-3
+Added Pin To Net: NetName=PORT2_N Pin=USBOUT2-2
+Added Net: Name=PORT2_N
+Added Pin To Net: NetName=PORT2_P Pin=U12-4
+Added Pin To Net: NetName=PORT2_P Pin=USBOUT2-3
+Added Net: Name=PORT2_P
+Added Pin To Net: NetName=PORT3_N Pin=U12-6
+Added Pin To Net: NetName=PORT3_N Pin=USBOUT1-6
+Added Net: Name=PORT3_N
+Added Pin To Net: NetName=PORT3_P Pin=U12-7
+Added Pin To Net: NetName=PORT3_P Pin=USBOUT1-7
+Added Net: Name=PORT3_P
+Added Pin To Net: NetName=PORT4_N Pin=U12-8
+Added Pin To Net: NetName=PORT4_N Pin=USBOUT1-2
+Added Net: Name=PORT4_N
+Added Pin To Net: NetName=PORT4_P Pin=U12-9
+Added Pin To Net: NetName=PORT4_P Pin=USBOUT1-3
+Added Net: Name=PORT4_P
+Added Pin To Net: NetName=PORTPWR1 Pin=Q2-1
+Added Pin To Net: NetName=PORTPWR1 Pin=RN8-5
+Added Pin To Net: NetName=PORTPWR1 Pin=U12-12
+Added Net: Name=PORTPWR1
+Added Pin To Net: NetName=PORTPWR2 Pin=Q3-1
+Added Pin To Net: NetName=PORTPWR2 Pin=RN8-8
+Added Pin To Net: NetName=PORTPWR2 Pin=U12-16
+Added Net: Name=PORTPWR2
+Added Pin To Net: NetName=PORTPWR3 Pin=Q4-1
+Added Pin To Net: NetName=PORTPWR3 Pin=RN8-7
+Added Pin To Net: NetName=PORTPWR3 Pin=U12-18
+Added Net: Name=PORTPWR3
+Added Pin To Net: NetName=PORTPWR4 Pin=Q5-1
+Added Pin To Net: NetName=PORTPWR4 Pin=RN8-6
+Added Pin To Net: NetName=PORTPWR4 Pin=U12-20
+Added Net: Name=PORTPWR4
+Added Pin To Net: NetName=USCLJP Pin=U12-24
+Added Net: Name=USCLJP
+Added Pin To Net: NetName=USSDAJP Pin=U12-22
+Added Net: Name=USSDAJP
+Added Differential Pair: Name=D
+Added Differential Pair: Name=UD
+Added Member To Class: ClassName=Controller Mainboard Member=Component C65 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component C66 10nF
+Added Member To Class: ClassName=Controller Mainboard Member=Component D8 LTST-C170
+Added Member To Class: ClassName=Controller Mainboard Member=Component Q2 TSM650
+Added Member To Class: ClassName=Controller Mainboard Member=Component Q3 TSM650
+Added Member To Class: ClassName=Controller Mainboard Member=Component Q4 TSM650
+Added Member To Class: ClassName=Controller Mainboard Member=Component Q5 TSM650
+Added Member To Class: ClassName=Controller Mainboard Member=Component R10 22k
+Added Member To Class: ClassName=Controller Mainboard Member=Component R11 100k
+Added Member To Class: ClassName=Controller Mainboard Member=Component R12 1M
+Added Member To Class: ClassName=Controller Mainboard Member=Component U12 USB2514BT/M2
+Added Member To Class: ClassName=Controller Mainboard Member=Component U13 PRTR5V0U2F
+Added Member To Class: ClassName=Controller Mainboard Member=Component USBOUT1 1903815-1
+Added Member To Class: ClassName=Controller Mainboard Member=Component USBOUT2 1903815-1
+Added Member To Class: ClassName=Controller Mainboard Member=Component USBPi 6364372-2
+Added Member To Class: ClassName=Controller Mainboard Member=Component Y3 ECS-240MHz
+Added Class: Name=16U2USB
+Added Class: Name=ProgUSB

@@ -1,0 +1,58 @@
+Change Component Comment : Designator=J1 Old Comment=Raspberry Pi New Comment=Raspberry Pi - 2560 Recept 1
+Added Component: Designator=J3(61304021821)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'SparkFun Electronics'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "PRT-14017"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=MOTOR(61300821021)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Wurth Electronics'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "61300821021"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=Pi5V Pin=J3-2
+Added Pin To Net: NetName=Pi5V Pin=J3-4
+Added Pin To Net: NetName=GND Pin=J3-6
+Added Pin To Net: NetName=GND Pin=J3-14
+Added Pin To Net: NetName=GND Pin=J3-20
+Added Pin To Net: NetName=GND Pin=J3-30
+Added Pin To Net: NetName=GND Pin=J3-34
+Added Pin To Net: NetName=OA1_X Pin=MOTOR-1
+Added Pin To Net: NetName=OA1_Y Pin=MOTOR-2
+Added Pin To Net: NetName=OA2_X Pin=MOTOR-3
+Added Pin To Net: NetName=OA2_Y Pin=MOTOR-4
+Added Pin To Net: NetName=OB1_X Pin=MOTOR-5
+Added Pin To Net: NetName=OB1_Y Pin=MOTOR-6
+Added Pin To Net: NetName=OB2_X Pin=MOTOR-7
+Added Pin To Net: NetName=OB2_Y Pin=MOTOR-8
+Added Pin To Net: NetName=PI-ACK Pin=J3-40
+Added Net: Name=PI-ACK
+Added Pin To Net: NetName=PI-C_D Pin=J3-18
+Added Net: Name=PI-C_D
+Added Pin To Net: NetName=PI-D2 Pin=J3-32
+Added Net: Name=PI-D2
+Added Pin To Net: NetName=PI-D4 Pin=J3-8
+Added Net: Name=PI-D4
+Added Pin To Net: NetName=PI-D5 Pin=J3-10
+Added Net: Name=PI-D5
+Added Pin To Net: NetName=PI-D6 Pin=J3-36
+Added Net: Name=PI-D6
+Added Pin To Net: NetName=PI-DP Pin=J3-12
+Added Net: Name=PI-DP
+Added Pin To Net: NetName=PI-DTD Pin=J3-24
+Added Net: Name=PI-DTD
+Added Pin To Net: NetName=PI-I_O Pin=J3-22
+Added Net: Name=PI-I_O
+Added Pin To Net: NetName=PI-MSG Pin=J3-16
+Added Net: Name=PI-MSG
+Added Pin To Net: NetName=PI-RST Pin=J3-38
+Added Net: Name=PI-RST
+Added Pin To Net: NetName=PI-TAD Pin=J3-26
+Added Net: Name=PI-TAD
+Added Pin To Net: NetName=PI_GPIO1 Pin=J3-28
+Added Net: Name=PI_GPIO1
+Added Member To Class: ClassName=Controller Mainboard Member=Component J3 Raspberry Pi - 2560 HAT Slot
+Added Member To Class: ClassName=Controller Mainboard Member=Component MOTOR 61300821021
