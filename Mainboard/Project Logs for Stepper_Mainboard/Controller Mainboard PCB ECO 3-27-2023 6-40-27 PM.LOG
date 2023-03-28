@@ -1,0 +1,9 @@
+Removed Pin From Net: NetName=GND Pin=R2-1
+Removed Pin From Net: NetName=Pi5V Pin=R2-2
+Removed Member From Class: ClassName=Controller Mainboard Member=R2
+Added Member To Class: ClassName=Controller Mainboard Member=Component C45 22p
+Added Member To Class: ClassName=Controller Mainboard Member=Component C46 22p
+Added Member To Class: ClassName=Controller Mainboard Member=Component C47 100n
+Added Member To Class: ClassName=Controller Mainboard Member=Component C48 100n
+Added Member To Class: ClassName=Controller Mainboard Member=Component C49 100n
+Added Member To Class: ClassName=Controller Mainboard Member=Component C50 100n

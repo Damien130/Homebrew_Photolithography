@@ -1,0 +1,26 @@
+Change Component Designator: OldDesignator=U? NewDesignator=RPi
+Added Pin To Net: NetName=Pi_D4 Pin=RPi-8
+Added Pin To Net: NetName=Pi_D5 Pin=RPi-10
+Added Pin To Net: NetName=Pi_D7 Pin=RPi-11
+Added Pin To Net: NetName=Pi_DP Pin=RPi-12
+Added Pin To Net: NetName=Pi_SEL Pin=RPi-13
+Added Pin To Net: NetName=Pi_REQ Pin=RPi-15
+Added Pin To Net: NetName=PI_MSG Pin=RPi-16
+Added Pin To Net: NetName=Pi_CD Pin=RPi-18
+Added Pin To Net: NetName=Pi_D0 Pin=RPi-19
+Added Pin To Net: NetName=Pi_GPIO9 Pin=RPi-21
+Added Pin To Net: NetName=Pi_IO Pin=RPi-22
+Added Pin To Net: NetName=Pi_D1 Pin=RPi-23
+Added Pin To Net: NetName=Pi_DTD Pin=RPi-24
+Added Pin To Net: NetName=Pi_TAD Pin=RPi-26
+Added Pin To Net: NetName=Pi_GPIO0 Pin=RPi-27
+Added Pin To Net: NetName=PI_GPIO1 Pin=RPi-28
+Added Pin To Net: NetName=DBG_LED Pin=RPi-29
+Added Pin To Net: NetName=Pi_IND Pin=RPi-31
+Added Pin To Net: NetName=Pi_D2 Pin=RPi-32
+Added Pin To Net: NetName=Pi_D3 Pin=RPi-33
+Added Pin To Net: NetName=Pi_ATN Pin=RPi-35
+Added Pin To Net: NetName=Pi_D6 Pin=RPi-36
+Added Pin To Net: NetName=Pi_BSY Pin=RPi-37
+Added Pin To Net: NetName=Pi_RST Pin=RPi-38
+Added Pin To Net: NetName=Pi_ACK Pin=RPi-40

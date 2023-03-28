@@ -1,0 +1,21 @@
+Board Information Report
+Filename     : D:\Git\Homebrew_Photolithography\Mainboard\Controller Mainboard.PcbDoc
+Date         : 3/27/2023
+Time         : 11:14:11 PM
+Time Elapsed : 00:00:00
+
+General
+    Board Size, 170mmx170mm
+    Components on board, 223
+count : 2
+
+Routing Information
+    Routing completion, 0.00%
+    Connections, 794
+    Connections routed, 0
+    Connections remaining, 794
+count : 4
+
+Net Via Size, Count
+    1mm, 278
+count : 1

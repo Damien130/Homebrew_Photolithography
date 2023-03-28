@@ -1,0 +1,27 @@
+Added Component: Designator=U?(MODULE_RASPBERRY_PI_4B_4GB)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Raspberry Pi'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "RASPBERRY_PI_4B_4GB"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=3V3Pi Pin=U?-1
+Added Pin To Net: NetName=Pi5V Pin=U?-2
+Added Pin To Net: NetName=Pi_SDA Pin=U?-3
+Added Pin To Net: NetName=Pi5V Pin=U?-4
+Added Pin To Net: NetName=Pi_SCL Pin=U?-5
+Added Pin To Net: NetName=GND Pin=U?-6
+Added Pin To Net: NetName=Pi_ACT Pin=U?-7
+Added Pin To Net: NetName=GND Pin=U?-9
+Added Pin To Net: NetName=GND Pin=U?-14
+Added Pin To Net: NetName=3V3Pi Pin=U?-17
+Added Pin To Net: NetName=GND Pin=U?-20
+Added Pin To Net: NetName=GND Pin=U?-25
+Added Pin To Net: NetName=GND Pin=U?-30
+Added Pin To Net: NetName=GND Pin=U?-34
+Added Pin To Net: NetName=GND Pin=U?-39
+Added Pin To Net: NetName=GND Pin=U?-S1
+Added Pin To Net: NetName=GND Pin=U?-S2
+Added Pin To Net: NetName=GND Pin=U?-S3
+Added Pin To Net: NetName=GND Pin=U?-S4
+Added Member To Class: ClassName=Controller Mainboard Member=Component U? RASPBERRY_PI_4B_4GB

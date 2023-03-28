@@ -1,0 +1,10 @@
+Added Component: Designator=CD13(CAP_EEHZA1V470P)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Panasonic Electronic'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "EEHZA1V470P"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=24V Pin=CD13-1
+Added Pin To Net: NetName=GND Pin=CD13-2
+Added Member To Class: ClassName=Controller Mainboard Member=Component CD13 47u
