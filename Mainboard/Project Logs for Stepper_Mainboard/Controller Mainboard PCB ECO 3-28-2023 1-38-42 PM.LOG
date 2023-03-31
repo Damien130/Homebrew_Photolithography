@@ -1,0 +1,4 @@
+Removed Pin From Net: NetName=RXLR Pin=RN3-1
+Removed Pin From Net: NetName=TXLR Pin=RN3-2
+Added Pin To Net: NetName=TXLR Pin=RN3-1
+Added Pin To Net: NetName=RXLR Pin=RN3-2

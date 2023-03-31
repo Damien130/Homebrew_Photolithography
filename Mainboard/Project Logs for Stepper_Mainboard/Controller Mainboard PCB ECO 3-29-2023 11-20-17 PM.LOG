@@ -1,0 +1,5 @@
+Added Pin To Net: NetName=_HUBD_P Pin=RN7-1
+Added Pin To Net: NetName=_HUBD_P Pin=RN7-4
+Added Pin To Net: NetName=_HUBD_P Pin=U12-30
+Added Pin To Net: NetName=_HUBD_P Pin=U12-31
+Added Net: Name=_HUBD_P

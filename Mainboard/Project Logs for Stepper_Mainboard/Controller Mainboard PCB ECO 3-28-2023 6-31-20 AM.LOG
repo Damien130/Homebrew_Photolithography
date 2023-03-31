@@ -1,0 +1,15 @@
+Removed Pin From Net: NetName=24V Pin=D2-A
+Removed Pin From Net: NetName=24V Pin=Power-1
+Added Component: Designator=D15(DIOM5336X265N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'ON Semiconductor'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "SS24"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=24V Pin=D15-C
+Added Pin To Net: NetName=PWRIN Pin=D2-A
+Added Pin To Net: NetName=PWRIN Pin=D15-A
+Added Pin To Net: NetName=PWRIN Pin=Power-1
+Added Net: Name=PWRIN
+Added Member To Class: ClassName=Controller Mainboard Member=Component D15 SSB44

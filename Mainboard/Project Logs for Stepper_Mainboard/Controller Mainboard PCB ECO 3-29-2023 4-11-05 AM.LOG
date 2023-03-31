@@ -1,0 +1,10 @@
+Added Component: Designator=I2C(AMPHENOL_77311-118-02LF)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Amphenol ICC'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "77311-118-02LF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=SDA Pin=I2C-01
+Added Pin To Net: NetName=SCL Pin=I2C-02
+Added Member To Class: ClassName=Controller Mainboard Member=Component I2C 77311-118-02LF

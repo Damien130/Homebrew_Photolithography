@@ -1,0 +1,6 @@
+Removed Pin From Net: NetName=_HUBD_P Pin=RN7-4
+Removed Pin From Net: NetName=_HUBD_P Pin=U12-30
+Added Pin To Net: NetName=_HUBD_N Pin=RN7-4
+Added Pin To Net: NetName=_HUBD_N Pin=U12-30
+Added Net: Name=_HUBD_N
+Added Differential Pair: Name=_HUBD

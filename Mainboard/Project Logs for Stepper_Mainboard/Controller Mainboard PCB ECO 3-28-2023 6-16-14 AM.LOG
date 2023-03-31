@@ -1,0 +1,11 @@
+Removed Pin From Net: NetName=+5 Pin=U4-2
+Change Component Footprint: Designator=U4 Old Footprint=SOT230P700X180-3N New Footprint=TO254P1435X464-4N
+Change Component Comment : Designator=U4 Old Comment=SPX1117M3, 5V power @800MA New Comment=LM1085, Nominal Power
+Change component parameters: Designator = "U4" ("U4"); Footprint = "SOT230P700X180-3N"; UniqueID = "\ZMNUXIJW" ("\ZMNUXIJW")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Texas Instruments'}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "LM1085ISX-5.0/NOPB"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=+5 Pin=U4-4

@@ -1,0 +1,4 @@
+Removed Pin From Net: NetName=MS2_Y Pin=XY_CFG-04
+Removed Pin From Net: NetName=MS1_Y Pin=XY_CFG-05
+Added Pin To Net: NetName=MS1_Y Pin=XY_CFG-04
+Added Pin To Net: NetName=MS2_Y Pin=XY_CFG-05
