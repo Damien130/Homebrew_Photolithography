@@ -20,7 +20,6 @@
 #include <digitalWriteFast.h>
 #include <TMC429.h>
 #include <TMC2209.h>
-#include <RingBuf.h>
 #include <Wire.h>
 #include "instructionhandler.h"
 
@@ -45,7 +44,7 @@ const static int8_t nADDRSTRB = 3;
 const static int8_t X_ERROR = 6;
 const static int8_t Y_ERROR = 7;
 const static int8_t CHIP_SELECT_PIN = 8;
-const static int8_t I2CADDR = 7; 
+const static int8_t I2CADDR = 0x0F; 
 const long SERIAL_BAUD_RATE = 115200;
 
 /* Data structure
@@ -65,7 +64,8 @@ int32_t X_latched = 0, Y_latched = 0;
 bool mutexLock = false;
 bool calibration = false;
 bool calibrationComplete = false;
-uint8_t query = 0;
+int8_t query = 0;
+
 
 /* TMC2209 driver settings */
 /* Note: Current TMC2209 setup doesn't utilize UART address for simplicity of troubleshooting
@@ -101,7 +101,7 @@ const long VELOCITY_MAX = MICROSTEPS_PER_REV * REVS_PER_SEC_MAX;
 const long VELOCITY_MIN = 100;
 const long AXIS_LENGTH = 200000000; // 2e8 nm (200mm) per axis
 const long LENGTH_PER_REV = 5000000; // 5e6 nm (5mm) per revolution
-const long MICROSTEPS_PER_AXIS = AXIS_LENGTH / LENGTH_PER_REV; // get maximum microsteps per axis
+uint32_t MICROSTEPS_PER_AXIS = AXIS_LENGTH / LENGTH_PER_REV; // get maximum microsteps per axis
 // const long DISTANCE_PER_MICROSTEP = LENGTH_PER_REV / MICROSTEPS_PER_REV; 
 // 0.097 micron per step, float (4 bytes)
 
@@ -109,12 +109,48 @@ const long MICROSTEPS_PER_AXIS = AXIS_LENGTH / LENGTH_PER_REV; // get maximum mi
 TMC2209 stepper_drivers[MOTOR_COUNT]; // TMC2209, setup as object array
 TMC429 stepper_controller;    // TMC429 Stepper Controller
 TMC429::Status status;  // TMC429 status struct
+
+
+
+// INSTRUCTION HANDLER FUNCTIONS AND INITIALIZATION
+int readFunction(void)
+{
+  return Wire.read();
+}
+
+size_t writeFunction(const uint8_t* packet, size_t length)
+{
+  return Wire.write(packet, length);
+}
+
+int availableFunction(void)
+{
+  return Wire.available();
+}
+
+void debug(char* charArray)
+{
+  Serial.println(charArray);
+}
+InstructionHandler theHandler(
+  &X_actual, &Y_actual , 
+  &X_target, &Y_target,
+  &MICROSTEPS_PER_AXIS,
+  &MICROSTEPS_PER_AXIS,
+  &query,
+  &readFunction,
+  &writeFunction, 
+  &availableFunction,
+  &debug); 
  
 
 void setup()
 { 
   Serial.begin(SERIAL_BAUD_RATE); // Serial console on serial0 @ 15200 baud
   Wire.begin(I2CADDR); // setup as slave with address I2CADDR
+  Wire.onRequest(requestEvent); // request event
+  Wire.onReceive(receiveEvent); // receive event
+  
 
   /* ATMega2560 Setup */
   pinModeFast(X_ERROR, INPUT);
@@ -211,7 +247,7 @@ void loop()
   } else {
     query = 1; // 0b01, stage moving
   }
-
+  
   // move the motors
   if (!calibration) { 
     // check for command difference, if different, move to location defined
@@ -234,6 +270,7 @@ void loop()
       stepper_controller.setActualPosition(Y_MOTOR, Y_latched);
     }
   }
+
 
 }
 
@@ -320,4 +357,16 @@ void homing()
   } */
 
   // ************ Complete homing procedure, navigate to origin point. *************
+}
+
+void receiveEvent(int howMany)
+{
+  theHandler.read();
+  theHandler.execute();
+}
+
+void requestEvent()
+{
+  theHandler.execute();
+  theHandler.write();
 }
