@@ -16,5 +16,4 @@ D:\Git\Homebrew_Photolithography\src\StageController\Build\sketch\StageControlle
  C:\Users\hudai\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.8.6\libraries\SPI\src/SPI.h \
  C:\Users\hudai\OneDrive\Documents\Arduino\libraries\TMC2209\src/TMC2209.h \
  C:\Users\hudai\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.8.6\libraries\Wire\src/Wire.h \
- C:\Users\hudai\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.8.6\cores\arduino/Stream.h \
- D:\Git\Homebrew_Photolithography\src\StageController\Build\sketch\instructionhandler.h
+ C:\Users\hudai\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.8.6\cores\arduino/Stream.h

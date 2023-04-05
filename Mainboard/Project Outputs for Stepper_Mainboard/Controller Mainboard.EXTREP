@@ -1,0 +1,25 @@
+------------------------------------------------------------------------------------------
+Gerber File Extension Report For: Controller Mainboard.GBR   4/4/2023  4:03:51 PM
+------------------------------------------------------------------------------------------
+
+
+------------------------------------------------------------------------------------------
+Layer Extension     Layer Description                      
+------------------------------------------------------------------------------------------
+.GTO                Top Overlay                             
+.GTP                Top Paste                               
+.GTS                Top Mask                                
+.GTL                Top Copper                              
+.GP1                GND                                     
+.G1                 Signal Layer 2                          
+.G2                 Signal Layer 3                          
+.GP2                5V                                      
+.GBL                Bottom Copper                           
+.GBS                Bottom Mask                             
+.GBP                Bottom Paste                            
+.GBO                Bottom Overlay                          
+.GKO                Keep-Out Layer                          
+.GPT                Top Pad Master                          
+.GPB                Bottom Pad Master                       
+.GM                 Profile                                 
+------------------------------------------------------------------------------------------

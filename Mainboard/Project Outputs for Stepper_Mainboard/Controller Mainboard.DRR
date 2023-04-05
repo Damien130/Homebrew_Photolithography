@@ -1,0 +1,32 @@
+----------------------------------------------------------------------------------------------------------------------------------
+NCDrill File Report For: Controller Mainboard.PcbDoc   4/4/2023  4:04:30 PM
+----------------------------------------------------------------------------------------------------------------------------------
+
+Layer Pair : Top Copper to Bottom Copper
+ASCII RoundHoles File : Controller Mainboard.TXT
+ASCII RectHoles File : Controller Mainboard-RectHoles.TXT
+
+Tool       Hole Size               Hole Tolerance               Hole Type       Hole Count   Plated         Tool Travel
+----------------------------------------------------------------------------------------------------------------------------------
+T1      8mil (0.203mm)                                            Round             362       PTH        72.56inch (1842.95mm)
+T2      28mil (0.7mm)                                             Rectangle         3         PTH        1.32inch (33.51mm)
+T3      30mil (0.75mm)                                            Round             56        PTH        12.40inch (314.84mm)
+T4      30mil (0.76mm)                                            Rectangle         2         PTH        0.71inch (18.09mm)
+T5      30mil (0.762mm)                                           Round             40        PTH        5.64inch (143.29mm)
+T6      35mil (0.9mm)                                             Round             8         PTH        0.71inch (18.10mm)
+T7      36mil (0.92mm)                                            Round             24        PTH        6.59inch (167.39mm)
+T8      39mil (1mm)                                               Round             43        PTH        9.19inch (233.49mm)
+T9      40mil (1.005mm)                                           Round             8         PTH        0.83inch (21.00mm)
+T10     40mil (1.016mm)                                           Round             44        PTH        6.07inch (154.13mm)
+T11     40mil (1.02mm)                                            Round             18        PTH        9.06inch (230.22mm)
+T12     40mil (1.02mm)                                            Rectangle         1         PTH        0.10inch (2.54mm)
+T13     43mil (1.1mm)                                             Round             28        PTH        12.70inch (322.46mm)
+T14     91mil (2.3mm)                                             Round             12        PTH        7.50inch (190.57mm)
+T15     108mil (2.75mm)                                           Round             4         PTH        6.50inch (165.00mm)
+T16     122mil (3.1mm)                                            Round             2         PTH        1.85inch (47.04mm)
+T17     157mil (4mm)                                              Round             4         PTH        19.39inch (492.56mm)
+T18     62mil (1.57mm)                                            Round             2         NPTH       0.71inch (18.00mm)
+----------------------------------------------------------------------------------------------------------------------------------
+Totals                                                                              661
+
+Total Processing Time (hh:mm:ss) : 00:00:00
