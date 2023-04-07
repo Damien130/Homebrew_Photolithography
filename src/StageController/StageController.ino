@@ -136,6 +136,7 @@ void setY();
 void calib();
 uint8_t getCheckSum();
 bool checkCheckSum();
+void print_uint64_t(uint64_t);
 
 
 void(*const functionMap[9])(void) = {
@@ -369,7 +370,6 @@ void homing()
 void receiveEvent(int howMany)
 {
   read();
-  execute();
 }
 
 void requestEvent()
@@ -393,7 +393,8 @@ void read() {
     sprintf(debugBuffer, "read()-> first byte = %02X", currRead);
     dispBuffer();
     if(currRead == SCRIBBLE) {
-      commandBuffer = static_cast<uint64_t>(SCRIBBLE) << (0); // reset command buffer
+      commandBuffer = static_cast<uint64_t>(SCRIBBLE); // reset command buffer
+      print_uint64_t(commandBuffer);
       break;
     }
   }
@@ -401,17 +402,17 @@ void read() {
   // Wait for the buffer to receive at least 7 bytes
   while(Wire.available() < 7) {};
   // read bytes 2-8
-  for(size_t i = 1; i < 8; ++i) { // wire.read returns one byte at a time from 32-byte hardware buffer
+  for(size_t i = 1; i < 8; i++) { // wire.read returns one byte at a time from 32-byte hardware buffer
     currRead = static_cast<uint8_t>(Wire.read()); // return one byte
-    commandBuffer &= ~(static_cast<uint64_t>(0b11111111) << (56 - 8 * (i+1))); // Clear designated byte
-    commandBuffer |= static_cast<uint64_t>(currRead) << (56 - 8 * (i+1)); // Set command buffer
+    commandBuffer &= ~(static_cast<uint64_t>(0b11111111) << (8*i)); // Clear designated byte
+    commandBuffer |= static_cast<uint64_t>(currRead) << (8*i); // Set command buffer
     sprintf(debugBuffer, "read()-> byte #%d = %02X", i, currRead);
     dispBuffer();
   }
   sprintf(debugBuffer, "read()-> read success");
   dispBuffer();
-  sprintf(debugBuffer, "read()-> 8-byte value: %08X%08X", commandBuffer >> 32, commandBuffer & 0xFFFFFFFF);
-  dispBuffer(); // display read success
+  // sprintf(debugBuffer, "read()-> 8-byte value: %08X%08X", commandBuffer >> 32, commandBuffer & 0xFFFFFFFF);
+  print_uint64_t(commandBuffer);
 }
 
 void write() {
@@ -419,30 +420,32 @@ void write() {
     sprintf(debugBuffer, "write()-> command buffer is empty, write failed");
     dispBuffer();
   }
-  commandBuffer &= ~(static_cast<uint64_t>(0b11111111) << (64 - 8 * 7)); // clear status byte
-  commandBuffer |= static_cast<uint64_t>(query) << (64 - 8 * 7); // update status
-  commandBuffer &= ~(static_cast<uint64_t>(0b11111111)); // clear Chksum
-  commandBuffer |= static_cast<uint64_t>(getCheckSum()); // update checksum
+  commandBuffer &= ~(static_cast<uint64_t>(0b11111111) << (8 * 6)); // clear status byte
+  commandBuffer |= static_cast<uint64_t>(query) << (8 * 6); // update status
+  commandBuffer &= ~(static_cast<uint64_t>(0b11111111) << (8 * 7)); // clear Chksum
+  commandBuffer |= static_cast<uint64_t>(getCheckSum()) << (8 * 7); // update checksum
 
-  uint8_t tmp;
+  /* uint8_t tmp;
   uint8_t *buf = (uint8_t *)&commandBuffer;
 
   for(int i = 0; i < 4; i++) {
     tmp = buf[i];
     buf[i] = buf[7-i];
     buf[7-i] = tmp;
-  }
+  } */
 
-  sprintf(debugBuffer, "write() -> 8-byte value: %08X%08X", commandBuffer >> 32, commandBuffer & 0xFFFFFFFF);
-  dispBuffer();
-  
+  // sprintf(debugBuffer, "write() -> 8-byte value: %08X%08X", commandBuffer >> 32, commandBuffer & 0xFFFFFFFF);
+  print_uint64_t(commandBuffer);
   int ret = Wire.write(reinterpret_cast<uint8_t*>(&commandBuffer), 8);
   sprintf(debugBuffer, "write() -> bytes written: %d", ret);
   dispBuffer();
+  
 }
 
 void execute() {
   size_t funcInd = *(reinterpret_cast<uint8_t*>(&commandBuffer) + 6);
+  Serial.println("the func ind is");
+  Serial.println(funcInd);
   if(funcInd <0 || funcInd >= 9) {
     sprintf(debugBuffer, "execute()-> invalid command: %d", static_cast<int>(funcInd));
     dispBuffer();
@@ -468,7 +471,10 @@ void getHeight() {
 }
 
 void getX() {
-  *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5)) = X_actual;
+  commandBuffer &= ~(static_cast<uint64_t>(0xFFFFFF) << (64 - 8 * 3)); // Clear data
+  commandBuffer |= static_cast<uint64_t>(X_actual) << (64 - 8 * 3); // Set command buffer
+  Serial.println("X value packet");
+  print_uint64_t(commandBuffer);
 }
 
 void getY() {
@@ -496,4 +502,20 @@ uint8_t getCheckSum() {
   sprintf(debugBuffer, "getCheckSum()-> check-sum: %d", chksum);
   dispBuffer();
   return chksum;
+}
+
+void print_uint64_t(uint64_t num) {
+
+  char rev[128]; 
+  char *p = rev+1;
+
+  while (num > 0) {
+    *p++ = '0' + ( num % 10);
+    num/= 10;
+  }
+  p--;
+  /*Print the number which is now in reverse*/
+  while (p > rev) {
+    Serial.print(*p--);
+  }
 }

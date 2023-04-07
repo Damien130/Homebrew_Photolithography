@@ -137,6 +137,7 @@ void setY();
 void calib();
 uint8_t getCheckSum();
 bool checkCheckSum();
+void print_uint64_t(uint64_t);
 
 
 void(*const functionMap[9])(void) = {
@@ -150,26 +151,28 @@ void(*const functionMap[9])(void) = {
   , &calib
 };
 
-#line 152 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+#line 153 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void setup();
-#line 241 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+#line 242 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void loop();
-#line 286 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+#line 285 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void moveStageTo(int32_t x, int32_t y);
-#line 293 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+#line 292 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void homing();
-#line 371 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+#line 370 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void receiveEvent(int howMany);
-#line 377 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+#line 375 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void requestEvent();
-#line 152 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+#line 507 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+void print_uint64_t(uint64_t num);
+#line 153 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void setup()
 { 
   Serial.begin(SERIAL_BAUD_RATE); // Serial console on serial0 @ 15200 baud
   Wire.begin(I2CADDR); // setup as slave with address I2CADDR
+
   Wire.onRequest(requestEvent); // request event
   Wire.onReceive(receiveEvent); // receive event
-  
 
   /* ATMega2560 Setup */
   pinModeFast(X_ERROR, INPUT);
@@ -293,8 +296,6 @@ void loop()
       stepper_controller.setActualPosition(Y_MOTOR, Y_latched);
     }
   }
-
-
 }
 
 void moveStageTo(int32_t x, int32_t y)
@@ -385,7 +386,6 @@ void homing()
 void receiveEvent(int howMany)
 {
   read();
-  execute();
 }
 
 void requestEvent()
@@ -397,30 +397,38 @@ void requestEvent()
 void read() {
   uint8_t currRead = 0;
   //check 1st byte and compare to scribble
-  for(size_t i = 0; i <= 5000; ++i) {
-    if(i == 5000) {
+  for(size_t i = 0; i <= 50000; ++i) {
+    if(i == 50000) {
       sprintf(debugBuffer, "read()-> timeout, read failed"); // try 5000 times to read buffer
       dispBuffer();
       commandBuffer = 0; // if nothing was received break
       return;
     }
-    if (Wire.available() == 0) continue; 
+    if (Wire.available() == 0) continue;
     currRead = static_cast<uint8_t>(Wire.read()); // wait for scribble to appear
+    sprintf(debugBuffer, "read()-> first byte = %02X", currRead);
+    dispBuffer();
     if(currRead == SCRIBBLE) {
-      commandBuffer = static_cast<uint64_t>(SCRIBBLE) << (64 - 8 * 1); // reset command buffer
+      commandBuffer = static_cast<uint64_t>(SCRIBBLE); // reset command buffer
+      print_uint64_t(commandBuffer);
+      break;
     }
   }
+
   // Wait for the buffer to receive at least 7 bytes
   while(Wire.available() < 7) {};
   // read bytes 2-8
-  for(size_t i = 2; i < 8; ++i) { // wire.read returns one byte at a time from 32-byte hardware buffer
+  for(size_t i = 1; i < 8; i++) { // wire.read returns one byte at a time from 32-byte hardware buffer
     currRead = static_cast<uint8_t>(Wire.read()); // return one byte
-    commandBuffer &= ~(static_cast<uint64_t>(0b11111111) << (64 - 8 * i)); // Clear designated byte
-    commandBuffer |= static_cast<uint64_t>(currRead) << (64 - 8 * i); // Set command buffer
+    commandBuffer &= ~(static_cast<uint64_t>(0b11111111) << (8*i)); // Clear designated byte
+    commandBuffer |= static_cast<uint64_t>(currRead) << (8*i); // Set command buffer
+    sprintf(debugBuffer, "read()-> byte #%d = %02X", i, currRead);
     dispBuffer();
   }
   sprintf(debugBuffer, "read()-> read success");
-  dispBuffer(); // display read success
+  dispBuffer();
+  // sprintf(debugBuffer, "read()-> 8-byte value: %08X%08X", commandBuffer >> 32, commandBuffer & 0xFFFFFFFF);
+  print_uint64_t(commandBuffer);
 }
 
 void write() {
@@ -428,17 +436,32 @@ void write() {
     sprintf(debugBuffer, "write()-> command buffer is empty, write failed");
     dispBuffer();
   }
-  commandBuffer &= ~(static_cast<uint64_t>(0b11111111) << (64 - 8 * 7)); // clear status byte
-  commandBuffer |= static_cast<uint64_t>(query) << (64 - 8 * 7); // update status
-  commandBuffer &= ~(static_cast<uint64_t>(0b11111111)); // clear Chksum
-  commandBuffer |= static_cast<uint64_t>(getCheckSum()); // update checksum
+  commandBuffer &= ~(static_cast<uint64_t>(0b11111111) << (8 * 6)); // clear status byte
+  commandBuffer |= static_cast<uint64_t>(query) << (8 * 6); // update status
+  commandBuffer &= ~(static_cast<uint64_t>(0b11111111) << (8 * 7)); // clear Chksum
+  commandBuffer |= static_cast<uint64_t>(getCheckSum()) << (8 * 7); // update checksum
+
+  /* uint8_t tmp;
+  uint8_t *buf = (uint8_t *)&commandBuffer;
+
+  for(int i = 0; i < 4; i++) {
+    tmp = buf[i];
+    buf[i] = buf[7-i];
+    buf[7-i] = tmp;
+  } */
+
+  // sprintf(debugBuffer, "write() -> 8-byte value: %08X%08X", commandBuffer >> 32, commandBuffer & 0xFFFFFFFF);
+  print_uint64_t(commandBuffer);
   int ret = Wire.write(reinterpret_cast<uint8_t*>(&commandBuffer), 8);
   sprintf(debugBuffer, "write() -> bytes written: %d", ret);
   dispBuffer();
+  
 }
 
 void execute() {
   size_t funcInd = *(reinterpret_cast<uint8_t*>(&commandBuffer) + 6);
+  Serial.println("the func ind is");
+  Serial.println(funcInd);
   if(funcInd <0 || funcInd >= 9) {
     sprintf(debugBuffer, "execute()-> invalid command: %d", static_cast<int>(funcInd));
     dispBuffer();
@@ -448,7 +471,7 @@ void execute() {
 }
 
 void dispBuffer() { 
-	if(debugMode) Serial.println(debugBuffer); // send debug buffer to Serial0
+  if(debugMode) Serial.println(debugBuffer); // send debug buffer to Serial0
 }
 
 void halt() {
@@ -464,7 +487,10 @@ void getHeight() {
 }
 
 void getX() {
-  *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5)) = X_actual;
+  commandBuffer &= ~(static_cast<uint64_t>(0xFFFFFF) << (64 - 8 * 3)); // Clear data
+  commandBuffer |= static_cast<uint64_t>(X_actual) << (64 - 8 * 3); // Set command buffer
+  Serial.println("X value packet");
+  print_uint64_t(commandBuffer);
 }
 
 void getY() {
@@ -472,11 +498,11 @@ void getY() {
 }
 
 void setX() {
-  X_target = *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5));
+  X_command = *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5));
 }
 
 void setY() {
-  Y_target = *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5));
+  Y_command = *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5));
 }
 
 void calib() {
@@ -492,4 +518,20 @@ uint8_t getCheckSum() {
   sprintf(debugBuffer, "getCheckSum()-> check-sum: %d", chksum);
   dispBuffer();
   return chksum;
+}
+
+void print_uint64_t(uint64_t num) {
+
+  char rev[128]; 
+  char *p = rev+1;
+
+  while (num > 0) {
+    *p++ = '0' + ( num % 10);
+    num/= 10;
+  }
+  p--;
+  /*Print the number which is now in reverse*/
+  while (p > rev) {
+    Serial.print(*p--);
+  }
 }
