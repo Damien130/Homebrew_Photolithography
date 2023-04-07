@@ -41,7 +41,7 @@ class InstructionHandler {
 	void calib();//7
 
 
-	// instruction handler function hash map
+	
 	void(InstructionHandler::*const functionMap[9])(void) = {
 		&InstructionHandler::halt
 		, &InstructionHandler::getWidth

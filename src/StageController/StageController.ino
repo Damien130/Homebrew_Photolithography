@@ -153,6 +153,7 @@ void setup()
 { 
   Serial.begin(SERIAL_BAUD_RATE); // Serial console on serial0 @ 15200 baud
   Wire.begin(I2CADDR); // setup as slave with address I2CADDR
+
   Wire.onRequest(requestEvent); // request event
   Wire.onReceive(receiveEvent); // receive event
 
@@ -387,7 +388,7 @@ void read() {
       commandBuffer = 0; // if nothing was received break
       return;
     }
-    if (Wire.available() == 0) continue; 
+    if (Wire.available() == 0) continue;
     currRead = static_cast<uint8_t>(Wire.read()); // wait for scribble to appear
     sprintf(debugBuffer, "read()-> first byte = %02X", currRead);
     dispBuffer();
@@ -396,6 +397,7 @@ void read() {
       break;
     }
   }
+
   // Wait for the buffer to receive at least 7 bytes
   while(Wire.available() < 7) {};
   // read bytes 2-8
@@ -474,11 +476,11 @@ void getY() {
 }
 
 void setX() {
-  X_target = *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5));
+  X_command = *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5));
 }
 
 void setY() {
-  Y_target = *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5));
+  Y_command = *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5));
 }
 
 void calib() {

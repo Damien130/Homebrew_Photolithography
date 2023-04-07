@@ -22,9 +22,9 @@
 #include <digitalWriteFast.h>
 #include <TMC429.h>
 #include <TMC2209.h>
-#include <RingBuf.h>
-#include <Wire.h>
-#include "instructionhandler.h"
+#include <Wire.h> // EDIT TWI.C TO REMOVE INTERNAL PULL UP!!!!!!!
+#include <stdint.h>
+#include <stdio.h>
 
 /* #include "NeuBus.h"
  */
@@ -47,7 +47,7 @@ const static int8_t nADDRSTRB = 3;
 const static int8_t X_ERROR = 6;
 const static int8_t Y_ERROR = 7;
 const static int8_t CHIP_SELECT_PIN = 8;
-const static int8_t I2CADDR = 7; 
+const static int8_t I2CADDR = 0x0F; 
 const long SERIAL_BAUD_RATE = 115200;
 
 /* Data structure
@@ -64,12 +64,13 @@ enum Flags
 };
 int32_t X_target = 0, X_actual = 0, Y_target = 0, Y_actual = 0, X_command = 0, Y_command = 0; // plane location, initialize to 0
 int32_t X_latched = 0, Y_latched = 0;
-bool mutexLock = false;
+bool stageHalt = false;
 bool calibration = false;
 bool calibrationComplete = false;
-uint8_t query = 0;
+int8_t query = 0;
 
-/* TMC2209 driver settings */
+
+/* TMC2209 driver settings ==================================================================*/
 /* Note: Current TMC2209 setup doesn't utilize UART address for simplicity of troubleshooting
    Instead, UART channel 1 and 2 is used for separate controllers 
    NOT gate required for output of TMC2209 error detection */
@@ -103,7 +104,8 @@ const long VELOCITY_MAX = MICROSTEPS_PER_REV * REVS_PER_SEC_MAX;
 const long VELOCITY_MIN = 100;
 const long AXIS_LENGTH = 200000000; // 2e8 nm (200mm) per axis
 const long LENGTH_PER_REV = 5000000; // 5e6 nm (5mm) per revolution
-const long MICROSTEPS_PER_AXIS = AXIS_LENGTH / LENGTH_PER_REV; // get maximum microsteps per axis
+const long REV_PER_AXIS = AXIS_LENGTH / LENGTH_PER_REV; // get revolutions per axis
+int32_t MICROSTEPS_PER_AXIS = REV_PER_AXIS * MICROSTEPS_PER_REV; // get maximum microsteps per axis
 // const long DISTANCE_PER_MICROSTEP = LENGTH_PER_REV / MICROSTEPS_PER_REV; 
 // 0.097 micron per step, float (4 bytes)
 
@@ -111,21 +113,64 @@ const long MICROSTEPS_PER_AXIS = AXIS_LENGTH / LENGTH_PER_REV; // get maximum mi
 TMC2209 stepper_drivers[MOTOR_COUNT]; // TMC2209, setup as object array
 TMC429 stepper_controller;    // TMC429 Stepper Controller
 TMC429::Status status;  // TMC429 status struct
- 
 
-#line 114 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+
+
+// INSTRUCTION HANDLER FUNCTIONS AND INITIALIZATION
+
+
+#define SCRIBBLE 0x5a
+uint64_t commandBuffer; // outgoing packet buffer
+char debugBuffer[50]; // serial console buffer
+bool debugMode = true;
+
+void write();
+void read();
+void execute();
+void dispBuffer();
+void halt();
+void getWidth();
+void getHeight();
+void getX();
+void getY();
+void setX();
+void setY();
+void calib();
+uint8_t getCheckSum();
+bool checkCheckSum();
+
+
+void(*const functionMap[9])(void) = {
+  &halt
+  , &getWidth
+  , &getHeight
+  , &getX
+  , &getY
+  , &setX
+  , &setY
+  , &calib
+};
+
+#line 152 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void setup();
-#line 200 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+#line 241 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void loop();
-#line 240 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+#line 286 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void moveStageTo(int32_t x, int32_t y);
-#line 247 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+#line 293 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void homing();
-#line 114 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+#line 371 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+void receiveEvent(int howMany);
+#line 377 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
+void requestEvent();
+#line 152 "D:\\Git\\Homebrew_Photolithography\\src\\StageController\\StageController.ino"
 void setup()
 { 
   Serial.begin(SERIAL_BAUD_RATE); // Serial console on serial0 @ 15200 baud
   Wire.begin(I2CADDR); // setup as slave with address I2CADDR
+  Wire.onRequest(requestEvent); // request event
+  Wire.onReceive(receiveEvent); // receive event
+  
 
   /* ATMega2560 Setup */
   pinModeFast(X_ERROR, INPUT);
@@ -210,6 +255,10 @@ void setup()
 
 void loop()
 {
+  if(halt) {
+    stepper_controller.stopAll();
+    while(1){};
+  }
   X_actual = stepper_controller.getActualPosition(X_MOTOR);
   Y_actual = stepper_controller.getActualPosition(Y_MOTOR);
   X_target = stepper_controller.getTargetPosition(X_MOTOR);
@@ -222,7 +271,7 @@ void loop()
   } else {
     query = 1; // 0b01, stage moving
   }
-
+  
   // move the motors
   if (!calibration) { 
     // check for command difference, if different, move to location defined
@@ -245,6 +294,7 @@ void loop()
       stepper_controller.setActualPosition(Y_MOTOR, Y_latched);
     }
   }
+
 
 }
 
@@ -331,4 +381,116 @@ void homing()
   } */
 
   // ************ Complete homing procedure, navigate to origin point. *************
+}
+
+void receiveEvent(int howMany)
+{
+  read();
+  execute();
+}
+
+void requestEvent()
+{
+  write();
+}
+
+// I2C functions
+void read() {
+  uint8_t currRead = 0;
+  //check 1st byte and compare to scribble
+  for(size_t i = 0; i <= 5000; ++i) {
+    if(i == 5000) {
+      sprintf(debugBuffer, "read()-> timeout, read failed"); // try 5000 times to read buffer
+      dispBuffer();
+      commandBuffer = 0; // if nothing was received break
+      return;
+    }
+    if (Wire.available() == 0) continue; 
+    currRead = static_cast<uint8_t>(Wire.read()); // wait for scribble to appear
+    if(currRead == SCRIBBLE) {
+      commandBuffer = static_cast<uint64_t>(SCRIBBLE) << (64 - 8 * 1); // reset command buffer
+    }
+  }
+  // Wait for the buffer to receive at least 7 bytes
+  while(Wire.available() < 7) {};
+  // read bytes 2-8
+  for(size_t i = 2; i < 8; ++i) { // wire.read returns one byte at a time from 32-byte hardware buffer
+    currRead = static_cast<uint8_t>(Wire.read()); // return one byte
+    commandBuffer &= ~(static_cast<uint64_t>(0b11111111) << (64 - 8 * i)); // Clear designated byte
+    commandBuffer |= static_cast<uint64_t>(currRead) << (64 - 8 * i); // Set command buffer
+    dispBuffer();
+  }
+  sprintf(debugBuffer, "read()-> read success");
+  dispBuffer(); // display read success
+}
+
+void write() {
+  if(commandBuffer == 0) {
+    sprintf(debugBuffer, "write()-> command buffer is empty, write failed");
+    dispBuffer();
+  }
+  commandBuffer &= ~(static_cast<uint64_t>(0b11111111) << (64 - 8 * 7)); // clear status byte
+  commandBuffer |= static_cast<uint64_t>(query) << (64 - 8 * 7); // update status
+  commandBuffer &= ~(static_cast<uint64_t>(0b11111111)); // clear Chksum
+  commandBuffer |= static_cast<uint64_t>(getCheckSum()); // update checksum
+  int ret = Wire.write(reinterpret_cast<uint8_t*>(&commandBuffer), 8);
+  sprintf(debugBuffer, "write() -> bytes written: %d", ret);
+  dispBuffer();
+}
+
+void execute() {
+  size_t funcInd = *(reinterpret_cast<uint8_t*>(&commandBuffer) + 6);
+  if(funcInd <0 || funcInd >= 9) {
+    sprintf(debugBuffer, "execute()-> invalid command: %d", static_cast<int>(funcInd));
+    dispBuffer();
+  }
+  void (*func)(void) = *(functionMap + funcInd); // pull reference from le function map
+  (*func)(); // execute the commanded function
+}
+
+void dispBuffer() { 
+	if(debugMode) Serial.println(debugBuffer); // send debug buffer to Serial0
+}
+
+void halt() {
+  stageHalt = true;
+}
+
+void getWidth() {
+  *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5)) = MICROSTEPS_PER_AXIS;
+}
+
+void getHeight() {
+  *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5)) = MICROSTEPS_PER_AXIS;
+}
+
+void getX() {
+  *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5)) = X_actual;
+}
+
+void getY() {
+  *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5)) = Y_actual;
+}
+
+void setX() {
+  X_target = *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5));
+}
+
+void setY() {
+  Y_target = *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5));
+}
+
+void calib() {
+  calibration = *reinterpret_cast<int16_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5)) > 0;
+  calibrationComplete = *reinterpret_cast<int16_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5)) == 0;
+}
+
+uint8_t getCheckSum() {
+  uint8_t chksum = 0xFF, sub = 0;
+  for(size_t i= 1; i < 8; i++)
+    sub += *(reinterpret_cast<uint8_t*>(&commandBuffer) + i);
+  chksum = chksum - sub;
+  sprintf(debugBuffer, "getCheckSum()-> check-sum: %d", chksum);
+  dispBuffer();
+  return chksum;
 }
