@@ -1,0 +1,16 @@
+Added Component: Designator=HS1(HSINK_529802B02500G)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Aavid Thermalloy'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "529802B02500G"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=HS2(HSINK_529802B02500G)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "{'manufacturer': u'Aavid Thermalloy'}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "529802B02500G"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Member To Class: ClassName=Rev 1.0 Member=Component HS1 529802B02500G
+Added Member To Class: ClassName=Rev 1.0 Member=Component HS2 529802B02500G

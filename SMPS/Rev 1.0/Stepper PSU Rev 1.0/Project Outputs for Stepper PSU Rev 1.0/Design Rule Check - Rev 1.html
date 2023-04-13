@@ -1,0 +1,449 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html">
+<style type="text/css">
+		h1, h2, h3, h4, h5, h6 {
+			font-family : segoe ui;
+			color : black;
+			background-color : #EDE7D9;
+			padding: 0.3em;
+		}
+
+		h1 {
+			font-size: 1.2em;
+		}		
+
+		h2 {
+			font-size: 1.2em;
+		}
+
+		body {
+			font-family : segoe ui;
+		}
+
+		td, th {
+			padding: 0.5em;
+			text-align : left;
+			width: 10em;
+		}
+		th {
+			background-color : #EEEEEE;
+
+		}
+		th.column1, td.column1 {
+			text-align: left;
+			width : auto;
+		}
+		table {
+			width : 100%;
+			font-size: 0.9em;
+		}
+
+		.DRC_summary_header {
+			padding-bottom : 0.1em;
+			border : 0px solid black;
+			width: 100%;
+			align: left;
+		}
+
+		.DRC_summary_header_col1,
+		.DRC_summary_header_col2, 
+		.DRC_summary_header_col3 {
+			color : black;
+			font-size:100%;
+			padding : 0em;
+			padding-top : 0.2em;
+			padding-bottom 0.2em;
+			border : 0px solid black;
+			vertical-align: top;
+			text-align: left;
+		}
+
+		.DRC_summary_header_col1 {
+			font-weight: bold;
+			width: 9em;
+		}
+
+		.DRC_summary_header_col2 {
+			width: 0.1em;
+		
+		}
+
+		.DRC_summary_header_col3 {
+			width : auto;
+		}
+
+		.header_holder {
+		    Width = 100%;
+		    border = 0px solid green;
+		    padding = 0;
+		}
+
+
+		.front_matter, .front_matter_column1, .front_matter_column2, .front_matter_column3
+		{
+			left : 0;
+			top : 0;
+			padding: 0em;
+			padding-top : 0.1em;
+			border : 0px solid black;
+			width : 100%;
+			vertical-align: top;
+			text-align: left;
+		}
+
+		.front_matter_column1 {
+			width : 8em;
+			font-weight: bold;
+		}
+
+		.front_matter_column2 {
+			width: 0.1em;
+		}
+
+		.front_matter_column3 {
+			width : auto;
+		}
+
+		.total_column1, .total_column {
+			font-weight : bold;
+		}
+		.total_column1 {
+			text-align : left;
+		}
+		.warning, .error {
+			color : red;
+			font-weight : bold;
+		}
+		tr.onmouseout_odd {
+			background-color : #white;
+		}
+		tr.onmouseout_even { 
+			background-color : #FAFAFA;
+		}
+		tr.onmouseover_odd, tr.onmouseover_even { 
+			background-color : #EEEEEE;
+		} 
+		a:link, a:visited, .q a:link,.q a:active,.q {
+			color: #21489e; 
+		}
+		a:link.callback, a:visited.callback { 
+			color: #21489e;
+		}
+		a:link.customize, a:visited.customize {
+			color: #C0C0C0;
+			position: absolute; 
+			right: 10px;
+		}	
+		p.contents_level1 {
+			font-weight : bold;
+			font-size : 110%;
+			margin : 0.5em;
+		}
+		p.contents_level2 {
+			position : relative;
+			left : 20px;
+			margin : 0.5em;
+		}
+	</style><script type="text/javascript">
+		function coordToMils(coord) {
+			var number = coord / 10000;
+			
+			if (number != number.toFixed(3))
+				number = number.toFixed(3);
+
+			return number + 'mil'
+		}
+
+		function coordToMM(coord) {
+			var number = 0.0254 * coord / 10000;
+			
+			if (number != number.toFixed(4))
+				number = number.toFixed(4);
+			
+			return number + 'mm'
+		}
+	
+		function convertCoord(coordNode, units) {
+			for (var i = 0; i < coordNode.childNodes.length; i++) {
+				coordNode.removeChild(coordNode.childNodes[i]);
+			}
+
+			var coord = coordNode.getAttribute('value');
+			if (coord != null) {
+				if (units == 'mm') {
+					textNode = document.createTextNode(coordToMM(coord));
+					coordNode.appendChild(textNode);
+				} else if (units == 'mil') {
+					textNode = document.createTextNode(coordToMils(coord));		
+					coordNode.appendChild(textNode);	
+				}
+			}
+		}
+	
+		function convertUnits(unitNode, units) {
+			for (var i = 0; i < unitNode.childNodes.length; i++) {
+				unitNode.removeChild(unitNode.childNodes[i]);		
+			}
+		
+			textNode = document.createTextNode(units); 
+			unitNode.appendChild(textNode);
+		}
+	
+		function changeUnits(radio_input, units) {
+			if (radio_input.checked) {
+			
+				var elements = document.getElementsByName('coordinate');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertCoord(elements[i], units);
+					}
+				}
+	
+				var elements = document.getElementsByName('units');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertUnits(elements[i], units);
+					}
+				}
+			}
+		}
+	</script><title>Design Rule Verification Report</title>
+</head>
+<body onload=""><img ALT="Altium" src="
+			file://C:\Users\Public\Documents\Altium\AD22\Templates\AD_logo.png
+		"><h1>Design Rule Verification Report</h1>
+<table class="header_holder">
+<td class="column1">
+<table class="front_matter">
+<tr class="front_matter">
+<td class="front_matter_column1">Date:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">4/13/2023</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Time:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">1:49:07 AM</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Elapsed Time:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">00:00:02</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Filename:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3"><a href="file:///D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc" class="file"><acronym title="D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc">D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc</acronym></a></td>
+</tr>
+</table>
+</td>
+<td class="column2">
+<table class="DRC_summary_header">
+<tr>
+<td class="DRC_summary_header_col1">Warnings:</td>
+<td class="DRC_summary_header_col2"></td>
+<td class="DRC_summary_header_col3">0</td></tr>
+<tr>
+<td class="DRC_summary_header_col1">Rule Violations:</td>
+<td class="DRC_summary_header_col2"></td>
+<td class="DRC_summary_header_col3" style="color : red">35</td></tr>
+</table>
+</td>
+</table><a name="IDIIIQK0PIPFDAOIRAJHB2XFJJJCELZIH03FT0RBIPQVACUMMBCTLB"><h2>Summary</h2></a><table>
+<tr>
+<th class="column1">Warnings</th>
+<th class="column2">Count</th>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">0</td>
+</tr>
+</table><br><table>
+<tr>
+<th class="column1">Rule Violations</th>
+<th class="column2">Count</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#ID1G4AG0BVRJX3FIQDPJ4PK34P4PQ4RKC4WRJH5WMMDE2GAPRXI52N">Clearance Constraint (Gap=10mil) (All),(All)</a></td>
+<td class="column2">5</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDW1R3AOMXH40IGT1KFK1DAE0PIENAEDKSH5UZXPGAUSKADVVXX3IP">Short-Circuit Constraint (Allowed=No) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDVMVLMQWEMXKGBFQQBJDDTGV2KPPBKHGPO0ELYTIHYYGUQYIS503E">Un-Routed Net Constraint ( (All) )</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDOCM5NZYIXQ5LNR3004O51FULYH5BKMT2ZOZTL0FI531PXXIMORBP">Modified Polygon (Allow modified: No), (Allow shelved: No)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDY45VUAPTRT2VBHGWPOARQIYOVNIB302DGNSFAKI4NGQFY3LLS22G">Width Constraint (Min=10mil) (Max=10mil) (Preferred=10mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDGXG1VPHKJQSEEUGYYQWDGVASIMZZHETKREFUQFHLQHYOMAJ4MHF">Power Plane Connect Rule(Relief Connect )(Expansion=20mil) (Conductor Width=10mil) (Air Gap=10mil) (Entries=4) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDUCWJPXCWAOWNI4F5JLHIPL3PMJNG1D4NA4FQOVLNAHZQBTBWP5PJ">Hole Size Constraint (Min=1mil) (Max=100mil) (All)</a></td>
+<td class="column2">14</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDCIVFAX0SIMRAIK5E1JJ1GZIHIOJUZ4MC0HSEQYDXJOIM505EBK0C">Hole To Hole Clearance (Gap=10mil) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDBS12KKCLJSIYMKIKRBEZUVHD2GZJA0LYS0TE3PMQBBDXGBUC5J2M">Minimum Solder Mask Sliver (Gap=10mil) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID1VLP2PUTXFGRBZA2ABM35U220LFTCI2G5IA1GJGZNIHL2QLHTBRM">Silk To Solder Mask (Clearance=10mil) (IsPad),(All)</a></td>
+<td class="column2">7</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDYWQGPLH31UNPF3LO1TTSFKD21CNS23SLKGO5RQNTKWQZEZOC5UUE">Silk to Silk (Clearance=10mil) (All),(All)</a></td>
+<td class="column2">1</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDKCUBSANAOBJWCYJ43LNJJOKRHNEWSD5T00FH3KFQYDICPCZG3WYC">Net Antennae (Tolerance=0mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDITF0TCC5AXHXSWRZWN4FITUELVUEN1LLAR3L0HAMLAEGCIRHEUL">Height Constraint (Min=0mil) (Max=1000mil) (Prefered=500mil) (All)</a></td>
+<td class="column2">8</td>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">35</td>
+</tr>
+</table><br><a name="ID1G4AG0BVRJX3FIQDPJ4PK34P4PQ4RKC4WRJH5WMMDE2GAPRXI52N"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Clearance Constraint (Gap=10mil) (All),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1131.364mil|Location2.X=1142.614mil|Location1.Y=6686.954mil|Location2.Y=6698.204mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1131.364mil|Location2.X=1142.614mil|Location1.Y=6686.954mil|Location2.Y=6698.204mil|Absolute=True">Clearance Constraint: (4.843mil &lt; 10mil) Between Pad Free-6(196.045mil,3622.047mil) on Multi-Layer And Track (0mil,3750mil)(7480.315mil,3750mil) on Keep-Out Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1003.748mil|Location2.X=1014.998mil|Location1.Y=4183.777mil|Location2.Y=4195.027mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1003.748mil|Location2.X=1014.998mil|Location1.Y=4183.777mil|Location2.Y=4195.027mil|Absolute=True">Clearance Constraint: (8.749mil &lt; 10mil) Between Pad S1-S1(68.375mil,1239.402mil) on Multi-Layer And Track (0mil,0mil)(0mil,3750mil) on Keep-Out Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1003.748mil|Location2.X=1014.998mil|Location1.Y=4383.777mil|Location2.Y=4395.027mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1003.748mil|Location2.X=1014.998mil|Location1.Y=4383.777mil|Location2.Y=4395.027mil|Absolute=True">Clearance Constraint: (8.749mil &lt; 10mil) Between Pad S1-S2(68.375mil,1439.402mil) on Multi-Layer And Track (0mil,0mil)(0mil,3750mil) on Keep-Out Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1001.795mil|Location2.X=1013.045mil|Location1.Y=5414.847mil|Location2.Y=5426.097mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1001.795mil|Location2.X=1013.045mil|Location1.Y=5414.847mil|Location2.Y=5426.097mil|Absolute=True">Clearance Constraint: (4.843mil &lt; 10mil) Between Polygon Region (19 hole(s)) Top Layer And Track (0mil,0mil)(0mil,3750mil) on Keep-Out Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1004.216mil|Location2.X=1015.466mil|Location1.Y=6686.954mil|Location2.Y=6698.204mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1004.216mil|Location2.X=1015.466mil|Location1.Y=6686.954mil|Location2.Y=6698.204mil|Absolute=True">Clearance Constraint: (4.843mil &lt; 10mil) Between Polygon Region (19 hole(s)) Top Layer And Track (0mil,3750mil)(7480.315mil,3750mil) on Keep-Out Layer </acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br><a name="IDUCWJPXCWAOWNI4F5JLHIPL3PMJNG1D4NA4FQOVLNAHZQBTBWP5PJ"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Hole Size Constraint (Min=1mil) (Max=100mil) (All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1057.624mil|Location2.X=1334.464mil|Location1.Y=6433.627mil|Location2.Y=6710.467mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1057.624mil|Location2.X=1334.464mil|Location1.Y=6433.627mil|Location2.Y=6710.467mil|Absolute=True">Hole Size Constraint: (177.165mil &gt; 100mil) Pad Free-6(196.045mil,3622.047mil) on Multi-Layer Actual Slot Hole Height = 177.165mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1057.624mil|Location2.X=1334.464mil|Location1.Y=6433.627mil|Location2.Y=6710.467mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1057.624mil|Location2.X=1334.464mil|Location1.Y=6433.627mil|Location2.Y=6710.467mil|Absolute=True">Hole Size Constraint: (275.591mil &gt; 100mil) Pad Free-6(196.045mil,3622.047mil) on Multi-Layer Actual Slot Hole Width = 275.591mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7987.562mil|Location2.X=8185.663mil|Location1.Y=3126.54mil|Location2.Y=3324.641mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7987.562mil|Location2.X=8185.663mil|Location1.Y=3126.54mil|Location2.Y=3324.641mil|Absolute=True">Hole Size Constraint: (177.165mil &gt; 100mil) Pad Free-CASE(7086.614mil,275.591mil) on Multi-Layer Actual Slot Hole Height = 177.165mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7987.562mil|Location2.X=8185.663mil|Location1.Y=3126.54mil|Location2.Y=3324.641mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7987.562mil|Location2.X=8185.663mil|Location1.Y=3126.54mil|Location2.Y=3324.641mil|Absolute=True">Hole Size Constraint: (196.85mil &gt; 100mil) Pad Free-CASE(7086.614mil,275.591mil) on Multi-Layer Actual Slot Hole Width = 196.85mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7987.562mil|Location2.X=8185.663mil|Location1.Y=6315.517mil|Location2.Y=6513.617mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7987.562mil|Location2.X=8185.663mil|Location1.Y=6315.517mil|Location2.Y=6513.617mil|Absolute=True">Hole Size Constraint: (177.165mil &gt; 100mil) Pad Free-CASE(7086.614mil,3464.567mil) on Multi-Layer Actual Slot Hole Height = 177.165mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7987.562mil|Location2.X=8185.663mil|Location1.Y=6315.517mil|Location2.Y=6513.617mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7987.562mil|Location2.X=8185.663mil|Location1.Y=6315.517mil|Location2.Y=6513.617mil|Absolute=True">Hole Size Constraint: (196.85mil &gt; 100mil) Pad Free-CASE(7086.614mil,3464.567mil) on Multi-Layer Actual Slot Hole Width = 196.85mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7672.602mil|Location2.X=7870.702mil|Location1.Y=6472.997mil|Location2.Y=6671.097mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7672.602mil|Location2.X=7870.702mil|Location1.Y=6472.997mil|Location2.Y=6671.097mil|Absolute=True">Hole Size Constraint: (177.165mil &gt; 100mil) Pad Free-ENC(6771.654mil,3622.047mil) on Multi-Layer Actual Slot Hole Height = 177.165mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7672.602mil|Location2.X=7870.702mil|Location1.Y=6472.997mil|Location2.Y=6671.097mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7672.602mil|Location2.X=7870.702mil|Location1.Y=6472.997mil|Location2.Y=6671.097mil|Absolute=True">Hole Size Constraint: (196.85mil &gt; 100mil) Pad Free-ENC(6771.654mil,3622.047mil) on Multi-Layer Actual Slot Hole Width = 196.85mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1280.364mil|Location2.X=1419.409mil|Location1.Y=4636.969mil|Location2.Y=4776.014mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1280.364mil|Location2.X=1419.409mil|Location1.Y=4636.969mil|Location2.Y=4776.014mil|Absolute=True">Hole Size Constraint: (137.795mil &gt; 100mil) Pad J1-(349.888mil,1756.491mil) on Multi-Layer Actual Hole Size = 137.795mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1280.364mil|Location2.X=1419.409mil|Location1.Y=6192.087mil|Location2.Y=6331.132mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1280.364mil|Location2.X=1419.409mil|Location1.Y=6192.087mil|Location2.Y=6331.132mil|Absolute=True">Hole Size Constraint: (137.795mil &gt; 100mil) Pad J1-(349.888mil,3311.609mil) on Multi-Layer Actual Hole Size = 137.795mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2636.358mil|Location2.X=2803.608mil|Location1.Y=4615.942mil|Location2.Y=4783.192mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2636.358mil|Location2.X=2803.608mil|Location1.Y=4615.942mil|Location2.Y=4783.192mil|Absolute=True">Hole Size Constraint: (166mil &gt; 100mil) Pad T2-(1719.984mil,1749.567mil) on Multi-Layer Actual Hole Size = 166mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2636.358mil|Location2.X=2803.608mil|Location1.Y=6365.942mil|Location2.Y=6533.192mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=2636.358mil|Location2.X=2803.608mil|Location1.Y=6365.942mil|Location2.Y=6533.192mil|Absolute=True">Hole Size Constraint: (166mil &gt; 100mil) Pad T2-(1719.984mil,3499.567mil) on Multi-Layer Actual Hole Size = 166mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4823.358mil|Location2.X=4990.608mil|Location1.Y=4615.942mil|Location2.Y=4783.192mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4823.358mil|Location2.X=4990.608mil|Location1.Y=4615.942mil|Location2.Y=4783.192mil|Absolute=True">Hole Size Constraint: (166mil &gt; 100mil) Pad T2-(3906.984mil,1749.567mil) on Multi-Layer Actual Hole Size = 166mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4823.358mil|Location2.X=4990.608mil|Location1.Y=6365.942mil|Location2.Y=6533.192mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4823.358mil|Location2.X=4990.608mil|Location1.Y=6365.942mil|Location2.Y=6533.192mil|Absolute=True">Hole Size Constraint: (166mil &gt; 100mil) Pad T2-(3906.984mil,3499.567mil) on Multi-Layer Actual Hole Size = 166mil</acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br><a name="ID1VLP2PUTXFGRBZA2ABM35U220LFTCI2G5IA1GJGZNIHL2QLHTBRM"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Silk To Solder Mask (Clearance=10mil) (IsPad),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7328.417mil|Location2.X=7339.667mil|Location1.Y=3225.055mil|Location2.Y=3236.305mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7328.417mil|Location2.X=7339.667mil|Location1.Y=3225.055mil|Location2.Y=3236.305mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (6.583mil &lt; 10mil) Between Pad R1-1(6361.716mil,280.68mil) on Multi-Layer And Track (6282.976mil,280.68mil)(6328.251mil,280.68mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [6.583mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7096.361mil|Location2.X=7107.611mil|Location1.Y=3225.055mil|Location2.Y=3236.305mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7096.361mil|Location2.X=7107.611mil|Location1.Y=3225.055mil|Location2.Y=3236.305mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (6.583mil &lt; 10mil) Between Pad R1-2(6074.314mil,280.68mil) on Multi-Layer And Track (6107.779mil,280.68mil)(6153.055mil,280.68mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [6.583mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5524.816mil|Location2.X=5536.066mil|Location1.Y=3228.47mil|Location2.Y=3239.72mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5524.816mil|Location2.X=5536.066mil|Location1.Y=3228.47mil|Location2.Y=3239.72mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (6.583mil &lt; 10mil) Between Pad R2-1(4558.115mil,284.096mil) on Multi-Layer And Track (4479.375mil,284.096mil)(4524.651mil,284.096mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [6.583mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5292.76mil|Location2.X=5304.01mil|Location1.Y=3228.47mil|Location2.Y=3239.72mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5292.76mil|Location2.X=5304.01mil|Location1.Y=3228.47mil|Location2.Y=3239.72mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (6.583mil &lt; 10mil) Between Pad R2-2(4270.714mil,284.096mil) on Multi-Layer And Track (4304.178mil,284.096mil)(4349.454mil,284.096mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [6.583mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7545.262mil|Location2.X=7556.512mil|Location1.Y=3232.207mil|Location2.Y=3243.457mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7545.262mil|Location2.X=7556.512mil|Location1.Y=3232.207mil|Location2.Y=3243.457mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (8.776mil &lt; 10mil) Between Pad RV1-1(6587.582mil,254.126mil) on Multi-Layer And Track (6526.559mil,289.756mil)(6544.275mil,289.756mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [8.776mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5778.414mil|Location2.X=5789.664mil|Location1.Y=3312.849mil|Location2.Y=3324.099mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5778.414mil|Location2.X=5789.664mil|Location1.Y=3312.849mil|Location2.Y=3324.099mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (8.776mil &lt; 10mil) Between Pad RV2-1(4820.734mil,334.769mil) on Multi-Layer And Track (4759.71mil,370.398mil)(4777.427mil,370.398mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [8.776mil]</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1012.364mil|Location2.X=1020.03mil|Location1.Y=4169.154mil|Location2.Y=4176.82mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1012.364mil|Location2.X=1020.03mil|Location1.Y=4169.154mil|Location2.Y=4176.82mil|Absolute=True">Silk To Solder Mask Clearance Constraint: (Collision &lt; 10mil) Between Pad S1-S1(68.375mil,1239.402mil) on Multi-Layer And Text "F1" (10.002mil,1183mil) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mil]</acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br><a name="IDYWQGPLH31UNPF3LO1TTSFKD21CNS23SLKGO5RQNTKWQZEZOC5UUE"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Silk to Silk (Clearance=10mil) (All),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1060.326mil|Location2.X=1071.576mil|Location1.Y=4121.737mil|Location2.Y=4132.987mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=1060.326mil|Location2.X=1071.576mil|Location1.Y=4121.737mil|Location2.Y=4132.987mil|Absolute=True">Silk To Silk Clearance Constraint: (6.445mil &lt; 10mil) Between Text "F1" (10.002mil,1183mil) on Top Overlay And Track (68.375mil,1156.922mil)(68.375mil,1172.178mil) on Top Overlay Silk Text to Silk Clearance [6.445mil]</acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br><a name="IDITF0TCC5AXHXSWRZWN4FITUELVUEN1LLAR3L0HAMLAEGCIRHEUL"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Height Constraint (Min=0mil) (Max=1000mil) (Prefered=500mil) (All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3074.922mil|Location2.X=3076.922mil|Location1.Y=3338.237mil|Location2.Y=3340.237mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3074.922mil|Location2.X=3076.922mil|Location1.Y=3338.237mil|Location2.Y=3340.237mil|Absolute=True">Height Constraint: Small Component C10-4700u (2075.924mil,389.237mil) on Top Layer Actual Height = 1397.638mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3944.907mil|Location2.X=3946.907mil|Location1.Y=3338.237mil|Location2.Y=3340.237mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3944.907mil|Location2.X=3946.907mil|Location1.Y=3338.237mil|Location2.Y=3340.237mil|Absolute=True">Height Constraint: Small Component C11-4700u (2945.908mil,389.237mil) on Top Layer Actual Height = 1397.638mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5548.486mil|Location2.X=5550.486mil|Location1.Y=4616.331mil|Location2.Y=4618.331mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5548.486mil|Location2.X=5550.486mil|Location1.Y=4616.331mil|Location2.Y=4618.331mil|Absolute=True">Height Constraint: Small Component C16-UVZ1H332MHD (4549.488mil,1667.332mil) on Top Layer Actual Height = 1397.638mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4685.327mil|Location2.X=4687.327mil|Location1.Y=3805.41mil|Location2.Y=3807.41mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4685.327mil|Location2.X=4687.327mil|Location1.Y=3805.41mil|Location2.Y=3807.41mil|Absolute=True">Height Constraint: Small Component C17-UVZ1H332MHD (3686.329mil,856.41mil) on Top Layer Actual Height = 1397.638mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5547.022mil|Location2.X=5549.022mil|Location1.Y=3805.41mil|Location2.Y=3807.41mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=5547.022mil|Location2.X=5549.022mil|Location1.Y=3805.41mil|Location2.Y=3807.41mil|Absolute=True">Height Constraint: Small Component C18-UVZ1H332MHD (4548.024mil,856.41mil) on Top Layer Actual Height = 1397.638mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7970.047mil|Location2.X=7972.047mil|Location1.Y=3805.41mil|Location2.Y=3807.41mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7970.047mil|Location2.X=7972.047mil|Location1.Y=3805.41mil|Location2.Y=3807.41mil|Absolute=True">Height Constraint: Small Component C1-UVZ1H332MHD (6971.049mil,856.41mil) on Top Layer Actual Height = 1397.638mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7129.415mil|Location2.X=7131.415mil|Location1.Y=3805.41mil|Location2.Y=3807.41mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7129.415mil|Location2.X=7131.415mil|Location1.Y=3805.41mil|Location2.Y=3807.41mil|Absolute=True">Height Constraint: Small Component C2-UVZ1H332MHD (6130.417mil,856.41mil) on Top Layer Actual Height = 1397.638mil</acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7534.432mil|Location2.X=7536.432mil|Location1.Y=4616.331mil|Location2.Y=4618.331mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=7534.432mil|Location2.X=7536.432mil|Location1.Y=4616.331mil|Location2.Y=4618.331mil|Absolute=True">Height Constraint: Small Component C3-UVZ1H332MHD (6535.433mil,1667.332mil) on Top Layer Actual Height = 1397.638mil</acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br></body>
+</html>

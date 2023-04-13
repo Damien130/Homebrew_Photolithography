@@ -1,0 +1,21 @@
+Board Information Report
+Filename     : D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc
+Date         : 4/12/2023
+Time         : 11:28:26 PM
+Time Elapsed : 00:00:00
+
+General
+    Board Size, 190mmx95.25mm
+    Components on board, 52
+count : 2
+
+Routing Information
+    Routing completion, 34.29%
+    Connections, 105
+    Connections routed, 36
+    Connections remaining, 69
+count : 4
+
+Net Via Size, Count
+    1.27mm, 22
+count : 1

@@ -1,0 +1,3 @@
+Layer Pairs Export File for PCB: D:\Git\Homebrew_Photolithography\SMPS\Rev 1.0\Stepper PSU Rev 1.0\Rev 1.0.PcbDoc
+LayersSetName=Top_Bot_Thru_Holes|DrillFile=rev 1.0-roundholes.txt|DrillLayers=gtl,gbl
+LayersSetName=Top_Bot_Slot_Holes|DrillFile=rev 1.0-slotholes.txt|DrillLayers=gtl,gbl

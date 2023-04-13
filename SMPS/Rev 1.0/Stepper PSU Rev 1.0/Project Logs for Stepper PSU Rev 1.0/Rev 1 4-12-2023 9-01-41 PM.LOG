@@ -1,0 +1,10 @@
+Removed Pin From Net: NetName=GND Pin=CGND-1
+Removed Pin From Net: NetName=GND Pin=FL1-3
+Removed Pin From Net: NetName=GND Pin=J1-2
+Removed Pin From Net: NetName=GND Pin=RGND-1
+Added Pin To Net: NetName=EARTH Pin=CGND-1
+Added Pin To Net: NetName=EARTH Pin=FL1-3
+Added Pin To Net: NetName=EARTH Pin=J1-2
+Added Pin To Net: NetName=EARTH Pin=RGND-1
+Added Net: Name=EARTH
+Added Member To Class: ClassName=Rev 1.0 Member=Component HS1 529802B02500G
