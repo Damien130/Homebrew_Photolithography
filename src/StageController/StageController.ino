@@ -136,18 +136,19 @@ void setY();
 void calib();
 uint8_t getCheckSum();
 bool checkCheckSum();
+uint32_t swapEndian(uint32_t);
 void print_uint64_t(uint64_t);
 
 
 void(*const functionMap[9])(void) = {
-  &halt
-  , &getWidth
-  , &getHeight
-  , &getX
-  , &getY
-  , &setX
-  , &setY
-  , &calib
+  &halt         // command 0
+  , &getWidth   // 1
+  , &getHeight  // 2
+  , &getX       // 3
+  , &getY       // 4 
+  , &setX       // 5
+  , &setY       // 6
+  , &calib      // 7
 };
 
 void setup()
@@ -241,10 +242,6 @@ void setup()
 
 void loop()
 {
-  if(halt) {
-    stepper_controller.stopAll();
-    while(1){};
-  }
   X_actual = stepper_controller.getActualPosition(X_MOTOR);
   Y_actual = stepper_controller.getActualPosition(Y_MOTOR);
   X_target = stepper_controller.getTargetPosition(X_MOTOR);
@@ -374,6 +371,7 @@ void receiveEvent(int howMany)
 
 void requestEvent()
 {
+  execute();
   write();
 }
 
@@ -394,7 +392,6 @@ void read() {
     dispBuffer();
     if(currRead == SCRIBBLE) {
       commandBuffer = static_cast<uint64_t>(SCRIBBLE); // reset command buffer
-      print_uint64_t(commandBuffer);
       break;
     }
   }
@@ -412,7 +409,6 @@ void read() {
   sprintf(debugBuffer, "read()-> read success");
   dispBuffer();
   // sprintf(debugBuffer, "read()-> 8-byte value: %08X%08X", commandBuffer >> 32, commandBuffer & 0xFFFFFFFF);
-  print_uint64_t(commandBuffer);
 }
 
 void write() {
@@ -435,15 +431,13 @@ void write() {
   } */
 
   // sprintf(debugBuffer, "write() -> 8-byte value: %08X%08X", commandBuffer >> 32, commandBuffer & 0xFFFFFFFF);
-  print_uint64_t(commandBuffer);
   int ret = Wire.write(reinterpret_cast<uint8_t*>(&commandBuffer), 8);
   sprintf(debugBuffer, "write() -> bytes written: %d", ret);
   dispBuffer();
-  
 }
 
 void execute() {
-  size_t funcInd = *(reinterpret_cast<uint8_t*>(&commandBuffer) + 6);
+  size_t funcInd = *(reinterpret_cast<uint8_t*>(&commandBuffer) + 1);
   Serial.println("the func ind is");
   Serial.println(funcInd);
   if(funcInd <0 || funcInd >= 9) {
@@ -458,50 +452,85 @@ void dispBuffer() {
   if(debugMode) Serial.println(debugBuffer); // send debug buffer to Serial0
 }
 
-void halt() {
+void halt() { // fixed
   stageHalt = true;
+  sprintf(debugBuffer, "halt()-> halt status: %d", stageHalt); 
+  dispBuffer();
 }
 
-void getWidth() {
-  *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5)) = MICROSTEPS_PER_AXIS;
+void getWidth() { // fixed
+  commandBuffer &= ~(static_cast<uint64_t>(0xFFFFFFFF) << (8 * 2)); // Clear data
+  commandBuffer |= static_cast<uint64_t>(MICROSTEPS_PER_AXIS) << (8 * 2); // Set command buffer
+  sprintf(debugBuffer, "getWidth()-> Width is %lu", MICROSTEPS_PER_AXIS); // MSB gets sent last
+  dispBuffer();
 }
 
-void getHeight() {
-  *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5)) = MICROSTEPS_PER_AXIS;
+void getHeight() { // fixed
+  commandBuffer &= ~(static_cast<uint64_t>(0xFFFFFFFF) << (8 * 2)); // Clear data
+  commandBuffer |= static_cast<uint64_t>(MICROSTEPS_PER_AXIS) << (8 * 2); // Set command buffer
+  sprintf(debugBuffer, "getHeight()-> Height is %lu", MICROSTEPS_PER_AXIS);
+  dispBuffer();
 }
+
 
 void getX() {
-  commandBuffer &= ~(static_cast<uint64_t>(0xFFFFFF) << (64 - 8 * 3)); // Clear data
-  commandBuffer |= static_cast<uint64_t>(X_actual) << (64 - 8 * 3); // Set command buffer
-  Serial.println("X value packet");
-  print_uint64_t(commandBuffer);
+  X_actual = 0xaaffaaff; // fixed
+  commandBuffer &= ~(static_cast<uint64_t>(0xFFFFFFFF) << (8 * 2)); // Clear data
+  commandBuffer |= static_cast<uint64_t>(X_actual) << (8 * 2); // Set command buffer
+  sprintf(debugBuffer, "getX()-> CurrentX is %lu", X_actual);
+  dispBuffer();
 }
 
 void getY() {
-  *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5)) = Y_actual;
+  Y_actual = 0xaaffaaff; // fixed
+  commandBuffer &= ~(static_cast<uint64_t>(0xFFFFFFFF) << (8 * 3)); // Clear data
+  commandBuffer |= static_cast<uint64_t>(Y_actual) << (8 * 3); // Set command buffer
+  sprintf(debugBuffer, "getY()-> CurrentY is %lu", Y_actual);
+  dispBuffer();
 }
 
-void setX() {
-  X_command = *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5));
+void setX() { // fixed
+  X_command = *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 2));
+  sprintf(debugBuffer, "SetX()-> X command set to: %ld", X_command);
+  dispBuffer();
 }
 
-void setY() {
-  Y_command = *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5));
+void setY() { // fixed
+  Y_command = *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 2));
+  sprintf(debugBuffer, "SetY()-> Y command set to: %ld", Y_command);
+  dispBuffer();
 }
 
 void calib() {
-  calibration = *reinterpret_cast<int16_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5)) > 0;
-  calibrationComplete = *reinterpret_cast<int16_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 5)) == 0;
+  print_uint64_t(commandBuffer);
+  if (*reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 2)) > 0) {
+    Serial.println("We are getting ones");
+  } else {
+    Serial.println("we got some zeroes");
+  }
+  // calibration = *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 2)) > 0;
+  // calibrationComplete = *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 2)) == 0;
+  sprintf(debugBuffer, "calib()-> Calibration: %d, CalibComplete: %d", calibration, calibrationComplete);
+  dispBuffer();
 }
 
 uint8_t getCheckSum() {
   uint8_t chksum = 0xFF, sub = 0;
-  for(size_t i= 1; i < 8; i++)
+  for(size_t i= 0; i < 7; i++)
     sub += *(reinterpret_cast<uint8_t*>(&commandBuffer) + i);
   chksum = chksum - sub;
   sprintf(debugBuffer, "getCheckSum()-> check-sum: %d", chksum);
   dispBuffer();
   return chksum;
+}
+
+uint32_t swapEndian(uint32_t unswapped){ // swap them if needed
+  uint32_t swapped = ((unswapped>>24)&0xff) | // move byte 3 to byte 0
+                    ((unswapped<<8)&0xff0000) | // move byte 1 to byte 2
+                    ((unswapped>>8)&0xff00) | // move byte 2 to byte 1
+                    ((unswapped<<24)&0xff000000); // byte 0 to byte 3
+  
+  return swapped;                    
 }
 
 void print_uint64_t(uint64_t num) {
