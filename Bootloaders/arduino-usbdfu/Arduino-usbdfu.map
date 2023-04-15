@@ -1,0 +1,988 @@
+Archive member included to satisfy reference by file (symbol)
+
+/usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_exit.o)
+                              /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o (exit)
+/usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_tablejump2.o)
+                              ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o (__tablejump2__)
+/usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+                              Arduino-usbdfu.o (__do_copy_data)
+/usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_clear_bss.o)
+                              Arduino-usbdfu.o (__do_clear_bss)
+/usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a(eerd_byte.o)
+                              Arduino-usbdfu.o (eeprom_read_byte)
+/usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a(eeupd_byte.o)
+                              ../../LUFA/Drivers/USB/LowLevel/Endpoint.o (eeprom_update_byte)
+/usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a(eewr_byte.o)
+                              Arduino-usbdfu.o (eeprom_write_byte)
+
+Allocating common symbols
+Common symbol       size              file
+
+USB_IsInitialized   0x1               ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+SentCommand         0x8               Arduino-usbdfu.o
+PulseMSRemaining    0x3               Arduino-usbdfu.o
+USB_ControlRequest  0x8               ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+USB_ConfigurationNumber
+                    0x1               ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+ResponseByte        0x1               Arduino-usbdfu.o
+
+Discarded input sections
+
+ .data          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+ .bss           0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+ .text          0x00000000        0x0 Arduino-usbdfu.o
+ .text          0x00000000        0x0 Descriptors.o
+ .bss           0x00000000        0x0 Descriptors.o
+ .text          0x00000000        0x0 ../../LUFA/Drivers/USB/LowLevel/Device.o
+ .data          0x00000000        0x0 ../../LUFA/Drivers/USB/LowLevel/Device.o
+ .bss           0x00000000        0x0 ../../LUFA/Drivers/USB/LowLevel/Device.o
+ .text.USB_Device_SendRemoteWakeup
+                0x00000000       0x2e ../../LUFA/Drivers/USB/LowLevel/Device.o
+ .debug_info    0x00000000      0x191 ../../LUFA/Drivers/USB/LowLevel/Device.o
+ .debug_abbrev  0x00000000       0xcb ../../LUFA/Drivers/USB/LowLevel/Device.o
+ .debug_aranges
+                0x00000000       0x20 ../../LUFA/Drivers/USB/LowLevel/Device.o
+ .debug_ranges  0x00000000       0x10 ../../LUFA/Drivers/USB/LowLevel/Device.o
+ .debug_line    0x00000000      0x20e ../../LUFA/Drivers/USB/LowLevel/Device.o
+ .debug_str     0x00000000      0x28b ../../LUFA/Drivers/USB/LowLevel/Device.o
+ .comment       0x00000000       0x25 ../../LUFA/Drivers/USB/LowLevel/Device.o
+ .debug_frame   0x00000000       0x24 ../../LUFA/Drivers/USB/LowLevel/Device.o
+ .text          0x00000000        0x0 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .data          0x00000000        0x0 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .bss           0x00000000        0x0 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .text.Endpoint_BytesToEPSizeMaskDynamic
+                0x00000000       0x1c ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .text.Endpoint_Write_Control_PStream_LE
+                0x00000000       0xac ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .text.Endpoint_Write_Control_EStream_LE
+                0x00000000       0xc2 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .text.Endpoint_Write_Control_Stream_BE
+                0x00000000       0xb0 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .text.Endpoint_Write_Control_PStream_BE
+                0x00000000       0xb6 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .text.Endpoint_Write_Control_EStream_BE
+                0x00000000       0xcc ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .text.Endpoint_Read_Control_Stream_LE
+                0x00000000       0x70 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .text.Endpoint_Read_Control_EStream_LE
+                0x00000000       0x92 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .text.Endpoint_Read_Control_Stream_BE
+                0x00000000       0x76 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .text.Endpoint_Read_Control_EStream_BE
+                0x00000000       0x9c ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .text          0x00000000        0x0 ../../LUFA/Drivers/USB/LowLevel/Host.o
+ .data          0x00000000        0x0 ../../LUFA/Drivers/USB/LowLevel/Host.o
+ .bss           0x00000000        0x0 ../../LUFA/Drivers/USB/LowLevel/Host.o
+ .debug_line    0x00000000        0x0 ../../LUFA/Drivers/USB/LowLevel/Host.o
+ .debug_str     0x00000000      0x144 ../../LUFA/Drivers/USB/LowLevel/Host.o
+ .comment       0x00000000       0x25 ../../LUFA/Drivers/USB/LowLevel/Host.o
+ .text          0x00000000        0x0 ../../LUFA/Drivers/USB/LowLevel/Pipe.o
+ .data          0x00000000        0x0 ../../LUFA/Drivers/USB/LowLevel/Pipe.o
+ .bss           0x00000000        0x0 ../../LUFA/Drivers/USB/LowLevel/Pipe.o
+ .debug_line    0x00000000        0x0 ../../LUFA/Drivers/USB/LowLevel/Pipe.o
+ .debug_str     0x00000000      0x144 ../../LUFA/Drivers/USB/LowLevel/Pipe.o
+ .comment       0x00000000       0x25 ../../LUFA/Drivers/USB/LowLevel/Pipe.o
+ .text          0x00000000        0x0 ../../LUFA/Drivers/USB/LowLevel/USBController.o
+ .data          0x00000000        0x0 ../../LUFA/Drivers/USB/LowLevel/USBController.o
+ .bss           0x00000000        0x0 ../../LUFA/Drivers/USB/LowLevel/USBController.o
+ .text          0x00000000        0x0 ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+ .data          0x00000000        0x0 ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+ .bss           0x00000000        0x0 ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+ .text          0x00000000        0x0 ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+ .data          0x00000000        0x0 ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+ .bss           0x00000000        0x0 ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+ .text.USB_GetNextDescriptorOfType
+                0x00000000       0x42 ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+ .text.USB_GetNextDescriptorOfTypeBefore
+                0x00000000       0x4a ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+ .text.USB_GetNextDescriptorOfTypeAfter
+                0x00000000       0x3e ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+ .text.USB_GetNextDescriptorComp
+                0x00000000       0x7c ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+ .debug_info    0x00000000      0x4e3 ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+ .debug_abbrev  0x00000000      0x1e0 ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+ .debug_loc     0x00000000      0x529 ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+ .debug_aranges
+                0x00000000       0x38 ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+ .debug_ranges  0x00000000       0x28 ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+ .debug_line    0x00000000      0x458 ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+ .debug_str     0x00000000      0x470 ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+ .comment       0x00000000       0x25 ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+ .debug_frame   0x00000000       0xbc ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+ .text          0x00000000        0x0 ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+ .data          0x00000000        0x0 ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+ .bss           0x00000000        0x0 ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+ .text          0x00000000        0x0 ../../LUFA/Drivers/USB/HighLevel/Events.o
+ .data          0x00000000        0x0 ../../LUFA/Drivers/USB/HighLevel/Events.o
+ .bss           0x00000000        0x0 ../../LUFA/Drivers/USB/HighLevel/Events.o
+ .text          0x00000000        0x0 ../../LUFA/Drivers/USB/HighLevel/HostStandardReq.o
+ .data          0x00000000        0x0 ../../LUFA/Drivers/USB/HighLevel/HostStandardReq.o
+ .bss           0x00000000        0x0 ../../LUFA/Drivers/USB/HighLevel/HostStandardReq.o
+ .debug_line    0x00000000        0x0 ../../LUFA/Drivers/USB/HighLevel/HostStandardReq.o
+ .debug_str     0x00000000      0x150 ../../LUFA/Drivers/USB/HighLevel/HostStandardReq.o
+ .comment       0x00000000       0x25 ../../LUFA/Drivers/USB/HighLevel/HostStandardReq.o
+ .text          0x00000000        0x0 ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+ .data          0x00000000        0x0 ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+ .bss           0x00000000        0x0 ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+ .text          0x00000000        0x0 ../../LUFA/Drivers/USB/Class/Host/HIDParser.o
+ .data          0x00000000        0x0 ../../LUFA/Drivers/USB/Class/Host/HIDParser.o
+ .bss           0x00000000        0x0 ../../LUFA/Drivers/USB/Class/Host/HIDParser.o
+ .debug_line    0x00000000        0x0 ../../LUFA/Drivers/USB/Class/Host/HIDParser.o
+ .debug_str     0x00000000      0x14b ../../LUFA/Drivers/USB/Class/Host/HIDParser.o
+ .comment       0x00000000       0x25 ../../LUFA/Drivers/USB/Class/Host/HIDParser.o
+ .text          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_exit.o)
+ .data          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_exit.o)
+ .bss           0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_exit.o)
+ .text.libgcc.mul
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_exit.o)
+ .text.libgcc.div
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_exit.o)
+ .text.libgcc   0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_exit.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_exit.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_exit.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_exit.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_exit.o)
+ .text          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_tablejump2.o)
+ .data          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_tablejump2.o)
+ .bss           0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_tablejump2.o)
+ .text.libgcc.mul
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_tablejump2.o)
+ .text.libgcc.div
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_tablejump2.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_tablejump2.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_tablejump2.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_tablejump2.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_tablejump2.o)
+ .text          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+ .data          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+ .bss           0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+ .text.libgcc.mul
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+ .text.libgcc.div
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+ .text.libgcc   0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+ .text          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_clear_bss.o)
+ .data          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_clear_bss.o)
+ .bss           0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_clear_bss.o)
+ .text.libgcc.mul
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_clear_bss.o)
+ .text.libgcc.div
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_clear_bss.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_clear_bss.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_clear_bss.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_clear_bss.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_clear_bss.o)
+ .text          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a(eerd_byte.o)
+ .data          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a(eerd_byte.o)
+ .bss           0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a(eerd_byte.o)
+ .text          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a(eeupd_byte.o)
+ .data          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a(eeupd_byte.o)
+ .bss           0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a(eeupd_byte.o)
+ .text.avr-libc
+                0x00000000       0x24 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a(eeupd_byte.o)
+ .text          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a(eewr_byte.o)
+ .data          0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a(eewr_byte.o)
+ .bss           0x00000000        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a(eewr_byte.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+text             0x00000000         0x00010000         xr
+data             0x00800060         0x0000ffa0         rw!x
+eeprom           0x00810000         0x00010000         rw!x
+fuse             0x00820000         0x00000003         rw!x
+lock             0x00830000         0x00000400         rw!x
+signature        0x00840000         0x00000400         rw!x
+user_signatures  0x00850000         0x00000400         rw!x
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+Address of section .data set to 0x800100
+LOAD /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+LOAD Arduino-usbdfu.o
+LOAD Descriptors.o
+LOAD ../../LUFA/Drivers/USB/LowLevel/Device.o
+LOAD ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+LOAD ../../LUFA/Drivers/USB/LowLevel/Host.o
+LOAD ../../LUFA/Drivers/USB/LowLevel/Pipe.o
+LOAD ../../LUFA/Drivers/USB/LowLevel/USBController.o
+LOAD ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+LOAD ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+LOAD ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+LOAD ../../LUFA/Drivers/USB/HighLevel/Events.o
+LOAD ../../LUFA/Drivers/USB/HighLevel/HostStandardReq.o
+LOAD ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+LOAD ../../LUFA/Drivers/USB/Class/Host/HIDParser.o
+Address of section .text set to 0x3000
+LOAD /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libm.a
+START GROUP
+LOAD /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a
+LOAD /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libm.a
+LOAD /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libc.a
+LOAD /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a
+END GROUP
+                0x00010000                        __TEXT_REGION_LENGTH__ = DEFINED (__TEXT_REGION_LENGTH__)?__TEXT_REGION_LENGTH__:0x10000
+                0x00800060                        __DATA_REGION_ORIGIN__ = DEFINED (__DATA_REGION_ORIGIN__)?__DATA_REGION_ORIGIN__:0x800060
+                0x0000ffa0                        __DATA_REGION_LENGTH__ = DEFINED (__DATA_REGION_LENGTH__)?__DATA_REGION_LENGTH__:0xffa0
+                0x00010000                        __EEPROM_REGION_LENGTH__ = DEFINED (__EEPROM_REGION_LENGTH__)?__EEPROM_REGION_LENGTH__:0x10000
+                [0x00000003]                      __FUSE_REGION_LENGTH__ = DEFINED (__FUSE_REGION_LENGTH__)?__FUSE_REGION_LENGTH__:0x400
+                0x00000400                        __LOCK_REGION_LENGTH__ = DEFINED (__LOCK_REGION_LENGTH__)?__LOCK_REGION_LENGTH__:0x400
+                0x00000400                        __SIGNATURE_REGION_LENGTH__ = DEFINED (__SIGNATURE_REGION_LENGTH__)?__SIGNATURE_REGION_LENGTH__:0x400
+                0x00000400                        __USER_SIGNATURE_REGION_LENGTH__ = DEFINED (__USER_SIGNATURE_REGION_LENGTH__)?__USER_SIGNATURE_REGION_LENGTH__:0x400
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.bss
+ *(.rel.bss)
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.text           0x00003000      0xc52
+ *(.vectors)
+ .vectors       0x00003000       0x74 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+                0x00003000                __vectors
+                0x00003000                __vector_default
+ *(.vectors)
+ *(.progmem.gcc*)
+                0x00003074                        . = ALIGN (0x2)
+                0x00003074                        __trampolines_start = .
+ *(.trampolines)
+ .trampolines   0x00003074        0x0 linker stubs
+ *(.trampolines*)
+                0x00003074                        __trampolines_end = .
+ *libprintf_flt.a:*(.progmem.data)
+ *libc.a:*(.progmem.data)
+ *(.progmem.*)
+                0x00003074                        . = ALIGN (0x2)
+ *(.lowtext)
+ *(.lowtext*)
+                0x00003074                        __ctors_start = .
+ *(.ctors)
+                0x00003074                        __ctors_end = .
+                0x00003074                        __dtors_start = .
+ *(.dtors)
+                0x00003074                        __dtors_end = .
+ SORT_BY_NAME(*)(.ctors)
+ SORT_BY_NAME(*)(.dtors)
+ *(.init0)
+ .init0         0x00003074        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+                0x00003074                __init
+ *(.init0)
+ *(.init1)
+ *(.init1)
+ *(.init2)
+ .init2         0x00003074        0xc /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+ *(.init2)
+ *(.init3)
+ *(.init3)
+ *(.init4)
+ .init4         0x00003080       0x16 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+                0x00003080                __do_copy_data
+ .init4         0x00003096       0x10 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_clear_bss.o)
+                0x00003096                __do_clear_bss
+ *(.init4)
+ *(.init5)
+ *(.init5)
+ *(.init6)
+ *(.init6)
+ *(.init7)
+ *(.init7)
+ *(.init8)
+ *(.init8)
+ *(.init9)
+ .init9         0x000030a6        0x4 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+ *(.init9)
+ *(.text)
+ .text          0x000030aa        0x2 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+                0x000030aa                __vector_20
+                0x000030aa                __vector_28
+                0x000030aa                __vector_1
+                0x000030aa                __vector_24
+                0x000030aa                __vector_12
+                0x000030aa                __bad_interrupt
+                0x000030aa                __vector_6
+                0x000030aa                __vector_3
+                0x000030aa                __vector_23
+                0x000030aa                __vector_25
+                0x000030aa                __vector_13
+                0x000030aa                __vector_17
+                0x000030aa                __vector_19
+                0x000030aa                __vector_7
+                0x000030aa                __vector_27
+                0x000030aa                __vector_5
+                0x000030aa                __vector_4
+                0x000030aa                __vector_9
+                0x000030aa                __vector_2
+                0x000030aa                __vector_21
+                0x000030aa                __vector_15
+                0x000030aa                __vector_8
+                0x000030aa                __vector_26
+                0x000030aa                __vector_14
+                0x000030aa                __vector_10
+                0x000030aa                __vector_16
+                0x000030aa                __vector_18
+                0x000030aa                __vector_22
+                0x000030ac                        . = ALIGN (0x2)
+ *(.text.*)
+ .text.DiscardFillerBytes
+                0x000030ac       0x2c Arduino-usbdfu.o
+ .text.LoadStartEndAddresses
+                0x000030d8       0x28 Arduino-usbdfu.o
+ .text.ProcessBootloaderCommand
+                0x00003100      0x1c6 Arduino-usbdfu.o
+ .text.SetupHardware
+                0x000032c6       0x32 Arduino-usbdfu.o
+                0x000032c6                SetupHardware
+ .text.ResetHardware
+                0x000032f8        0xa Arduino-usbdfu.o
+                0x000032f8                ResetHardware
+ .text.startup.main
+                0x00003302       0x24 Arduino-usbdfu.o
+                0x00003302                main
+ .text.EVENT_USB_Device_UnhandledControlRequest
+                0x00003326      0x41e Arduino-usbdfu.o
+                0x00003326                EVENT_USB_Device_UnhandledControlRequest
+ .text.CALLBACK_USB_GetDescriptor
+                0x00003744       0x56 Descriptors.o
+                0x00003744                CALLBACK_USB_GetDescriptor
+ .text.Endpoint_ConfigureEndpoint_Prv
+                0x0000379a       0x22 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+                0x0000379a                Endpoint_ConfigureEndpoint_Prv
+ .text.Endpoint_ClearEndpoints
+                0x000037bc       0x1c ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+                0x000037bc                Endpoint_ClearEndpoints
+ .text.Endpoint_ClearStatusStage
+                0x000037d8       0x3a ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+                0x000037d8                Endpoint_ClearStatusStage
+ .text.Endpoint_Write_Control_Stream_LE
+                0x00003812       0xaa ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+                0x00003812                Endpoint_Write_Control_Stream_LE
+ .text.USB_ResetInterface
+                0x000038bc       0x74 ../../LUFA/Drivers/USB/LowLevel/USBController.o
+                0x000038bc                USB_ResetInterface
+ .text.USB_Init
+                0x00003930        0xa ../../LUFA/Drivers/USB/LowLevel/USBController.o
+                0x00003930                USB_Init
+ .text.USB_ShutDown
+                0x0000393a       0x2c ../../LUFA/Drivers/USB/LowLevel/USBController.o
+                0x0000393a                USB_ShutDown
+ .text.USB_INT_DisableAllInterrupts
+                0x00003966        0x6 ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+                0x00003966                USB_INT_DisableAllInterrupts
+ .text.USB_INT_ClearAllInterrupts
+                0x0000396c        0x6 ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+                0x0000396c                USB_INT_ClearAllInterrupts
+ .text.__vector_11
+                0x00003972      0x144 ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+                0x00003972                __vector_11
+ .text.USB_Device_ProcessControlRequest
+                0x00003ab6      0x13a ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+                0x00003ab6                USB_Device_ProcessControlRequest
+ .text.USB_Event_Stub
+                0x00003bf0        0x2 ../../LUFA/Drivers/USB/HighLevel/Events.o
+                0x00003bf0                EVENT_USB_Device_Reset
+                0x00003bf0                EVENT_USB_Device_Connect
+                0x00003bf0                EVENT_USB_Device_WakeUp
+                0x00003bf0                USB_Event_Stub
+                0x00003bf0                EVENT_USB_Device_Suspend
+                0x00003bf0                EVENT_USB_Device_StartOfFrame
+                0x00003bf0                EVENT_USB_Device_Disconnect
+                0x00003bf0                EVENT_USB_Device_ConfigurationChanged
+ .text.USB_USBTask
+                0x00003bf2       0x10 ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+                0x00003bf2                USB_USBTask
+ .text.libgcc   0x00003c02        0xc /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_tablejump2.o)
+                0x00003c02                __tablejump2__
+ .text.avr-libc
+                0x00003c0e       0x10 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a(eerd_byte.o)
+                0x00003c0e                eeprom_read_byte
+ .text.avr-libc
+                0x00003c1e       0x1c /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a(eewr_byte.o)
+                0x00003c1e                eeprom_write_byte
+                0x00003c20                eeprom_write_r18
+                0x00003c3a                        . = ALIGN (0x2)
+ *(.fini9)
+ .fini9         0x00003c3a        0x0 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_exit.o)
+                0x00003c3a                exit
+                0x00003c3a                _exit
+ *(.fini9)
+ *(.fini8)
+ *(.fini8)
+ *(.fini7)
+ *(.fini7)
+ *(.fini6)
+ *(.fini6)
+ *(.fini5)
+ *(.fini5)
+ *(.fini4)
+ *(.fini4)
+ *(.fini3)
+ *(.fini3)
+ *(.fini2)
+ *(.fini2)
+ *(.fini1)
+ *(.fini1)
+ *(.fini0)
+ .fini0         0x00003c3a        0x4 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_exit.o)
+ *(.fini0)
+ *(.hightext)
+ *(.hightext*)
+ *(.progmemx.*)
+                0x00003c3e                        . = ALIGN (0x2)
+ *(.jumptables)
+ *(.jumptables*)
+ .jumptables.gcc.USB_Device_ProcessControlRequest
+                0x00003c3e       0x14 ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+                0x00003c52                        _etext = .
+
+.data           0x00800100       0x6a load address 0x00003c52
+                0x00800100                        PROVIDE (__data_start = .)
+ *(.data)
+ .data          0x00800100        0x2 Arduino-usbdfu.o
+                0x00800100                DFU_State
+                0x00800101                RunBootloader
+ .data          0x00800102       0x5f Descriptors.o
+                0x00800102                ProductString
+                0x00800130                LanguageString
+                0x00800134                ConfigurationDescriptor
+                0x0080014f                DeviceDescriptor
+ *(.data*)
+ *(.gnu.linkonce.d*)
+ *(.rodata)
+ *(.rodata*)
+ .rodata.str1.1
+                0x00800161        0x8 Arduino-usbdfu.o
+ *(.gnu.linkonce.r*)
+                0x0080016a                        . = ALIGN (0x2)
+ *fill*         0x00800169        0x1 
+                0x0080016a                        _edata = .
+                0x0080016a                        PROVIDE (__data_end = .)
+
+.bss            0x0080016a       0x1f
+                0x0080016a                        PROVIDE (__bss_start = .)
+ *(.bss)
+ .bss           0x0080016a        0x9 Arduino-usbdfu.o
+                0x0080016a                EndAddr
+                0x0080016c                StartAddr
+                0x0080016e                Flash64KBPage
+                0x0080016f                AppStartPtr
+                0x00800171                DFU_Status
+                0x00800172                WaitForExit
+ *(.bss*)
+ *(COMMON)
+ COMMON         0x00800173        0xc Arduino-usbdfu.o
+                0x00800173                SentCommand
+                0x0080017b                PulseMSRemaining
+                0x0080017e                ResponseByte
+ COMMON         0x0080017f        0x1 ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+                0x0080017f                USB_ConfigurationNumber
+ COMMON         0x00800180        0x9 ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+                0x00800180                USB_IsInitialized
+                0x00800181                USB_ControlRequest
+                0x00800189                        PROVIDE (__bss_end = .)
+                0x00003c52                        __data_load_start = LOADADDR (.data)
+                0x00003cbc                        __data_load_end = (__data_load_start + SIZEOF (.data))
+
+.noinit         0x00800189        0x0
+                [!provide]                        PROVIDE (__noinit_start = .)
+ *(.noinit .noinit.* .gnu.linkonce.n.*)
+                [!provide]                        PROVIDE (__noinit_end = .)
+                0x00800189                        _end = .
+                [!provide]                        PROVIDE (__heap_start = .)
+
+.eeprom         0x00810000        0x0
+ *(.eeprom*)
+                0x00810000                        __eeprom_end = .
+
+.fuse
+ *(.fuse)
+ *(.lfuse)
+ *(.hfuse)
+ *(.efuse)
+
+.lock
+ *(.lock*)
+
+.signature
+ *(.signature*)
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment        0x00000000       0x24
+ *(.comment)
+ .comment       0x00000000       0x24 Arduino-usbdfu.o
+                                 0x25 (size before relaxing)
+ .comment       0x00000024       0x25 Descriptors.o
+ .comment       0x00000024       0x25 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .comment       0x00000024       0x25 ../../LUFA/Drivers/USB/LowLevel/USBController.o
+ .comment       0x00000024       0x25 ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+ .comment       0x00000024       0x25 ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+ .comment       0x00000024       0x25 ../../LUFA/Drivers/USB/HighLevel/Events.o
+ .comment       0x00000024       0x25 ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+
+.note.gnu.avr.deviceinfo
+                0x00000000       0x40
+ .note.gnu.avr.deviceinfo
+                0x00000000       0x40 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+
+.note.gnu.build-id
+ *(.note.gnu.build-id)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x00000000      0x238
+ *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x50 Arduino-usbdfu.o
+ .debug_aranges
+                0x00000050       0x20 Descriptors.o
+ .debug_aranges
+                0x00000070       0x88 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .debug_aranges
+                0x000000f8       0x30 ../../LUFA/Drivers/USB/LowLevel/USBController.o
+ .debug_aranges
+                0x00000128       0x30 ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+ .debug_aranges
+                0x00000158       0x20 ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+ .debug_aranges
+                0x00000178       0x20 ../../LUFA/Drivers/USB/HighLevel/Events.o
+ .debug_aranges
+                0x00000198       0x20 ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+ .debug_aranges
+                0x000001b8       0x20 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_exit.o)
+ .debug_aranges
+                0x000001d8       0x20 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_tablejump2.o)
+ .debug_aranges
+                0x000001f8       0x20 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+ .debug_aranges
+                0x00000218       0x20 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_clear_bss.o)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info     0x00000000     0x3db3
+ *(.debug_info .gnu.linkonce.wi.*)
+ .debug_info    0x00000000      0x6ba /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+ .debug_info    0x000006ba     0x1122 Arduino-usbdfu.o
+ .debug_info    0x000017dc      0x595 Descriptors.o
+ .debug_info    0x00001d71     0x1045 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .debug_info    0x00002db6      0x359 ../../LUFA/Drivers/USB/LowLevel/USBController.o
+ .debug_info    0x0000310f      0x3ca ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+ .debug_info    0x000034d9      0x596 ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+ .debug_info    0x00003a6f       0x79 ../../LUFA/Drivers/USB/HighLevel/Events.o
+ .debug_info    0x00003ae8      0x233 ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+ .debug_info    0x00003d1b       0x26 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_exit.o)
+ .debug_info    0x00003d41       0x26 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_tablejump2.o)
+ .debug_info    0x00003d67       0x26 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+ .debug_info    0x00003d8d       0x26 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_clear_bss.o)
+
+.debug_abbrev   0x00000000     0x158a
+ *(.debug_abbrev)
+ .debug_abbrev  0x00000000      0x65d /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+ .debug_abbrev  0x0000065d      0x3e3 Arduino-usbdfu.o
+ .debug_abbrev  0x00000a40      0x153 Descriptors.o
+ .debug_abbrev  0x00000b93      0x274 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .debug_abbrev  0x00000e07      0x166 ../../LUFA/Drivers/USB/LowLevel/USBController.o
+ .debug_abbrev  0x00000f6d      0x1ab ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+ .debug_abbrev  0x00001118      0x25a ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+ .debug_abbrev  0x00001372       0x46 ../../LUFA/Drivers/USB/HighLevel/Events.o
+ .debug_abbrev  0x000013b8      0x182 ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+ .debug_abbrev  0x0000153a       0x14 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_exit.o)
+ .debug_abbrev  0x0000154e       0x14 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_tablejump2.o)
+ .debug_abbrev  0x00001562       0x14 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+ .debug_abbrev  0x00001576       0x14 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_clear_bss.o)
+
+.debug_line     0x00000000     0x4e0a
+ *(.debug_line .debug_line.* .debug_line_end)
+ .debug_line    0x00000000       0x1d /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+ .debug_line    0x0000001d     0x16a3 Arduino-usbdfu.o
+ .debug_line    0x000016c0      0x270 Descriptors.o
+ .debug_line    0x00001930     0x20a1 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .debug_line    0x000039d1      0x46a ../../LUFA/Drivers/USB/LowLevel/USBController.o
+ .debug_line    0x00003e3b      0x556 ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+ .debug_line    0x00004391      0x62c ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+ .debug_line    0x000049bd       0x62 ../../LUFA/Drivers/USB/HighLevel/Events.o
+ .debug_line    0x00004a1f      0x1f5 ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+ .debug_line    0x00004c14       0x61 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_exit.o)
+ .debug_line    0x00004c75       0x79 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_tablejump2.o)
+ .debug_line    0x00004cee       0x97 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+ .debug_line    0x00004d85       0x85 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_clear_bss.o)
+
+.debug_frame    0x00000000      0x3a4
+ *(.debug_frame)
+ .debug_frame   0x00000000       0xd8 Arduino-usbdfu.o
+ .debug_frame   0x000000d8       0x24 Descriptors.o
+ .debug_frame   0x000000fc      0x154 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .debug_frame   0x00000250       0x44 ../../LUFA/Drivers/USB/LowLevel/USBController.o
+ .debug_frame   0x00000294       0x8c ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+ .debug_frame   0x00000320       0x3c ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+ .debug_frame   0x0000035c       0x24 ../../LUFA/Drivers/USB/HighLevel/Events.o
+ .debug_frame   0x00000380       0x24 ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+
+.debug_str      0x00000000     0x1729
+ *(.debug_str)
+ .debug_str     0x00000000      0x262 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+ .debug_str     0x00000262      0x7f2 Arduino-usbdfu.o
+                                0x846 (size before relaxing)
+ .debug_str     0x00000a54      0x3c8 Descriptors.o
+                                0x620 (size before relaxing)
+ .debug_str     0x00000e1c      0x37e ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+                                0x72c (size before relaxing)
+ .debug_str     0x0000119a      0x111 ../../LUFA/Drivers/USB/LowLevel/USBController.o
+                                0x3dd (size before relaxing)
+ .debug_str     0x000012ab       0xe5 ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+                                0x487 (size before relaxing)
+ .debug_str     0x00001390      0x279 ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+                                0x653 (size before relaxing)
+ .debug_str     0x00001609       0x39 ../../LUFA/Drivers/USB/HighLevel/Events.o
+                                0x1bd (size before relaxing)
+ .debug_str     0x00001642       0x63 ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+                                0x386 (size before relaxing)
+ .debug_str     0x000016a5       0x84 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_exit.o)
+ .debug_str     0x00001729       0x84 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_tablejump2.o)
+ .debug_str     0x00001729       0x84 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+ .debug_str     0x00001729       0x84 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_clear_bss.o)
+
+.debug_loc      0x00000000     0x19ba
+ *(.debug_loc)
+ .debug_loc     0x00000000      0x621 Arduino-usbdfu.o
+ .debug_loc     0x00000621      0x20c Descriptors.o
+ .debug_loc     0x0000082d      0xeeb ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .debug_loc     0x00001718       0x15 ../../LUFA/Drivers/USB/LowLevel/USBController.o
+ .debug_loc     0x0000172d       0xf8 ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+ .debug_loc     0x00001825      0x17f ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+ .debug_loc     0x000019a4       0x16 ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+
+.debug_pubtypes
+ *(.debug_pubtypes)
+
+.debug_ranges   0x00000000      0x2b0
+ *(.debug_ranges)
+ .debug_ranges  0x00000000       0xb8 Arduino-usbdfu.o
+ .debug_ranges  0x000000b8       0x10 Descriptors.o
+ .debug_ranges  0x000000c8      0x108 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+ .debug_ranges  0x000001d0       0x20 ../../LUFA/Drivers/USB/LowLevel/USBController.o
+ .debug_ranges  0x000001f0       0x38 ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+ .debug_ranges  0x00000228       0x28 ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+ .debug_ranges  0x00000250       0x10 ../../LUFA/Drivers/USB/HighLevel/Events.o
+ .debug_ranges  0x00000260       0x50 ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+
+.debug_addr
+ *(.debug_addr)
+
+.debug_line_str
+ *(.debug_line_str)
+
+.debug_loclists
+ *(.debug_loclists)
+
+.debug_macro
+ *(.debug_macro)
+
+.debug_names
+ *(.debug_names)
+
+.debug_rnglists
+ *(.debug_rnglists)
+
+.debug_str_offsets
+ *(.debug_str_offsets)
+
+.debug_sup
+ *(.debug_sup)
+OUTPUT(Arduino-usbdfu.elf elf32-avr)
+LOAD linker stubs
+
+Cross Reference Table
+
+Symbol                                            File
+AppStartPtr                                       Arduino-usbdfu.o
+CALLBACK_USB_GetDescriptor                        Descriptors.o
+                                                  ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+ConfigurationDescriptor                           Descriptors.o
+DFU_State                                         Arduino-usbdfu.o
+DFU_Status                                        Arduino-usbdfu.o
+DeviceDescriptor                                  Descriptors.o
+EVENT_USB_Device_ConfigurationChanged             ../../LUFA/Drivers/USB/HighLevel/Events.o
+                                                  ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+EVENT_USB_Device_Connect                          ../../LUFA/Drivers/USB/HighLevel/Events.o
+                                                  ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+EVENT_USB_Device_Disconnect                       ../../LUFA/Drivers/USB/HighLevel/Events.o
+                                                  ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+EVENT_USB_Device_Reset                            ../../LUFA/Drivers/USB/HighLevel/Events.o
+                                                  ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+EVENT_USB_Device_StartOfFrame                     ../../LUFA/Drivers/USB/HighLevel/Events.o
+                                                  ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+EVENT_USB_Device_Suspend                          ../../LUFA/Drivers/USB/HighLevel/Events.o
+EVENT_USB_Device_UnhandledControlRequest          Arduino-usbdfu.o
+                                                  ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+EVENT_USB_Device_WakeUp                           ../../LUFA/Drivers/USB/HighLevel/Events.o
+EndAddr                                           Arduino-usbdfu.o
+Endpoint_BytesToEPSizeMaskDynamic                 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+Endpoint_ClearEndpoints                           ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+                                                  ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+Endpoint_ClearStatusStage                         ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+                                                  ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+                                                  Arduino-usbdfu.o
+Endpoint_ConfigureEndpoint_Prv                    ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+                                                  ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+Endpoint_Read_Control_EStream_BE                  ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+Endpoint_Read_Control_EStream_LE                  ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+Endpoint_Read_Control_Stream_BE                   ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+Endpoint_Read_Control_Stream_LE                   ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+Endpoint_Write_Control_EStream_BE                 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+Endpoint_Write_Control_EStream_LE                 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+Endpoint_Write_Control_PStream_BE                 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+Endpoint_Write_Control_PStream_LE                 ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+Endpoint_Write_Control_Stream_BE                  ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+Endpoint_Write_Control_Stream_LE                  ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+                                                  ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+Flash64KBPage                                     Arduino-usbdfu.o
+LanguageString                                    Descriptors.o
+ProductString                                     Descriptors.o
+PulseMSRemaining                                  Arduino-usbdfu.o
+ResetHardware                                     Arduino-usbdfu.o
+ResponseByte                                      Arduino-usbdfu.o
+RunBootloader                                     Arduino-usbdfu.o
+SentCommand                                       Arduino-usbdfu.o
+SetupHardware                                     Arduino-usbdfu.o
+StartAddr                                         Arduino-usbdfu.o
+USB_ConfigurationNumber                           ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+                                                  ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+                                                  ../../LUFA/Drivers/USB/LowLevel/USBController.o
+USB_ControlRequest                                ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+                                                  ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+                                                  ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+                                                  Arduino-usbdfu.o
+USB_Device_ProcessControlRequest                  ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+                                                  ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+USB_Device_SendRemoteWakeup                       ../../LUFA/Drivers/USB/LowLevel/Device.o
+USB_Event_Stub                                    ../../LUFA/Drivers/USB/HighLevel/Events.o
+USB_GetNextDescriptorComp                         ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+USB_GetNextDescriptorOfType                       ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+USB_GetNextDescriptorOfTypeAfter                  ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+USB_GetNextDescriptorOfTypeBefore                 ../../LUFA/Drivers/USB/HighLevel/ConfigDescriptor.o
+USB_INT_ClearAllInterrupts                        ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+                                                  ../../LUFA/Drivers/USB/LowLevel/USBController.o
+USB_INT_DisableAllInterrupts                      ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+                                                  ../../LUFA/Drivers/USB/LowLevel/USBController.o
+USB_Init                                          ../../LUFA/Drivers/USB/LowLevel/USBController.o
+                                                  Arduino-usbdfu.o
+USB_IsInitialized                                 ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+                                                  ../../LUFA/Drivers/USB/LowLevel/USBController.o
+USB_ResetInterface                                ../../LUFA/Drivers/USB/LowLevel/USBController.o
+USB_ShutDown                                      ../../LUFA/Drivers/USB/LowLevel/USBController.o
+                                                  Arduino-usbdfu.o
+USB_USBTask                                       ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+                                                  Arduino-usbdfu.o
+WaitForExit                                       Arduino-usbdfu.o
+__FUSE_REGION_LENGTH__                            /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__bad_interrupt                                   /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__bss_end                                         /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_clear_bss.o)
+__bss_start                                       /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_clear_bss.o)
+__data_end                                        /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+__data_load_start                                 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+__data_start                                      /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+__do_clear_bss                                    /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_clear_bss.o)
+                                                  ../../LUFA/Drivers/USB/HighLevel/USBTask.o
+                                                  ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+                                                  Arduino-usbdfu.o
+__do_copy_data                                    /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_copy_data.o)
+                                                  Descriptors.o
+                                                  Arduino-usbdfu.o
+__heap_end                                        /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__init                                            /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__stack                                           /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__tablejump2__                                    /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_tablejump2.o)
+                                                  ../../LUFA/Drivers/USB/HighLevel/DeviceStandardReq.o
+__vector_1                                        /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_10                                       /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_11                                       ../../LUFA/Drivers/USB/LowLevel/USBInterrupt.o
+                                                  /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_12                                       /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_13                                       /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_14                                       /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_15                                       /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_16                                       /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_17                                       /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_18                                       /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_19                                       /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_2                                        /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_20                                       /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_21                                       /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_22                                       /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_23                                       /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_24                                       /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_25                                       /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_26                                       /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_27                                       /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_28                                       /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_3                                        /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_4                                        /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_5                                        /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_6                                        /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_7                                        /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_8                                        /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_9                                        /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vector_default                                  /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+__vectors                                         /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+_exit                                             /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_exit.o)
+eeprom_read_byte                                  /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a(eerd_byte.o)
+                                                  ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+                                                  Arduino-usbdfu.o
+eeprom_update_byte                                /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a(eeupd_byte.o)
+                                                  ../../LUFA/Drivers/USB/LowLevel/Endpoint.o
+eeprom_update_r18                                 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a(eeupd_byte.o)
+eeprom_write_byte                                 /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a(eewr_byte.o)
+                                                  Arduino-usbdfu.o
+eeprom_write_r18                                  /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/libatmega16u2.a(eewr_byte.o)
+exit                                              /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/avr35/libgcc.a(_exit.o)
+                                                  /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
+main                                              Arduino-usbdfu.o
+                                                  /usr/local/Cellar/avr-gcc@9/9.4.0/lib/avr-gcc/9/gcc/avr/9.4.0/../../../../../../avr/lib/avr35/crtatmega16u2.o
