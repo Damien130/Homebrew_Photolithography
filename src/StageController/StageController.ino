@@ -74,8 +74,8 @@ int8_t query = 0;
    NOT gate required for output of TMC2209 error detection */
 HardwareSerial * serial_stream_ptrs[MOTOR_COUNT] =
 {
+  &Serial1,
   &Serial2,
-  &Serial3,
 };
 const int RUN_CURRENT = 100; // decrease if overheating
 const int HOLD_CURRENT = 0;
