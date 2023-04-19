@@ -18,35 +18,24 @@
 
 #include <Arduino.h>
 #include <digitalWriteFast.h>
+#include <SPI.h>
 #include <TMC429.h>
 #include <TMC2209.h>
 #include <Wire.h> // EDIT TWI.C TO REMOVE INTERNAL PULL UP!!!!!!!
 #include <stdint.h>
 #include <stdio.h>
+#include <SoftwareSerial.h>
 
-/* #include "NeuBus.h"
- */
+#define RX 37
+#define TX 36
 
 /* ATMega2560 Pin Mapping */
 /* Digital Pins:
-  RESET: RESET pin for emergency stop
-  2: TMC2209_X error flag (PE4, 6) Interrupt 5 
-  3: TMC2209_Y error flag (PE5, 7) Interrupt 6
-  49: TMC429 Chip Select (PL0, 35)
+  49: TMC429 Chip Select Pin 53
 */
-const static int8_t nWAIT = 26;
-const static int8_t INIR = 27;
-const static int8_t nRESET = 28;
-const static int8_t nWRITE = 29;
-const static int8_t RDY = 24;
-const static int8_t EXPRDY = 25;
-const static int8_t nDATASTRB = 2;
-const static int8_t nADDRSTRB = 3;
-const static int8_t X_ERROR = 6;
-const static int8_t Y_ERROR = 7;
-const static int8_t CHIP_SELECT_PIN = 8;
+const static int8_t CHIP_SELECT_PIN = 53;
 const static int8_t I2CADDR = 0x0F; 
-const long SERIAL_BAUD_RATE = 115200;
+const long SERIAL_BAUD_RATE = 9600;
 
 /* Data structure
 Byte1: scribble: magic number
@@ -57,8 +46,8 @@ Byte8: Chksum
  */
 enum Flags
 { MOTOR_COUNT = 2,
-  X_MOTOR = 1,
-  Y_MOTOR = 2
+  X_MOTOR = 0,
+  Y_MOTOR = 1
 };
 int32_t X_target = 0, X_actual = 0, Y_target = 0, Y_actual = 0, X_command = 0, Y_command = 0; // plane location, initialize to 0
 int32_t X_latched = 0, Y_latched = 0;
@@ -74,7 +63,7 @@ int8_t query = 0;
    NOT gate required for output of TMC2209 error detection */
 HardwareSerial * serial_stream_ptrs[MOTOR_COUNT] =
 {
-  &Serial1,
+  &Serial1, // UART ports for TMC2226
   &Serial2,
 };
 const int RUN_CURRENT = 100; // decrease if overheating
@@ -95,8 +84,8 @@ const int COOL_STEP_UPPER_THRESHOLD = 0;
 */
 const int CLOCK_FREQUENCY_MHZ = 16; // clock for step frequency
 const int STEPS_PER_REV = 200; // 1.8 degrees per step
-const int REVS_PER_SEC_MAX = 1; // max revolution per seconds
-const int ACCELERATION_MAX = 50000/2; // 50 kHz, accelerate from 0 to max
+const int REVS_PER_SEC_MAX = 2; // max revolution per seconds
+const int ACCELERATION_MAX = 50000; // 50 kHz, accelerate from 0 to max
 const int MICROSTEPS_PER_REV = STEPS_PER_REV * MICROSTEPS_PER_STEP;
 const long VELOCITY_MAX = MICROSTEPS_PER_REV * REVS_PER_SEC_MAX;
 const long VELOCITY_MIN = 100;
@@ -104,7 +93,6 @@ const long AXIS_LENGTH = 200000000; // 2e8 nm (200mm) per axis
 const long LENGTH_PER_REV = 5000000; // 5e6 nm (5mm) per revolution
 const long REV_PER_AXIS = AXIS_LENGTH / LENGTH_PER_REV; // get revolutions per axis
 int32_t MICROSTEPS_PER_AXIS = REV_PER_AXIS * MICROSTEPS_PER_REV; // get maximum microsteps per axis
-// const long DISTANCE_PER_MICROSTEP = LENGTH_PER_REV / MICROSTEPS_PER_REV; 
 // 0.097 micron per step, float (4 bytes)
 
 /* Instantiate stepper drive train*/
@@ -112,11 +100,7 @@ TMC2209 stepper_drivers[MOTOR_COUNT]; // TMC2209, setup as object array
 TMC429 stepper_controller;    // TMC429 Stepper Controller
 TMC429::Status status;  // TMC429 status struct
 
-
-
 // INSTRUCTION HANDLER FUNCTIONS AND INITIALIZATION
-
-
 #define SCRIBBLE 0x5a
 uint64_t commandBuffer; // outgoing packet buffer
 char debugBuffer[50]; // serial console buffer
@@ -151,8 +135,13 @@ void(*const functionMap[9])(void) = {
   , &calib      // 7
 };
 
+SoftwareSerial console(RX, TX); // soft serial
+
 void setup()
 { 
+  pinMode(RX, INPUT);
+  pinMode(TX, OUTPUT);
+  console.begin(115200);
   Serial.begin(SERIAL_BAUD_RATE); // Serial console on serial0 @ 15200 baud
   Wire.begin(I2CADDR); // setup as slave with address I2CADDR
 
@@ -160,8 +149,7 @@ void setup()
   Wire.onReceive(receiveEvent); // receive event
 
   /* ATMega2560 Setup */
-  pinModeFast(X_ERROR, INPUT);
-  pinModeFast(Y_ERROR, INPUT);
+
 
 
   /* Self Check */
@@ -172,13 +160,13 @@ void setup()
     stepper_driver.setup(serial_stream); // get communications going
     if (stepper_driver.isSetupAndCommunicating()) // if communicating
     {
-      Serial.print("TMC2209 # ");
+      Serial.print("TMC2226 # ");
       Serial.print(motor_index, DEC);
       Serial.print(" is up and running \n");
     } else {
-      Serial.print("TMC2209 # ");
-      Serial.print(motor_index, DEC);
-      Serial.print(" is not communicating \n");
+      console.print("TMC2226 # ");
+      console.print(motor_index, DEC);
+      console.print(" is not communicating \n");
     }
   }
 
@@ -186,10 +174,10 @@ void setup()
   stepper_controller.initialize();  // initialize TMC429
   if (stepper_controller.communicating()) // if communicating
   {
-    Serial.println("TMC429 is up and communicating");
-    Serial.println("Homing procedure starting...");
+    Serial3.println("TMC429 is up and communicating");
+    Serial3.println("Homing procedure starting...");
   } else {
-    Serial.println("TMC429 is not communicating");
+    console.println("TMC429 is not communicating");
   }
 
   /* TMC2209 Setup */
@@ -204,8 +192,8 @@ void setup()
     stepper_driver.setStandstillMode(STANDSTILL_MODE); // standstill setup
     stepper_driver.setPwmOffset(PWM_OFFSET); 
     stepper_driver.setPwmGradient(PWM_GRADIENT);
-    stepper_driver.disableAutomaticCurrentScaling();
-    stepper_driver.disableAutomaticGradientAdaptation();
+    // stepper_driver.disableAutomaticCurrentScaling();
+    // stepper_driver.disableAutomaticGradientAdaptation();
     stepper_driver.setCoolStepDurationThreshold(COOL_STEP_DURATION_THRESHOLD);
     stepper_driver.setCoolStepCurrentIncrement(COOL_STEP_CURRENT_INCREMENT);
     stepper_driver.enableCoolStep(COOL_STEP_LOWER_THRESHOLD,COOL_STEP_UPPER_THRESHOLD);
@@ -214,8 +202,6 @@ void setup()
   /* TMC429 Setup */
   /* Left reference stop for motor 1 (X)
      Right reference stop for motor 2 (Y) */
-  stepper_controller.disableInverseStepPolarity(); // disables active low for STEP/DIR
-  stepper_controller.disableInverseDirPolarity();
   stepper_controller.setSwitchesActiveLow(); // the stop switches are active low - pass thru NOT gate
   stepper_controller.setReferenceSwitchToLeft(X_MOTOR);
   stepper_controller.setReferenceSwitchToRight(Y_MOTOR);
@@ -438,8 +424,8 @@ void write() {
 
 void execute() {
   size_t funcInd = *(reinterpret_cast<uint8_t*>(&commandBuffer) + 1);
-  Serial.println("the func ind is");
-  Serial.println(funcInd);
+  console.println("the func ind is");
+  console.println(funcInd);
   if(funcInd <0 || funcInd >= 9) {
     sprintf(debugBuffer, "execute()-> invalid command: %d", static_cast<int>(funcInd));
     dispBuffer();
@@ -449,7 +435,7 @@ void execute() {
 }
 
 void dispBuffer() { 
-  if(debugMode) Serial.println(debugBuffer); // send debug buffer to Serial0
+  if(debugMode) console.println(debugBuffer); // send debug buffer to Serial0
 }
 
 void halt() { // fixed
@@ -504,9 +490,9 @@ void setY() { // fixed
 void calib() {
   print_uint64_t(commandBuffer);
   if (*reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 2)) > 0) {
-    Serial.println("We are getting ones");
+    console.println("We are getting ones");
   } else {
-    Serial.println("we got some zeroes");
+    console.println("we got some zeroes");
   }
   // calibration = *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 2)) > 0;
   // calibrationComplete = *reinterpret_cast<int32_t*>((reinterpret_cast<uint8_t*>(&commandBuffer) + 2)) == 0;
@@ -545,6 +531,6 @@ void print_uint64_t(uint64_t num) {
   p--;
   /*Print the number which is now in reverse*/
   while (p > rev) {
-    Serial.print(*p--);
+    console.print(*p--);
   }
 }
