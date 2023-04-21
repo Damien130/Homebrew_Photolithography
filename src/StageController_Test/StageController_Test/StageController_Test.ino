@@ -4,11 +4,6 @@
 #include <TMC429.h>
 #include <TMC2209.h>
 
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 HardwareSerial * serial_stream_ptrs[2] = 
 {
   &Serial1,
@@ -50,11 +45,14 @@ const TMC2209::CurrentIncrement COOL_STEP_CURRENT_INCREMENT = TMC2209::CURRENT_I
 const int COOL_STEP_LOWER_THRESHOLD = 1;
 const int COOL_STEP_UPPER_THRESHOLD = 0;
 
+int8_t query = 0;
+bool homing = false;
+
 TMC429 stepper_controller;    // TMC429 Stepper Controller
 TMC2209 stepper_drivers[2]; // TMC2209 stepper driver
 //TMC429::Status status;  // TMC429 status struct
 
-uint32_t pos_X = 0, pos_Y = 0;
+uint32_t X_Act_Pos = 0, Y_Act_Pos = 0;
 bool homing_completeX = false, homing_completeY = false;
 
 enum Flags
@@ -63,7 +61,6 @@ enum Flags
   Y_MOTOR = 1
 };
 
-void homing();
 
 void setup() {
 
@@ -81,7 +78,7 @@ void setup() {
 
     stepper_driver.enableAutomaticCurrentScaling();
     stepper_driver.enableAutomaticGradientAdaptation();
-    delay(140);
+    delay(200);
     stepper_driver.setRunCurrent(RUN_CURRENT_PERCENT);
     stepper_driver.setHoldCurrent(HOLD_CURRENT); // hold current setup
 
@@ -126,6 +123,8 @@ void setup() {
   stepper_drivers[X_MOTOR].moveAtVelocity(-VELOCITY_MAX);
   stepper_drivers[Y_MOTOR].moveAtVelocity(-VELOCITY_MAX);
   delay(200);
+  
+  Serial3.println("Homing procedure in progress, please wait...");
 }
 
 void loop() {
@@ -140,53 +139,26 @@ void loop() {
       stepper_drivers[Y_MOTOR].moveAtVelocity(0);
       homing_completeY = true;
     }
-  } else {
-/* if (stepper_controller.getActualPosition(X_MOTOR) == MAX_CORR) {
-    stepper_controller.setTargetPosition(X_MOTOR, 0);
-    stepper_controller.setTargetPosition(Y_MOTOR, 0);
-  } else if (stepper_controller.getActualPosition(X_MOTOR) == 0){ 
-    stepper_controller.setTargetPosition(X_MOTOR, MAX_CORR);
-    stepper_controller.setTargetPosition(Y_MOTOR, MAX_CORR);
-  }
-  
-  for (size_t motor_index = 0; motor_index < MOTOR_COUNT; ++motor_index) {
-    pos_X = stepper_controller.getActualPosition(X_MOTOR);
-    pos_Y = stepper_controller.getActualPosition(Y_MOTOR);
-    Serial3.print("X_Act_Pos");
-    Serial3.println(pos_X);
-    Serial3.println("");
-    Serial3.print("Y_Act_Pos");
-    Serial3.println(pos_Y); */
+  } else if (homing_completeX && homing_completeY && !homing) {
+    homing = true;
     stepper_controller.setTargetPosition(X_MOTOR, MAX_CORR/2);
     stepper_controller.setTargetPosition(Y_MOTOR, MAX_CORR/2 + 307200);
-  
-
-  /* for (size_t motor_index=0; motor_index<MOTOR_COUNT; ++motor_index)
-  {
-    HardwareSerial & serial_stream = *(serial_stream_ptrs[motor_index]);
-    TMC2209 & stepper_driver = stepper_drivers[motor_index];
-    Serial.print("run_current_percent = ");
-    Serial.println(RUN_CURRENT_PERCENT);
-
-    Serial.print("stall_guard_threshold for motor #");
-    Serial.print(motor_index);
-    Serial.print(" ");
-    Serial.println(STALL_THRESHOLD);
-
-    uint16_t stall_guard_result = stepper_driver.getStallGuardResult();
-    Serial.print("stall_guard_result = ");
-    Serial.println(stall_guard_result);
-
-    Serial.println("");
-  } */
-
-  delay(DELAY);
+  } else {
+    X_Act_Pos = stepper_controller.getActualPosition(X_MOTOR);
+    Y_Act_Pos = stepper_controller.getActualPosition(Y_MOTOR);
+    if (X_Act_Pos == MAX_CORR/2 && Y_Act_Pos == MAX_CORR/2 + 307200 && query == 0) {
+    Serial3.println("Homing Complete!");
+    query = 2;
+    }
+    if (query = 2) {
+      Serial3.print("X Axis: ");
+      Serial3.println(X_Act_Pos);
+      Serial3.print("Y Axis: ");
+      Serial3.println(Y_Act_Pos);
+      Serial3.println("");
+    }
+    delay(DELAY);
   }
-  
  }
 
-
-void homing() {
-
-}
 
